@@ -9,7 +9,7 @@ const loadJson = file => readFile(file).then(data => JSON.parse(data.toString())
 
 const knownOpts = {
     'capabilities': [Boolean],
-    'legacy-support': [Number],
+    'legacy-versions': [Number],
     'source': [String],
     'report': [Boolean]
 }

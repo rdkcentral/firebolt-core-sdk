@@ -24,7 +24,7 @@
     "test": "npm run test:setup && NODE_OPTIONS=--experimental-vm-modules npx --config=jest.config.json --detectOpenHandles jest",
     "clean": "rm -rf dist && npm run clean --workspaces",
     "dist": "npm run fs:setup && npm run validate:each && npm run compile && npm run specification && npm run version && npm run dist:notest --workspaces && npm run test",
-    "specification": "node ./src/js/version-specification/index.mjs --source ./src/json/firebolt-specification.json",
+    "specification": "node ./src/js/version-specification/index.mjs --source ./src/json/firebolt-specification.json --legacy-versions 0",
     "specification:report": "node ./src/js/version-specification/index.mjs --source ./dist/firebolt-specification.json --report",
     "version": "node ./src/js/version.mjs sync",
     "dev:setup": "husky install",

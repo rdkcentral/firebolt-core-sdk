@@ -155,13 +155,13 @@ const run = async (version, parsedArgs) => {
 
     return new Promise( async (resolve, reject) => {
         let legacy = major-1
-        while (legacy>major-parsedArgs['legacy-versions']-1 && legacy>0) {
+        while (legacy>=major-parsedArgs['legacy-versions'] && legacy >= 0) {
             const v = `${legacy}.x`
 
             // create a temporary npm package and install the version of Firebolt we want to grab
-            await exec(`cd build; mkdir temp${legacy}; cd temp${legacy}; npm init -y ; npm install --saveDev @firebolt-js/sdk@${v}`)
+            await exec(`cd build; mkdir temp${legacy}; cd temp${legacy}; npm init -y ; npm install --saveDev @firebolt-js/apis@${v}`)
 
-            version.apis[`${legacy}`] = await loadJson(`./build/temp${legacy}/node_modules/@firebolt-js/sdk/dist/firebolt-open-rpc.json`)
+            version.apis[`${legacy}`] = await loadJson(`./build/temp${legacy}/node_modules/@firebolt-js/apis/dist/firebolt-open-rpc.json`)
             await exec(`cd build; rm -r temp${legacy}`)
 
             logSuccess(`Added version ${v}`)
