@@ -1,0 +1,380 @@
+{
+  "openrpc": "1.2.4",
+  "info": {
+    "title": "BroadcastPlayer",
+    "description": "A module for controlling and accessing media over broadcast",
+    "version": "0.0.0"
+  },
+  "methods": [
+    {
+      "name": "create",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:broadcast"
+          ]
+        },
+        {
+          "name": "launch-provider"
+        }
+      ],
+      "summary": "Creates an instance of a player that can be used to play media over broadcast. Player instance that is created should also provide firebolt capability 'xrn:firebolt:capability:player:base'. If there is no provider running but there is a provider in the catalog, it will be launched.",
+      "params": [
+        {
+          "name": "request",
+          "summary": "The create request",
+          "schema": {
+            "$ref": "#/components/schemas/BroadcastPlayerCreateRequest"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "playerInstance",
+        "schema": {
+          "$ref": "#/components/schemas/BroadcastPlayerInstance"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "request",
+              "value": {}
+            }
+          ],
+          "result": {
+            "name": "playerInstance",
+            "value": {
+              "playerId": "123",
+              "windowId": "456"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tags": [
+        {
+          "name": "property:readonly"
+        },
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:broadcast"
+          ]
+        }
+      ],
+      "summary": "Gets the latest broadcast status for the given player",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player to get the status for",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "playerStatus",
+        "schema": {
+          "$ref": "#/components/schemas/BroadcastPlayerStatus"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            }
+          ],
+          "result": {
+            "name": "playerStatus",
+            "value": {
+              "locked": false,
+              "frequency": 695000000,
+              "signalStrength": 90,
+              "signalQuality": 90
+            }
+          }
+        },
+        {
+          "name": "Default example #2",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app2:456"
+            }
+          ],
+          "result": {
+            "name": "playerStatus",
+            "value": {
+              "locked": true,
+              "frequency": 695000000,
+              "signalStrength": 23,
+              "signalQuality": 55
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestCreate",
+      "summary": "Registers as a provider for creating player instances",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "$ref": "#/components/schemas/BroadcastPlayerInstance",
+            "examples": [
+              {
+                "playerId": "123",
+                "windowId": "456"
+              }
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:broadcast",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "createRequest",
+        "summary": "The request to create a new player",
+        "schema": {
+          "$ref": "#/components/schemas/BroadcastPlayerCreateProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestStatus",
+      "summary": "Registers as a provider for when broadcast player status needs to be provided",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "$ref": "#/components/schemas/BroadcastPlayerStatus",
+            "examples": [
+              {
+                "locked": false,
+                "frequency": 695000000,
+                "signalStrength": 90,
+                "signalQuality": 90
+              }
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:broadcast",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "statusRequest",
+        "summary": "The request to get the status of a player",
+        "schema": {
+          "$ref": "https://meta.comcast.com/firebolt/player#/definitions/PlayerProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "provideStatus",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:broadcast"
+        }
+      ],
+      "summary": "Tells listeners the current broadcast status of a player",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player the status is for",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "status",
+          "summary": "The status",
+          "schema": {
+            "$ref": "#/components/schemas/BroadcastPlayerStatus"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "providedResponse",
+        "schema": {
+          "const": null
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "123"
+            },
+            {
+              "name": "status",
+              "value": {
+                "locked": false,
+                "frequency": 695000000,
+                "signalStrength": 90,
+                "signalQuality": 90
+              }
+            }
+          ],
+          "result": {
+            "name": "providedResponse",
+            "value": null
+          }
+        }
+      ]
+    }
+  ],
+  "components": {
+    "schemas": {
+      "BroadcastPlayerCreateProviderRequest": {
+        "title": "BroadcastPlayerCreateProviderRequest",
+        "type": "object",
+        "required": [
+          "correlationId",
+          "parameters"
+        ],
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "description": "An id to correlate the provider response with this request"
+          },
+          "parameters": {
+            "description": "The request to load media in the player",
+            "$ref": "#/components/schemas/BroadcastPlayerCreateRequest"
+          }
+        },
+        "examples": [
+          {}
+        ]
+      },
+      "BroadcastPlayerCreateRequest": {
+        "title": "BroadcastPlayerCreateRequest",
+        "type": "object",
+        "required": [],
+        "properties": {},
+        "examples": [
+          {}
+        ]
+      },
+      "BroadcastPlayerInstance": {
+        "title": "BroadcastPlayerInstance",
+        "type": "object",
+        "required": [
+          "playerId",
+          "windowId"
+        ],
+        "properties": {
+          "playerId": {
+            "description": "The id of player which can be used to load media or control the player",
+            "type": "string"
+          },
+          "windowId": {
+            "description": "The id of window which will render the media in, can be used to control on screen where the media is shown",
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "playerId": "123",
+            "windowId": "456"
+          },
+          {
+            "playerId": "abc",
+            "windowId": "def"
+          }
+        ]
+      },
+      "BroadcastPlayerStatus": {
+        "title": "BroadcastPlayerStatus",
+        "type": "object",
+        "required": [
+          "locked",
+          "frequency",
+          "signalStrength",
+          "signalQuality"
+        ],
+        "properties": {
+          "locked": {
+            "description": "Whether the current media has been locked",
+            "type": "boolean"
+          },
+          "frequency": {
+            "description": "The signal frequency in hertz",
+            "type": "integer"
+          },
+          "signalStrength": {
+            "description": "The strength of the signal from 0-100",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "signalQuality": {
+            "description": "The quality of the signal from 0-100",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          }
+        },
+        "examples": [
+          {
+            "locked": false,
+            "frequency": 1,
+            "signalStrength": 90,
+            "signalQuality": 90
+          }
+        ]
+      }
+    }
+  }
+}

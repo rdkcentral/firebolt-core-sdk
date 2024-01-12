@@ -1,0 +1,51 @@
+{
+	"name": "@firebolt-js/provider-sdk",
+	"version": "1.0.0",
+	"description": "The Firebolt Provider JS SDK",
+	"main": "./dist/lib/firebolt-provider.mjs",
+	"types": "./dist/lib/firebolt-provider.d.ts",
+	"exports": {
+		".": "./dist/lib/firebolt-provider.mjs"
+	},
+	"type": "module",
+	"scripts": {
+		"validate": "npx firebolt-openrpc validate --input ./dist/firebolt-provider-open-rpc.json",
+		"sdk": "npx firebolt-openrpc sdk --input ./dist/firebolt-provider-open-rpc.json --template ./src/js --output ./build/javascript/src",
+		"native": "npx firebolt-openrpc sdk --input ./dist/firebolt-provider-open-rpc.json --template ./src/js --output ./build/c/src --language ../../../node_modules/@firebolt-js/openrpc/languages/c",
+		"compile": "cd ../../.. && npm run compile",
+		"slice": "npx firebolt-openrpc slice -i ../../../dist/firebolt-open-rpc.json --sdk ./sdk.config.json -o ./dist/firebolt-provider-open-rpc.json",
+		"docs": "npx firebolt-openrpc docs --input ./dist/firebolt-provider-open-rpc.json --output build/docs/markdown --as-path",
+		"wiki": "npx firebolt-openrpc docs --input ./dist/firebolt-provider-open-rpc.json --output build/docs/markdown",
+		"dist:notest": "npm run clean && npm run slice && npm run validate && npm run sdk && npm run docs && npm run dist:copy && echo 'Firebolt Provider SDK /dist/ is ready.\n'",
+		"dist:copy": "npm run dist:copy:sdk && npm run dist:copy:docs",
+		"dist:copy:sdk": "mkdirp ./dist && cp -R build/javascript/src dist/lib && cp ./dist/firebolt-provider-open-rpc.json ../../../dist/firebolt-provider-open-rpc.json",
+		"dist:copy:docs": "mkdirp ./dist && cp -R build/docs/markdown dist/docs",
+		"dist": "npm run dist:notest && npm run test",
+		"clean": "rm -rf ./build && rm -rf ./dist",
+		"test:setup": "rm -rf test/transpiled-suite && npx tsc --target es6 --moduleResolution node --outDir test/transpiled-suite",
+		"test": "npm run test:setup && NODE_OPTIONS=--experimental-vm-modules npx --config=jest.config.json --detectOpenHandles jest",
+		"prepack": "node ../../js/version.mjs validate && npm run broilerplate",
+		"broilerplate": "rm ./CONTRIBUTING.md && cp ../../../CONTRIBUTING.md ./CONTRIBUTING.md && rm ./LICENSE && cp ../../../LICENSE ./LICENSE && rm ./NOTICE && cp ../../../NOTICE ./NOTICE"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rdkcentral/firebolt-core-sdk",
+		"directory": "src/sdks/provider"
+	},
+	"author": "",
+	"bugs": {
+		"url": "https://github.com/rdkcentral/firebolt-core-sdk/issues"
+	},
+	"homepage": "https://github.com/rdkcentral/firebolt-core-sdk#readme",
+	"devDependencies": {
+		"jest": "^28.1.0",
+		"jest-environment-jsdom": "^28.1.3",
+		"typescript": "^4.6.4"
+	},
+	"keywords": [
+		"firebolt",
+		"apps",
+		"sdk"
+	],
+	"license": "Apache-2.0"
+}

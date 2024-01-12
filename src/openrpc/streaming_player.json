@@ -1,0 +1,165 @@
+{
+  "openrpc": "1.2.4",
+  "info": {
+    "title": "StreamingPlayer",
+    "description": "A module for controlling and accessing media over streaming",
+    "version": "0.0.0"
+  },
+  "methods": [
+    {
+      "name": "create",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:streaming"
+          ]
+        },
+        {
+          "name": "launch-provider"
+        }
+      ],
+      "summary": "Creates an instance of a player that can be used to play media over streaming. Player instance that is created should also provide firebolt capability 'xrn:firebolt:capability:player:base'. If there is no provider running but there is a provider in the catalog, it will be launched.",
+      "params": [
+        {
+          "name": "request",
+          "summary": "The create request",
+          "schema": {
+            "$ref": "#/components/schemas/StreamingPlayerCreateRequest"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "playerInstance",
+        "schema": {
+          "$ref": "#/components/schemas/StreamingPlayerInstance"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "request",
+              "value": {}
+            }
+          ],
+          "result": {
+            "name": "playerInstance",
+            "value": {
+              "playerId": "123",
+              "windowId": "456"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestCreate",
+      "summary": "Registers as a provider for creating player instances",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "$ref": "#/components/schemas/StreamingPlayerInstance",
+            "examples": [
+              {
+                "playerId": "123",
+                "windowId": "456"
+              }
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:streaming",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "createRequest",
+        "summary": "The request to create a new player",
+        "schema": {
+          "$ref": "#/components/schemas/StreamingPlayerCreateProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {}
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "components": {
+    "schemas": {
+      "StreamingPlayerCreateProviderRequest": {
+        "title": "StreamingPlayerCreateProviderRequest",
+        "type": "object",
+        "required": [
+          "correlationId",
+          "parameters"
+        ],
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "description": "An id to correlate the provider response with this request"
+          },
+          "parameters": {
+            "description": "The request to load media in the player",
+            "$ref": "#/components/schemas/StreamingPlayerCreateRequest"
+          }
+        },
+        "examples": [
+          {}
+        ]
+      },
+      "StreamingPlayerCreateRequest": {
+        "title": "StreamingPlayerCreateRequest",
+        "type": "object",
+        "required": [],
+        "properties": {},
+        "examples": [
+          {}
+        ]
+      },
+      "StreamingPlayerInstance": {
+        "title": "StreamingPlayerInstance",
+        "type": "object",
+        "required": [
+          "playerId",
+          "windowId"
+        ],
+        "properties": {
+          "playerId": {
+            "description": "The id of player which can be used to load media or control the player",
+            "type": "string"
+          },
+          "windowId": {
+            "description": "The id of window which will render the media in, can be used to control on screen where the media is shown",
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "playerId": "123",
+            "windowId": "456"
+          },
+          {
+            "playerId": "abc",
+            "windowId": "def"
+          }
+        ]
+      }
+    }
+  }
+}

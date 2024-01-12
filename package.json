@@ -8,7 +8,8 @@
   },
   "workspaces": [
     "src/sdks/core",
-    "src/sdks/manage"
+    "src/sdks/manage",
+    "src/sdks/provider"
   ],
   "scripts": {
     "fs:setup": "npm run clean && mkdir -p dist",

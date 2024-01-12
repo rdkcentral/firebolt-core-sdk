@@ -141,6 +141,24 @@
             "manage": [
                 "xrn:firebolt:capability:discovery:sign-in-status"
             ]
+        },
+        {
+            "module": "Player",
+            "use": [
+                "xrn:firebolt:capability:player:base"
+            ]
+        },
+        {
+            "module": "BroadcastPlayer",
+            "use": [
+                "xrn:firebolt:capability:player:broadcast"
+            ]
+        },
+        {
+            "module": "StreamingPlayer",
+            "use": [
+                "xrn:firebolt:capability:player:streaming"
+            ]
         }
     ]
 }

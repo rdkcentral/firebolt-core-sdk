@@ -1,0 +1,45 @@
+{
+  "$id": "https://meta.comcast.com/firebolt/player",
+  "title": "Player",
+  "definitions": {
+    "PlayerRequest": {
+      "title": "PlayerRequest",
+      "type": "object",
+      "required": [
+        "playerId"
+      ],
+      "properties": {
+        "playerId": {
+          "description": "The id of the player instance to play in",
+          "type": "string"
+        }
+      },
+      "examples": [
+        {
+          "playerId": "app1:123"
+        },
+        {
+          "playerId": "app2:345"
+        }
+      ]
+    },
+    "PlayerProviderRequest": {
+      "title": "PlayerProviderRequest",
+      "type": "object",
+      "required": [
+        "correlationId",
+        "parameters"
+      ],
+      "properties": {
+        "correlationId": {
+          "type": "string",
+          "description": "An id to correlate the provider response with this request"
+        },
+        "parameters": {
+          "description": "The player request",
+          "$ref": "#/definitions/PlayerRequest"
+        }
+      }
+    }
+  }
+}

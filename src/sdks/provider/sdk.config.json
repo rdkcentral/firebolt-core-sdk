@@ -1,0 +1,26 @@
+{
+    "info": {
+        "title": "Firebolt Provider SDK",
+        "x-interface-names": {}
+    },
+    "methods": [
+        {
+            "module": "Player",
+            "provide": [
+                "xrn:firebolt:capability:player:base"
+            ]
+        },
+        {
+            "module": "BroadcastPlayer",
+            "provide": [
+                "xrn:firebolt:capability:player:broadcast"
+            ]
+        },
+        {
+            "module": "StreamingPlayer",
+            "provide": [
+                "xrn:firebolt:capability:player:streaming"
+            ]
+        }
+    ]
+}

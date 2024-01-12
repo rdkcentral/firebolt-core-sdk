@@ -1,0 +1,1829 @@
+{
+  "openrpc": "1.2.4",
+  "info": {
+    "title": "Player",
+    "description": "A module for providing and using media player capabilities. This handles operations that would be associated with any player generically",
+    "version": "0.0.0"
+  },
+  "methods": [
+    {
+      "name": "load",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:base"
+          ]
+        }
+      ],
+      "summary": "Loads content in a player and starts a media session",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player to load content in",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "request",
+          "summary": "The load request",
+          "schema": {
+            "$ref": "#/components/schemas/LoadRequest"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "mediaSession",
+        "schema": {
+          "$ref": "#/components/schemas/PlayerMediaSession"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            },
+            {
+              "name": "request",
+              "value": {
+                "locator": "https://cdn.rdkcentral.com/media/assets/asset.hls"
+              }
+            }
+          ],
+          "result": {
+            "name": "mediaSession",
+            "value": {
+              "mediaSessionId": "sess1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:base"
+          ]
+        }
+      ],
+      "summary": "Starts playing the content that was last loaded",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player to start playing",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "mediaSession",
+        "schema": {
+          "$ref": "#/components/schemas/PlayerMediaSession"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            }
+          ],
+          "result": {
+            "name": "mediaSession",
+            "value": {
+              "mediaSessionId": "sess1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "stop",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:base"
+          ]
+        }
+      ],
+      "summary": "Stops playing the content that was last loaded",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player to stop",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "mediaSession",
+        "schema": {
+          "$ref": "#/components/schemas/PlayerMediaSession"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            }
+          ],
+          "result": {
+            "name": "mediaSession",
+            "value": {
+              "mediaSessionId": "sess1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "setPosition",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:base"
+          ]
+        }
+      ],
+      "summary": "Tells the player to set its position to the given offset in the media",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player to set the position for",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "position",
+          "summary": "The position the player should seek to in milliseconds",
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "setPositionResponse",
+        "schema": {
+          "const": null
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            },
+            {
+              "name": "position",
+              "value": 10000
+            }
+          ],
+          "result": {
+            "name": "setPositionResponse",
+            "value": null
+          }
+        },
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            },
+            {
+              "name": "position",
+              "value": 600000
+            }
+          ],
+          "result": {
+            "name": "setPositionResponse",
+            "value": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "setSpeed",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:base"
+          ]
+        }
+      ],
+      "summary": "Tells the player to set its speed",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player to set the position for",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "speed",
+          "summary": "The speed to set as a multiplier of the default speed. Negative values would cause the media to rewind. Use 0 to pause",
+          "schema": {
+            "type": "number"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "setSpeedResponse",
+        "schema": {
+          "const": null
+        }
+      },
+      "examples": [
+        {
+          "name": "Set speed to 2",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            },
+            {
+              "name": "speed",
+              "value": 2
+            }
+          ],
+          "result": {
+            "name": "setSpeedResponse",
+            "value": null
+          }
+        },
+        {
+          "name": "Set speed to 0.5",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            },
+            {
+              "name": "speed",
+              "value": 0.5
+            }
+          ],
+          "result": {
+            "name": "setSpeedResponse",
+            "value": null
+          }
+        },
+        {
+          "name": "Set speed to -2",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            },
+            {
+              "name": "speed",
+              "value": -2
+            }
+          ],
+          "result": {
+            "name": "setSpeedResponse",
+            "value": null
+          }
+        },
+        {
+          "name": "Set speed to 0",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            },
+            {
+              "name": "speed",
+              "value": 0
+            }
+          ],
+          "result": {
+            "name": "setSpeedResponse",
+            "value": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tags": [
+        {
+          "name": "property:readonly"
+        },
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:base"
+          ]
+        }
+      ],
+      "summary": "Gets the latest status for the given player",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player to get the status for",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "playerStatus",
+        "schema": {
+          "$ref": "#/components/schemas/PlayerStatus"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            }
+          ],
+          "result": {
+            "name": "playerStatus",
+            "value": {
+              "mediaSessionId": "sess1",
+              "state": "PLAYING"
+            }
+          }
+        },
+        {
+          "name": "Default example #2",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app2:456"
+            }
+          ],
+          "result": {
+            "name": "playerStatus",
+            "value": {
+              "mediaSessionId": "sess1",
+              "state": "BLOCKED",
+              "blockedReason": "CONTENT_NOT_FOUND"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "tags": [
+        {
+          "name": "property:readonly"
+        },
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:base"
+          ]
+        }
+      ],
+      "summary": "Gets the latest progress for the given player",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player to get the progress for",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "playerProgress",
+        "schema": {
+          "$ref": "#/components/schemas/PlayerProgress"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            }
+          ],
+          "result": {
+            "name": "playerProgress",
+            "value": {
+              "speed": 1,
+              "startPosition": 0,
+              "position": 5000,
+              "endPosition": 3600000,
+              "liveSyncTime": "2021-04-23T18:25:43.511Z"
+            }
+          }
+        },
+        {
+          "name": "Default example #2",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app2:456"
+            }
+          ],
+          "result": {
+            "name": "playerProgress",
+            "value": {
+              "speed": 3,
+              "startPosition": 5000,
+              "position": 10000,
+              "endPosition": 3600000,
+              "liveSyncTime": "2021-05-23T18:25:43.511Z"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "tracks",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:base"
+          ]
+        }
+      ],
+      "summary": "Gets the supported tracks for the current playing media",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player to get the tracks for",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "playerTracks",
+        "schema": {
+          "$ref": "#/components/schemas/PlayerTracks"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            }
+          ],
+          "result": {
+            "name": "playerTracks",
+            "value": {
+              "audio": [
+                {
+                  "trackId": "123",
+                  "language": "en",
+                  "audioDescription": false,
+                  "type": "PCM",
+                  "selected": true
+                }
+              ],
+              "captions": [
+                {
+                  "trackId": "123",
+                  "language": "en",
+                  "name": "CC1",
+                  "selected": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "setAudioTrack",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:base"
+          ]
+        }
+      ],
+      "summary": "Selects the given audio track",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player to set the track for",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "trackId",
+          "summary": "The id of the track to select",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "setAudioTrackResult",
+        "schema": {
+          "const": null
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            },
+            {
+              "name": "trackId",
+              "value": "Audio1"
+            }
+          ],
+          "result": {
+            "name": "setAudioTrackResult",
+            "value": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "setCaptionsTrack",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:player:base"
+          ]
+        }
+      ],
+      "summary": "Selects the given captions track",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player to set the track for",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "trackId",
+          "summary": "The id of the track to select",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "setCaptionsTrackResult",
+        "schema": {
+          "const": null
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "app1:123"
+            },
+            {
+              "name": "trackId",
+              "value": "CC1"
+            }
+          ],
+          "result": {
+            "name": "setAudioTrackResult",
+            "value": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestLoad",
+      "summary": "Registers as a provider for when new media should be loaded into the player",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "$ref": "#/components/schemas/PlayerMediaSession",
+            "examples": [
+              {
+                "mediaSessionId": "sess1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "loadRequest",
+        "summary": "The request to load new media",
+        "schema": {
+          "$ref": "#/components/schemas/PlayerLoadProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123",
+                "request": {
+                  "locator": "https://cdn.rdkcentral.com/media/assets/asset.hls"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestPlay",
+      "summary": "Registers as a provider for when media should start playing",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "$ref": "#/components/schemas/PlayerMediaSession",
+            "examples": [
+              {
+                "mediaSessionId": "sess1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "playRequest",
+        "summary": "The request to start playing media",
+        "schema": {
+          "$ref": "https://meta.comcast.com/firebolt/player#/definitions/PlayerProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestStop",
+      "summary": "Registers as a provider for when media should stop playing",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "$ref": "#/components/schemas/PlayerMediaSession",
+            "examples": [
+              {
+                "mediaSessionId": "sess1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "stopRequest",
+        "summary": "The request to stop playing media",
+        "schema": {
+          "$ref": "https://meta.comcast.com/firebolt/player#/definitions/PlayerProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestStatus",
+      "summary": "Registers as a provider for when player status needs to be provided",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "$ref": "#/components/schemas/PlayerStatus",
+            "examples": [
+              {
+                "mediaSessionId": "sess1",
+                "state": "IDLE"
+              }
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "statusRequest",
+        "summary": "The request to get the status of a player",
+        "schema": {
+          "$ref": "https://meta.comcast.com/firebolt/player#/definitions/PlayerProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestProgress",
+      "summary": "Registers as a provider for when player progress needs to be provided",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "$ref": "#/components/schemas/PlayerProgress",
+            "examples": [
+              {
+                "speed": 1,
+                "startPosition": 0,
+                "position": 5000,
+                "endPosition": 3600000,
+                "liveSyncTime": "2021-04-23T18:25:43.511Z"
+              }
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "progressRequest",
+        "summary": "The request to stop playing media",
+        "schema": {
+          "$ref": "https://meta.comcast.com/firebolt/player#/definitions/PlayerProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestSetPosition",
+      "summary": "Registers as a provider for when media position should be set",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "const": null,
+            "examples": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "setPositionRequest",
+        "summary": "The request to set position in the media",
+        "schema": {
+          "$ref": "#/components/schemas/PlayerSetPositionProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123",
+                "position": 10000
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestSetSpeed",
+      "summary": "Registers as a provider for when media speed should be set",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "const": null,
+            "examples": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "setSpeedRequest",
+        "summary": "The request to set speed in the media",
+        "schema": {
+          "$ref": "#/components/schemas/PlayerSetSpeedProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Set Speed to 2",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123",
+                "speed": 2
+              }
+            }
+          }
+        },
+        {
+          "name": "Set Speed to 0.5",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123",
+                "speed": 0.5
+              }
+            }
+          }
+        },
+        {
+          "name": "Set Speed to -2",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123",
+                "speed": -2
+              }
+            }
+          }
+        },
+        {
+          "name": "Set Speed to 0",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123",
+                "speed": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestTracks",
+      "summary": "Registers as a provider for when player tracks needs to be provided",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "$ref": "#/components/schemas/PlayerTracks",
+            "examples": [
+              {
+                "audio": [
+                  {
+                    "trackId": "123",
+                    "language": "en",
+                    "audioDescription": false,
+                    "type": "PCM",
+                    "selected": true
+                  }
+                ],
+                "captions": [
+                  {
+                    "trackId": "123",
+                    "language": "en",
+                    "name": "CC1",
+                    "selected": true
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "tracksRequest",
+        "summary": "The request to get the tracks of a player",
+        "schema": {
+          "$ref": "https://meta.comcast.com/firebolt/player#/definitions/PlayerProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestSetAudioTrack",
+      "summary": "Registers as a provider for setting the audio track",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "const": null,
+            "examples": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "setTracksRequest",
+        "summary": "The request to set the audio track of a player",
+        "schema": {
+          "$ref": "#/components/schemas/PlayerSetAudioTrackProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123",
+                "trackId": "Audio1"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "onRequestSetCaptionsTrack",
+      "summary": "Registers as a provider for setting the captions track",
+      "params": [],
+      "tags": [
+        {
+          "name": "event",
+          "x-response": {
+            "const": null,
+            "examples": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base",
+          "x-allow-focus": false
+        }
+      ],
+      "result": {
+        "name": "setTracksRequest",
+        "summary": "The request to set the captions track of a player",
+        "schema": {
+          "$ref": "#/components/schemas/PlayerSetCaptionsTrackProviderRequest"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": {
+              "correlationId": "abc",
+              "parameters": {
+                "playerId": "123",
+                "trackId": "CC1"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "provideStatus",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base"
+        }
+      ],
+      "summary": "Tells listeners the current status of a player",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player the status is for",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "status",
+          "summary": "The status",
+          "schema": {
+            "$ref": "#/components/schemas/PlayerStatus"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "providedResponse",
+        "schema": {
+          "const": null
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "123"
+            },
+            {
+              "name": "status",
+              "value": {
+                "mediaSessionId": "sess2",
+                "state": "BLOCKED",
+                "blockedReason": "CONTENT_NOT_FOUND"
+              }
+            }
+          ],
+          "result": {
+            "name": "providedResponse",
+            "value": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "provideProgress",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-provides": "xrn:firebolt:capability:player:base"
+        }
+      ],
+      "summary": "Tells listeners the current progress of a player",
+      "params": [
+        {
+          "name": "playerId",
+          "summary": "The id of the player the progress is for",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "progress",
+          "summary": "The progress",
+          "schema": {
+            "$ref": "#/components/schemas/PlayerProgress"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "providedResponse",
+        "schema": {
+          "const": null
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [
+            {
+              "name": "playerId",
+              "value": "123"
+            },
+            {
+              "name": "progress",
+              "value": {
+                "speed": 1,
+                "startPosition": 0,
+                "position": 5000,
+                "endPosition": 3600000,
+                "liveSyncTime": "2021-04-23T18:25:43.511Z"
+              }
+            }
+          ],
+          "result": {
+            "name": "providedResponse",
+            "value": null
+          }
+        }
+      ]
+    }
+  ],
+  "components": {
+    "schemas": {
+      "LoadRequest": {
+        "title": "LoadRequest",
+        "type": "object",
+        "required": [
+          "locator"
+        ],
+        "properties": {
+          "locator": {
+            "description": "A locator to the content to load",
+            "type": "string",
+            "format": "uri"
+          },
+          "metadata": {
+            "description": "An opaque set of metadata that will be relevant to the player.",
+            "type": "object"
+          },
+          "autoPlay": {
+            "description": "Start playing immediately on load without needing to call Player.play",
+            "type": "boolean"
+          }
+        },
+        "examples": [
+          {
+            "locator": "https://cdn.rdkcentral.com/media/assets/asset.hls"
+          },
+          {
+            "locator": "https://cdn.rdkcentral.com/media/assets/asset-2.hls",
+            "metadata": {
+              "assetType": "linear"
+            },
+            "autoPlay": true
+          }
+        ]
+      },
+      "PlayerLoadRequest": {
+        "title": "PlayerLoadRequest",
+        "type": "object",
+        "required": [
+          "playerId",
+          "request"
+        ],
+        "properties": {
+          "playerId": {
+            "description": "The id of the player instance to load the locator into",
+            "type": "string"
+          },
+          "request": {
+            "description": "A request detailing what to load in the given player",
+            "$ref": "#/components/schemas/LoadRequest"
+          }
+        },
+        "examples": [
+          {
+            "playerId": "app1:123",
+            "request": {
+              "locator": "https://cdn.rdkcentral.com/media/assets/asset.hls"
+            }
+          },
+          {
+            "playerId": "app2:345",
+            "request": {
+              "locator": "https://cdn.rdkcentral.com/media/assets/asset-2.hls",
+              "metadata": {
+                "assetType": "linear"
+              },
+              "autoPlay": true
+            }
+          }
+        ]
+      },
+      "PlayerMediaSession": {
+        "title": "PlayerMediaSession",
+        "type": "object",
+        "required": [
+          "mediaSessionId"
+        ],
+        "properties": {
+          "mediaSessionId": {
+            "description": "The id of media session that was started, when the content was loaded. This should be a new value on each load",
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "mediaSessionId": "sess1"
+          },
+          {
+            "mediaSessionId": "sess2"
+          }
+        ]
+      },
+      "PlayerStatus": {
+        "title": "PlayerStatus",
+        "type": "object",
+        "required": [
+          "mediaSessionId",
+          "state"
+        ],
+        "properties": {
+          "mediaSessionId": {
+            "description": "The id of media session that is currently loaded",
+            "type": "string"
+          },
+          "state": {
+            "description": "The state of the player",
+            "type": "string",
+            "enum": [
+              "IDLE",
+              "PENDING",
+              "PLAYING",
+              "BLOCKED",
+              "FAILED"
+            ]
+          },
+          "blockedReason": {
+            "description": "The state of the player",
+            "type": "string",
+            "enum": [
+              "NO_NETWORK",
+              "CONTENT_NOT_FOUND",
+              "DRM_ERROR",
+              "NOT_ENTITLED",
+              "GEO_BLOCKED",
+              "CHANNEL_NOT_SCANNED",
+              "NO_SIGNAL",
+              "TECHNICAL_FAULT",
+              "CHANNEL_OFF_AIR",
+              "PLAYER_FAILURE"
+            ]
+          }
+        },
+        "examples": [
+          {
+            "mediaSessionId": "sess1",
+            "state": "IDLE"
+          },
+          {
+            "mediaSessionId": "sess2",
+            "state": "BLOCKED",
+            "blockedReason": "CONTENT_NOT_FOUND"
+          }
+        ]
+      },
+      "PlayerProgress": {
+        "title": "PlayerProgress",
+        "type": "object",
+        "required": [
+          "speed",
+          "startPosition",
+          "position",
+          "endPosition",
+          "liveSyncTime"
+        ],
+        "properties": {
+          "speed": {
+            "description": "The playback speed as a multiplier",
+            "type": "number"
+          },
+          "startPosition": {
+            "description": "The position that the media starts at in milliseconds",
+            "type": "integer"
+          },
+          "position": {
+            "description": "The current position in milliseconds",
+            "type": "integer"
+          },
+          "endPosition": {
+            "description": "The position that the media stops at in milliseconds",
+            "type": "integer"
+          },
+          "liveSyncTime": {
+            "description": "The time to sync to live",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "examples": [
+          {
+            "speed": 1,
+            "startPosition": 0,
+            "position": 5000,
+            "endPosition": 3600000,
+            "liveSyncTime": "2021-04-23T18:25:43.511Z"
+          },
+          {
+            "speed": 3,
+            "startPosition": 5000,
+            "position": 10000,
+            "endPosition": 3600000,
+            "liveSyncTime": "2021-04-23T18:25:43.511Z"
+          }
+        ]
+      },
+      "PlayerLoadProviderRequest": {
+        "title": "PlayerLoadProviderRequest",
+        "type": "object",
+        "required": [
+          "correlationId",
+          "parameters"
+        ],
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "description": "An id to correlate the provider response with this request"
+          },
+          "parameters": {
+            "description": "The request to load media in the player",
+            "$ref": "#/components/schemas/PlayerLoadRequest"
+          }
+        }
+      },
+      "AudioTrack": {
+        "title": "AudioTrack",
+        "type": "object",
+        "required": [
+          "trackId",
+          "language",
+          "audioDescription",
+          "type",
+          "selected"
+        ],
+        "properties": {
+          "trackId": {
+            "description": "The id of the track",
+            "type": "string"
+          },
+          "language": {
+            "description": "The language of the audio",
+            "$ref": "https://meta.comcast.com/firebolt/localization#/definitions/Language"
+          },
+          "audioDescription": {
+            "description": "Whether this track supports audio description",
+            "type": "boolean"
+          },
+          "type": {
+            "description": "The type of track",
+            "type": "string",
+            "enum": [
+              "PCM",
+              "AC3",
+              "EAC3",
+              "AAC"
+            ]
+          },
+          "selected": {
+            "description": "Whether this track is currently selected",
+            "type": "boolean"
+          }
+        },
+        "examples": [
+          {
+            "trackId": "Audio1",
+            "language": "en",
+            "audioDescription": false,
+            "type": "PCM",
+            "selected": true
+          },
+          {
+            "trackId": "Audio2",
+            "language": "es",
+            "audioDescription": true,
+            "type": "AC3",
+            "selected": false
+          }
+        ]
+      },
+      "CaptionsTrack": {
+        "title": "CaptionsTrack",
+        "type": "object",
+        "required": [
+          "trackId",
+          "selected"
+        ],
+        "properties": {
+          "trackId": {
+            "description": "The id of the track",
+            "type": "string"
+          },
+          "language": {
+            "description": "The language of the captions",
+            "$ref": "https://meta.comcast.com/firebolt/localization#/definitions/Language"
+          },
+          "name": {
+            "description": "The name of track",
+            "type": "string"
+          },
+          "selected": {
+            "description": "Whether this track is currently selected",
+            "type": "boolean"
+          }
+        },
+        "examples": [
+          {
+            "trackId": "CC1",
+            "language": "en",
+            "selected": true
+          },
+          {
+            "trackId": "CC2",
+            "name": "ClosedCaptions2",
+            "selected": false
+          }
+        ]
+      },
+      "PlayerTracks": {
+        "title": "PlayerTracks",
+        "type": "object",
+        "required": [
+          "audio",
+          "captions"
+        ],
+        "properties": {
+          "audio": {
+            "description": "The list of audio tracks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudioTrack"
+            }
+          },
+          "captions": {
+            "description": "The list of captions tracks",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CaptionsTrack"
+            }
+          }
+        },
+        "examples": [
+          {
+            "audio": [
+              {
+                "trackId": "Audio1",
+                "language": "en",
+                "audioDescription": false,
+                "type": "PCM",
+                "selected": true
+              },
+              {
+                "trackId": "Audio2",
+                "language": "es",
+                "audioDescription": true,
+                "type": "AC3",
+                "selected": false
+              }
+            ],
+            "captions": [
+              {
+                "trackId": "CC1",
+                "language": "en",
+                "selected": true
+              },
+              {
+                "trackId": "CC2",
+                "name": "ClosedCaptions2",
+                "selected": false
+              }
+            ]
+          }
+        ]
+      },
+      "PlayerSetPositionRequest": {
+        "title": "PlayerSetPositionRequest",
+        "type": "object",
+        "required": [
+          "playerId",
+          "position"
+        ],
+        "properties": {
+          "playerId": {
+            "description": "The id of the player to set the position for",
+            "type": "string"
+          },
+          "position": {
+            "description": "The position the player should seek to in milliseconds",
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "examples": [
+          {
+            "playerId": "app1:123",
+            "position": 10000
+          },
+          {
+            "playerId": "app2:345",
+            "position": 600000
+          }
+        ]
+      },
+      "PlayerSetPositionProviderRequest": {
+        "title": "PlayerSetPositionProviderRequest",
+        "type": "object",
+        "required": [
+          "correlationId",
+          "parameters"
+        ],
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "description": "An id to correlate the provider response with this request"
+          },
+          "parameters": {
+            "description": "The request to set position in the player",
+            "$ref": "#/components/schemas/PlayerSetPositionRequest"
+          }
+        }
+      },
+      "PlayerSetSpeedRequest": {
+        "title": "PlayerSetSpeedRequest",
+        "type": "object",
+        "required": [
+          "playerId",
+          "speed"
+        ],
+        "properties": {
+          "playerId": {
+            "description": "The id of the player to set the speed for",
+            "type": "string"
+          },
+          "speed": {
+            "description": "The speed to set as a multiplier of the default speed. Negative values would cause the media to rewind. Use 0 to pause",
+            "type": "number"
+          }
+        },
+        "examples": [
+          {
+            "playerId": "app1:123",
+            "speed": 2
+          },
+          {
+            "playerId": "app2:345",
+            "speed": 0.5
+          },
+          {
+            "playerId": "app2:345",
+            "speed": -2
+          },
+          {
+            "playerId": "app2:345",
+            "speed": 0
+          }
+        ]
+      },
+      "PlayerSetSpeedProviderRequest": {
+        "title": "PlayerSetSpeedProviderRequest",
+        "type": "object",
+        "required": [
+          "correlationId",
+          "parameters"
+        ],
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "description": "An id to correlate the provider response with this request"
+          },
+          "parameters": {
+            "description": "The request to set speed in the player",
+            "$ref": "#/components/schemas/PlayerSetSpeedRequest"
+          }
+        }
+      },
+      "PlayerSetAudioTrackRequest": {
+        "title": "PlayerSetAudioTrackRequest",
+        "type": "object",
+        "required": [
+          "playerId",
+          "trackId"
+        ],
+        "properties": {
+          "playerId": {
+            "description": "The id of the player to set the track for",
+            "type": "string"
+          },
+          "trackId": {
+            "description": "The id of the track to use for audio",
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "playerId": "app1:123",
+            "trackId": "Audio1"
+          },
+          {
+            "playerId": "app1:123",
+            "trackId": "Audio2"
+          }
+        ]
+      },
+      "PlayerSetAudioTrackProviderRequest": {
+        "title": "PlayerSetAudioTrackProviderRequest",
+        "type": "object",
+        "required": [
+          "correlationId",
+          "parameters"
+        ],
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "description": "An id to correlate the provider response with this request"
+          },
+          "parameters": {
+            "description": "The request to set audio track in the player",
+            "$ref": "#/components/schemas/PlayerSetAudioTrackRequest"
+          }
+        }
+      },
+      "PlayerSetCaptionsTrackRequest": {
+        "title": "PlayerSetCaptionsTrackRequest",
+        "type": "object",
+        "required": [
+          "playerId"
+        ],
+        "properties": {
+          "playerId": {
+            "description": "The id of the player to set the track for",
+            "type": "string"
+          },
+          "trackId": {
+            "description": "The id of the track to use for captions. Leave off to turn off captions",
+            "type": "string"
+          }
+        },
+        "examples": [
+          {
+            "playerId": "app1:123",
+            "trackId": "Audio1"
+          },
+          {
+            "playerId": "app1:123"
+          }
+        ]
+      },
+      "PlayerSetCaptionsTrackProviderRequest": {
+        "title": "PlayerSetCaptionsTrackProviderRequest",
+        "type": "object",
+        "required": [
+          "correlationId",
+          "parameters"
+        ],
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "description": "An id to correlate the provider response with this request"
+          },
+          "parameters": {
+            "description": "The request to set captions track in the player",
+            "$ref": "#/components/schemas/PlayerSetCaptionsTrackRequest"
+          }
+        }
+      }
+    }
+  }
+}
