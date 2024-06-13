@@ -1,6 +1,6 @@
 {
 	"name": "@firebolt-js/discovery-sdk",
-	"version": "1.2.0-next.2",
+	"version": "1.2.0-next.4",
 	"description": "The Firebolt Discovery JS SDK",
 	"main": "./dist/lib/firebolt-discovery.mjs",
 	"types": "./dist/lib/firebolt-discovery.d.ts",

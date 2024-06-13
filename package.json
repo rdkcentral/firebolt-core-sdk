@@ -45,7 +45,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
-    "@firebolt-js/openrpc": "3.0.0-next.4",
+    "@firebolt-js/openrpc": "rdkcentral/firebolt-openrpc#removal-c-struct",
     "@firebolt-js/schemas": "2.0.0",
     "@saithodev/semantic-release-backmerge": "^3.2.0",
     "@semantic-release/changelog": "^6.0.1",
