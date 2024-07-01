@@ -4,34 +4,90 @@
 void ShowMenu()
 {
     printf("Options ---- >\n"
-           "\tA : Get/Set Advertising skipRestriction\n"
-           "\tT : Set Account Session\n"
-           "\tE : Get/Set/Subscribe/Unsubscribe AudioDescriptions Enabled\n"
-           "\tN : Get/Set/Subscribe/Unsubscribe Device Name\n"
-           "\tB : Get/Set/Subscribe/Unsubscribe ClosedCaption Background Opacity\n"
-           "\tF : Get/Set/Subscribe/Unsubscribe ClosedCaption Font Family\n"
-           "\tL : Get/Set/Subscribe/Unsubscribe Localization Preferred AudioLanguages\n"
-           "\tC : Get/Set/Subscribe/Unsubscribe Privacy Allow ACR Collection\n"
-           "\tS : Get Privacy Settings\n"
-           "\tI : Subscribe/Unsubscribe SignIn notification\n"
-           "\tO : Subscribe/Unsubscribe SignOut notification\n"
-           "\tR : Reset Advertising Identifier\n"
-           "\tK : Register for Keyboard Provider and check sequence\n"
-           "\tG : Register for Acknowledge Challenge Provider and check sequence\n"
-           "\tP : Register for Pin Challenge Provider and check sequence\n"
-           "\tD : Operate on Localization Additional Info\n"
-           "\tU : Grant/Deny/Clear permission on App\n"
-           "\tW : Scan Wifi on device\n"
+           "\tG : AcknowledgeChallenge Provider\n"
+           "\tO : Account\n"
+           "\tA : Advertising\n"
+           "\tE : AudioDescriptions\n"
+           "\tC : ClosedCaption\n"
+           "\tD : Device\n"
+           "\tI : Discovery\n"
+           "\tK : Keyboard Provider\n"
+           "\tL : Localization\n"
+           "\tP : PinChallenge Provider\n"
+           "\tV : Privacy\n"
+           "\tU : UserGrant\n"
+           "\tW : Wifi\n"
            "\tQ : Quit\n\n"
           );
 }
 
-void ShowWifiOperationsMenu()
+void ShowAccountMenu()
 {
     printf("Options \n"
-         "\tS : Scan access points\n"
-         "\tC : Connect to selected access point \n"
-         "\tD : Disconnect from access point \n"
+         "\tS : Set Account Session\n"
+         "\tQ : Quit\n");
+}
+
+void ShowAdvertisingMenu()
+{
+    printf("Options \n"
+         "\tS : Get/Set Advertising skipRestriction\n"
+         "\tR : Reset Advertising Identifier\n"
+         "\tQ : Quit\n");
+}
+
+void ShowAudioDescriptionsMenu()
+{
+   printf("Options \n"
+         "\tA : Get/Set/Subscribe/Unsubscribe AudioDescriptions Enabled\n"
+         "\tQ : Quit\n");
+}
+
+void ShowClosedCaptionsMenu()
+{
+   printf("Options \n"
+         "\tB : Get/Set/Subscribe/Unsubscribe ClosedCaption Background Opacity\n"
+         "\tF : Get/Set/Subscribe/Unsubscribe ClosedCaption Font Family\n"
+         "\tQ : Quit\n");
+}
+
+void ShowDeviceMenu()
+{
+   printf("Options \n"
+         "\tN : Get/Set/Subscribe/Unsubscribe Device Name\n"
+         "\tQ : Quit\n");
+}
+
+void ShowDiscoveryMenu()
+{
+   printf("Options \n"
+         "\tI : Subscribe/Unsubscribe SignIn notification\n"
+         "\tO : Subscribe/Unsubscribe SignOut notification\n"
+         "\tQ : Quit\n");
+}
+
+void ShowAdditionalInfoMenu()
+{
+    printf("Options \n"
+         "\tG : Get Additional Info\n"
+         "\tA : Add Additional Info\n"
+         "\tR : Remove Additional Info\n"
+         "\tQ : Quit\n");
+}
+
+void ShowLocalizationMenu()
+{
+   printf("Options \n"
+         "\tD : Operate on Localization Additional Info\n"
+         "\tP : Get/Set/Subscribe/Unsubscribe Localization Preferred AudioLanguages\n"
+         "\tQ : Quit\n");
+}
+
+void ShowPrivacyMenu()
+{
+   printf("Options \n"
+         "\tA : Get/Set/Subscribe/Unsubscribe Privacy Allow ACR Collection\n"
+         "\tS : Get Privacy Settings\n"
          "\tQ : Quit\n");
 }
 
@@ -47,12 +103,12 @@ void ShowUserGrantsMenu()
          "\tQ : Quit\n");
 }
 
-void ShowAdditionalInfoMenu()
+void ShowWifiOperationsMenu()
 {
     printf("Options \n"
-         "\tG : Get Additional Info\n"
-         "\tA : Add Additional Info\n"
-         "\tR : Remove Additional Info\n"
+         "\tS : Scan access points\n"
+         "\tC : Connect to selected access point \n"
+         "\tD : Disconnect from access point \n"
          "\tQ : Quit\n");
 }
 
@@ -87,64 +143,6 @@ void ShowEventMenu()
          "\tS : Subscribe Event\n"
          "\tU : Unsubscribe Event\n"
          "\tQ : Quit\n");
-}
-
-void HandleUserGrants()
-{
-    int opt;
-    do {
-        getchar();
-        ShowUserGrantsMenu();
-        printf("Enter option : ");
-        opt = toupper(getchar());
-        switch (opt) {
-        case 'G': {
-            ManageSDKTest::GetUserGrantsPermission();
-            break;
-        }
-        case 'R': {
-            ManageSDKTest::GrantUserGrantsPermission();
-            break;
-        }
-        case 'D': {
-            ManageSDKTest::DenyUserGrantsPermission();
-            break;
-        }
-        case 'C': {
-            ManageSDKTest::ClearUserGrantsPermission();
-            break;
-        }
-        default:
-            break;
-        }
-    } while (opt != 'Q');
-}
-
-void HandleAdditionalInfo()
-{
-    int opt;
-    do {
-        getchar();
-        ShowAdditionalInfoMenu();
-        printf("Enter option : ");
-        opt = toupper(getchar());
-        switch (opt) {
-        case 'G': {
-            ManageSDKTest::GetLocalizationAdditionalInfo();
-            break;
-        }
-        case 'A': {
-            ManageSDKTest::AddLocalizationAdditionalInfo();
-            break;
-        }
-        case 'R': {
-            ManageSDKTest::RemoveLocalizationAdditionalInfo();
-            break;
-        }
-        default:
-            break;
-        }
-    } while (opt != 'Q');
 }
 
 #define VALUE(string) #string
@@ -198,7 +196,6 @@ void HandleAdditionalInfo()
     } while (opt != 'Q'); \
 }
 
-
 #define HandlePropertyWithEvent(Module, Property) \
 { \
     int opt; \
@@ -250,6 +247,236 @@ void HandleAdditionalInfo()
             break; \
         } \
     } while (opt != 'Q'); \
+}
+
+void HandleAccountMethods()
+{
+    int opt;
+    do {
+        getchar();
+        ShowAccountMenu();
+        printf("Enter option : ");
+        opt = toupper(getchar());
+        switch (opt) {
+        case 'S': {
+            ManageSDKTest::SetAccountSession();
+            break;
+        }
+        default:
+            break;
+        }
+    } while (opt != 'Q');
+}
+
+void HandleAdvertisingMethods()
+{
+    int opt;
+    do {
+        getchar();
+        ShowAdvertisingMenu();
+        printf("Enter option : ");
+        opt = toupper(getchar());
+        switch (opt) {
+        case 'S': {
+            HandleProperty(Advertising, SkipRestriction)
+            break;
+        }
+        case 'R': {
+            ManageSDKTest::ResetAdvertisingIdentifier();
+            break;
+        }
+        default:
+            break;
+        }
+    } while (opt != 'Q');
+}
+
+void HandleAudioDescriptionsMethods()
+{
+    int opt;
+    do {
+        getchar();
+        ShowAudioDescriptionsMenu();
+        printf("Enter option : ");
+        opt = toupper(getchar());
+        switch (opt) {
+        case 'A': {
+            HandlePropertyWithEvent(AudioDescriptions, Enabled)
+            break;
+        }
+        default:
+            break;
+        }
+    } while (opt != 'Q');
+}
+
+void HandleClosedCaptionsMethods()
+{
+    int opt;
+    do {
+        getchar();
+        ShowClosedCaptionsMenu();
+        printf("Enter option : ");
+        opt = toupper(getchar());
+        switch (opt) {
+        case 'B': {
+            HandlePropertyWithEvent(ClosedCaptions, BackgroundOpacity)
+            break;
+        }
+        case 'F': {
+            HandlePropertyWithEvent(ClosedCaptions, FontFamily)
+            break;
+        }
+        default:
+            break;
+        }
+    } while (opt != 'Q');
+}
+
+void HandleDeviceMethods()
+{
+    int opt;
+    do {
+        getchar();
+        ShowDeviceMenu();
+        printf("Enter option : ");
+        opt = toupper(getchar());
+        switch (opt) {
+        case 'N': {
+            HandlePropertyWithEvent(Device, Name)
+            break;
+        }
+        default:
+            break;
+        }
+    } while (opt != 'Q');
+}
+
+void HandleDiscoveryMethods()
+{
+    int opt;
+    do {
+        getchar();
+        ShowDiscoveryMenu();
+        printf("Enter option : ");
+        opt = toupper(getchar());
+        switch (opt) {
+        case 'I': {
+            HandleEventListener(Discovery, SignInNotification)
+            break;
+        }
+        case 'O': {
+            HandleEventListener(Discovery, SignOutNotification)
+            break;
+        }
+        default:
+            break;
+        }
+    } while (opt != 'Q');
+}
+
+void HandleAdditionalInfo()
+{
+    int opt;
+    do {
+        getchar();
+        ShowAdditionalInfoMenu();
+        printf("Enter option : ");
+        opt = toupper(getchar());
+        switch (opt) {
+        case 'G': {
+            ManageSDKTest::GetLocalizationAdditionalInfo();
+            break;
+        }
+        case 'A': {
+            ManageSDKTest::AddLocalizationAdditionalInfo();
+            break;
+        }
+        case 'R': {
+            ManageSDKTest::RemoveLocalizationAdditionalInfo();
+            break;
+        }
+        default:
+            break;
+        }
+    } while (opt != 'Q');
+}
+
+void HandleLocalizationMethods()
+{
+    int opt;
+    do {
+        getchar();
+        ShowLocalizationMenu();
+        printf("Enter option : ");
+        opt = toupper(getchar());
+        switch (opt) {
+        case 'D': {
+            HandleAdditionalInfo();
+            break;
+        }
+        case 'P': {
+            HandlePropertyWithEvent(Localization, PreferredAudioLanguages)
+            break;
+        }
+        default:
+            break;
+        }
+    } while (opt != 'Q');
+}
+
+void HandlePrivacyMethods()
+{
+    int opt;
+    do {
+        getchar();
+        ShowPrivacyMenu();
+        printf("Enter option : ");
+        opt = toupper(getchar());
+        switch (opt) {
+        case 'A': {
+            HandlePropertyWithEvent(Privacy, AllowACRCollection)
+            break;
+        }
+        case 'S': {
+            ManageSDKTest::GetPrivacySettings();
+            break;
+        }
+        default:
+            break;
+        }
+    } while (opt != 'Q');
+}
+
+void HandleUserGrants()
+{
+    int opt;
+    do {
+        getchar();
+        ShowUserGrantsMenu();
+        printf("Enter option : ");
+        opt = toupper(getchar());
+        switch (opt) {
+        case 'G': {
+            ManageSDKTest::GetUserGrantsPermission();
+            break;
+        }
+        case 'R': {
+            ManageSDKTest::GrantUserGrantsPermission();
+            break;
+        }
+        case 'D': {
+            ManageSDKTest::DenyUserGrantsPermission();
+            break;
+        }
+        case 'C': {
+            ManageSDKTest::ClearUserGrantsPermission();
+            break;
+        }
+        default:
+            break;
+        }
+    } while (opt != 'Q');
 }
 
 void HandleWifiOperations()
@@ -307,52 +534,28 @@ int main (int argc, char* argv[])
             printf("Enter option : ");
             option = toupper(getchar());
             switch (option) {
-            case 'A': {
-                HandleProperty(Advertising, SkipRestriction)
+            case 'O': {
+                HandleAccountMethods();
                 break;
             }
-            case 'T': {
-                ManageSDKTest::SetAccountSession();
+            case 'A': {
+                HandleAdvertisingMethods();
                 break;
             }
             case 'E': {
-                HandlePropertyWithEvent(AudioDescriptions, Enabled)
-                break;
-            }
-            case 'N': {
-                HandlePropertyWithEvent(Device, Name)
-                break;
-            }
-            case 'B': {
-                HandlePropertyWithEvent(ClosedCaptions, BackgroundOpacity)
-                break;
-            }
-            case 'F': {
-                HandlePropertyWithEvent(ClosedCaptions, FontFamily)
-                break;
-            }
-            case 'L': {
-                HandlePropertyWithEvent(Localization, PreferredAudioLanguages)
+                HandleAudioDescriptionsMethods();
                 break;
             }
             case 'C': {
-                HandlePropertyWithEvent(Privacy, AllowACRCollection)
+                HandleClosedCaptionsMethods();
                 break;
             }
-            case 'S': {
-                ManageSDKTest::GetPrivacySettings();
+            case 'D': {
+                HandleDeviceMethods();
                 break;
             }
             case 'I': {
-                HandleEventListener(Discovery, SignInNotification)
-                break;
-            }
-            case 'O': {
-                HandleEventListener(Discovery, SignOutNotification)
-                break;
-            }
-            case 'R': {
-                ManageSDKTest::ResetAdvertisingIdentifier();
+                HandleDiscoveryMethods();
                 break;
             }
             case 'K': {
@@ -370,8 +573,12 @@ int main (int argc, char* argv[])
                 HandleProviderSequence(PinChallenge)
                 break;
             }
-            case 'D': {
-                HandleAdditionalInfo();
+            case 'L': {
+                HandleLocalizationMethods();
+                break;
+            }
+            case 'V': {
+                HandlePrivacyMethods();
                 break;
             }
             case 'U': {
