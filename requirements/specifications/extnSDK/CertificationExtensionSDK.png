@@ -1,0 +1,53 @@
+title Firebolt Extension for Certification
+
+participant DeveloperTools #lightpink
+note over DeveloperTools: e.g. FCS
+
+participantgroup #lightgreen <wordwrap:20>**Firebolt Implementation**
+participant FireboltExtn
+end
+
+participantgroup #lightblue <wordwrap:10>**Firebolt Compatible Provider**
+participant Plugin
+end
+
+note over Plugin: e.g. \nWindow Manager \nScreenshot Capture
+
+
+
+group Firebolt compatible provider command and control
+DeveloperTools -> FireboltExtn: {"jsonrpc": "2.0", "method": "commandAndControl", \n"params": [<intent>], "id": "1"}
+FireboltExtn -> Plugin: Request fullfil
+Plugin -> FireboltExtn: {id:0, "jsonrpc": "2.0", result: "true"}
+FireboltExtn -> DeveloperTools : {id:0, "jsonrpc": "2.0", result: "true"}
+
+end
+
+group Firebolt compatible provider screen capture
+
+DeveloperTools -> FireboltExtn: {"jsonrpc": "2.0",\n "method": "captureScreenshot", "id": "1"}
+FireboltExtn -> Plugin: Request fullfil
+Plugin -> FireboltExtn: {id:0, "jsonrpc": "2.0", result: "true"}
+FireboltExtn -> DeveloperTools : {id:0, "jsonrpc": "2.0", result: "true"}
+end
+
+group Health Check
+DeveloperTools -> FireboltExtn: {"jsonrpc": "2.0",\n "method": "platformHealthCheck","id": "1"}
+
+note over FireboltExtn: Healthcheck snapshot includes \nprocess memory usage, load, \nlive connections etc.
+
+FireboltExtn -> DeveloperTools: {id:0, "jsonrpc": "2.0", result: {healthCheckData}}
+
+end
+
+group App performance snapshot
+DeveloperTools -> FireboltExtn: {"jsonrpc": "2.0", \n"method": "appHealthCheck",\n"params":<appId>, "id": "1"}
+
+note over FireboltExtn: App performance snapshot \nincludes memory usage, load etc.
+
+FireboltExtn -> Plugin: Request fullfil
+Plugin -> FireboltExtn: {id:0, "jsonrpc": "2.0", result: {appPerformanceData}}
+
+FireboltExtn -> DeveloperTools: {id:0, "jsonrpc": "2.0", result: {appPerformanceData}}
+
+end

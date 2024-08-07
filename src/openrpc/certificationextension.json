@@ -1,0 +1,323 @@
+{
+    "openrpc": "1.2.4",
+    "info": {
+        "title": "CertificationExtension",
+        "description": "CertificationExtension provides various methods to get platform and/or app specific details which would be required for certification.",
+        "version": "0.0.0"
+    },
+    "methods": [
+        {
+            "name": "deviceInteractions",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:certification:interactions"
+                    ]
+                }
+            ],
+            "summary": "Performs interactions on firebolt compatible devices.",
+            "params": [
+                {
+                    "name": "intent",
+                    "required": true,
+                    "summary": "A `DeviceIntent` with details what interaction needs to be performed.",
+                    "schema": {
+                        "$ref": "https://meta.comcast.com/firebolt/intents#/definitions/DeviceIntent"
+                    }
+                }
+            ],
+            "result": {
+                "name": "success",
+                "summary": "whether the call was successful or not",
+                "schema": {
+                    "type": "boolean"
+                }
+            },
+            "examples": [
+                {
+                    "name": "Interact with the app and go to Menu screen",
+                    "params": [
+                        {
+                            "name": "intent",
+                            "value": {
+                                "action": "button",
+                                "data": {
+                                    "operation": "menu"
+                                },
+                                "context": {
+                                    "source": "voice"
+                                }
+                            }
+                        }
+                    ],
+                    "result": {
+                       "name": "Default Result",
+                        "value": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "playbackControl",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:certification:interactions"
+                    ]
+                }
+            ],
+            "summary": "Performs controlling actions of in-progress playback on firebolt compatible devices.",
+            "params": [
+                {
+                    "name": "intent",
+                    "required": true,
+                    "summary": "A `PlaybackControlIntent` with details what playback control needs to be performed.",
+                    "schema": {
+                        "$ref": "https://meta.comcast.com/firebolt/intents#/definitions/PlaybackControlIntent"
+                    }
+                }
+            ],
+            "result": {
+                "name": "success",
+                "summary": "whether the call was successful or not",
+                "schema": {
+                    "type": "boolean"
+                }
+            },
+            "examples": [
+                {
+                    "name": "Pause the in-progress playback",
+                    "params": [
+                        {
+                            "name": "intent",
+                            "value": {
+                                "action": "pause",
+                                "context": {
+                                    "source": "voice"
+                                }
+                            }
+                        }
+                    ],
+                    "result": {
+                       "name": "Default Result",
+                        "value": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "getScreenshot",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:certification:screencapture"
+                    ]
+                }
+            ],
+            "summary": "Fetch the current screen on the device and upload to the given server",
+            "params": [],
+            "result": {
+                "name": "success",
+                "summary": "whether the call was successful or not",
+                "schema": {
+                    "type": "boolean"
+                }
+            },
+            "examples": [
+                {
+                    "name": "Screen capture and sends back the status",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "onScreenshotComplete",
+            "tags": [
+                {
+                    "name": "event"
+                },
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:certification:screencapture"
+                    ]
+                }
+            ],
+            "summary": "Listens for capturing the screenshot and provides the image data back in Base64 encoded format.",
+            "params": [],
+            "result": {
+                "name": "imageStream",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "examples": [
+                {
+                    "name": "Screenshot is taken",
+                    "params": [],
+                    "result": {
+                        "name": "imageStream",
+                        "value": "AAAAAAAAAA"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "platformHealthCheck",
+            "summary": "Health check for the device and process. It provides the load, memory, cpu usage and total live firebolt connections.",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-provides": "xrn:firebolt:capability:certification:healthcheck",
+                    "x-allow-focus": true
+                }
+            ],
+            "params": [],
+            "result": {
+                "name": "healthCheckResult",
+                "summary": "Result of the interaction",
+                "schema": {
+                    "$ref": "#/components/schemas/PlatformHealthCheckResult"
+                }
+            },
+            "examples": [
+                {
+                    "name": "Snapshots for the device and process",
+                    "params": [],
+                    "result": {
+                        "name": "healthCheckResult",
+                        "value": {
+                            "cpuLoad1minAverage": 2.2,
+                            "cpuLoad5minAverage": 1.8,
+                            "deviceMemoryUsed": 886,
+                            "deviceMemoryLimit": 1024,
+                            "processMemoryPSS": 500,
+                            "processMemoryRSS": 600,
+                            "activeConnections": 10
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "appHealthCheck",
+            "summary": "App healthCheck",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-provides": "xrn:firebolt:capability:certification:appperformancedata",
+                    "x-allow-focus": true
+                }
+            ],
+            "params": [
+                {
+                    "name": "appId",
+                    "required": true,
+                    "summary": "The id of the app for which the performance snapshot is required",
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "result": {
+                "name": "appPerformanceResult",
+                "summary": "Result of the interaction",
+                "schema": {
+                    "$ref": "#/components/schemas/AppHealthCheckResult"
+                }
+            },
+            "examples": [
+                {
+                    "name": "Performance snapshot for the given app",
+                    "params": [
+                        {
+                            "name": "appId",
+                            "value": "foo"
+                        }
+                    ],
+                    "result": {
+                        "name": "appPerformanceResult",
+                        "value": {
+                            "memory": 0.5,
+                            "cpu": 0.5
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "components": {
+        "schemas": {
+            "PlatformHealthCheckResult": {
+                "title": "PlatformHealthCheckResult",
+                "description": "Performance and healthcheck snapshot for the device and process which includes load, memory, cpu usage. It also provides total live firebolt connections.",
+                "type": "object",
+                "required": [
+                    "cpuLoad1minAverage",
+                    "cpuLoad5minAverage",
+                    "deviceMemoryUsed",
+                    "deviceMemoryLimit",
+                    "processMemoryPSS",
+                    "processMemoryRSS",
+                    "activeConnections"
+                ],
+                "properties": {
+                    "cpuLoad1minAverage": {
+                        "type": "number",
+                        "description": "The load average of the system for 1 min, typically known as short term load."
+                    },
+                    "cpuLoad5minAverage": {
+                        "type": "number",
+                        "description": "The load average of the system for 5 min, typically known as mid term load."
+                    },
+                    "processMemoryPSS": {
+                        "type": "number",
+                        "description": "Process memory usage as proportional set size (PSS) in KB. This data provides a way to account for memory shared between processes more accurately"
+                    },
+                    "processMemoryRSS": {
+                        "type": "number",
+                        "description": "Process memory usage as resident set size (RSS) in KB. It represents the portion of a process's memory that is held in RAM"
+                    },
+                    "deviceMemoryUsed": {
+                        "type": "number",
+                        "description": "The memory usage of the device"
+                    },
+                    "deviceMemoryLimit": {
+                        "type": "number",
+                        "description": "Total memory limit of the device"
+                    },
+                    "activeConnections": {
+                        "type": "number",
+                        "description": "The total number of active firebolt connections"
+                    }
+                }
+            },
+            "AppHealthCheckResult": {
+                "title": "AppHealthCheckResult",
+                "description": "Performance snapshot for the given appId which includes memory usage, cpu usage.",
+                "type": "object",
+                "required": [
+                    "memory",
+                    "cpu"
+                ],
+                "properties": {
+                    "memory": {
+                        "type": "number",
+                        "description": "The memory usage of the app"
+                    },
+                    "cpu": {
+                        "type": "number",
+                        "description": "The cpu usage of the the app"
+                    }
+                }
+            }
+        }
+    }
+}
