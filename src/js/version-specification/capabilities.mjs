@@ -49,7 +49,7 @@ const doImport = (source, target, clear=false, report=false) => {
           logSuccess(`${report ? 'Missing' : 'Adding'} capability ${capability}.`)
       }
         result.capabilities[capability] = Object.assign({
-          level: 'must',
+          level: 'could',
           use: {
               public: uses.includes(capability),
               negotiable: true && uses.includes(capability)

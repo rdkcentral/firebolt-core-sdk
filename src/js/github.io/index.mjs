@@ -116,32 +116,36 @@ const capabilities = () => {
         }
     })
 
-    let manifest = '\n'
+    Object.entries(specification.capabilities).forEach( ([c, v]) => {
+        capabilities[c].level = v.level
+    })
+
+    let manifest = '\n## Capailities\n| Capability | Level | Uses | Provides | Manages |\n|-|-|-|-|-|\n'
     
     const linkify = (method) => `[${method}](./${corerpc.methods.find(m => m.name === method) ? 'core' : 'manage'}/${method.split('.').shift()}/#${method.match(/\.on[A-Z]/) ? method.split('.').pop().charAt(2).toLowerCase() + method.split('.').pop().substring(3).toLowerCase() : method.split('.').pop().toLowerCase()})`
     Object.keys(capabilities).sort().forEach(c => {
-        manifest += `### \`${c}\`\n`
+        const use = capabilities[c].uses.length ? `<details><summary>${capabilities[c].uses.length}</summary>${capabilities[c].uses.map(linkify).join('<br/>')}</details>` : ''
+        const man = capabilities[c].manages.length ? `<details><summary>${capabilities[c].manages.length}</summary>${capabilities[c].manages.map(linkify).join('<br/>')}</details>` : ''
+        const pro = capabilities[c].provides.length ? `<details><summary>${capabilities[c].provides.length}</summary>${capabilities[c].provides.map(linkify).join('<br/>')}</details>` : ''
 
-        if (capabilities[c].uses.length) {
-            manifest += '\n| Uses |\n'
-            manifest += '| ---- |\n'
-            manifest += `| ${capabilities[c].uses.map(linkify).join('<br/>')} |\n`
-            manifest += '\n\n'
-        }
+        manifest += `| \`${c}\` | **${capabilities[c].level.toUpperCase()}** | ${use} | ${pro} | ${man} |\n`
+    })
 
-        if (capabilities[c].manages.length) {
-            manifest += '\n| Manages |\n'
-            manifest += '| ------- |\n'
-            manifest += `| ${capabilities[c].manages.map(linkify).join('<br/>')} |\n`
-            manifest += '\n\n'
-        }
 
-        if (capabilities[c].provides.length) {
-            manifest += '\n| Provides |\n'
-            manifest += '| -------- |\n'
-            manifest += `| ${capabilities[c].provides.map(linkify).join('<br/>')} |\n`
-            manifest += '\n\n'
-        }
+    manifest += '\n## Methods\nCapability prefix `xrn:firebolt:capability` let off for readability.\n| Method | Level | Uses | Provides | Manages |\n|-|-|-|-|-|\n'
+
+    openrpc.methods.forEach(method => {
+        let uses = Object.entries(capabilities).filter( ([c, v]) => v.uses.includes(method.name)).map(([c, v]) => c)
+        let mans = Object.entries(capabilities).filter( ([c, v]) => v.manages.includes(method.name)).map(([c, v]) => c)
+        let pros = Object.entries(capabilities).filter( ([c, v]) => v.provides.includes(method.name)).map(([c, v]) => c)
+        let level = Array.from(new Set(uses.concat(mans).concat(pros).map(c => capabilities[c].level))).join(', ')
+
+        uses = uses.map(c => c.split(':').slice(3, 5).join(':')).map(c => `\`${c}\``).join(', ')
+        pros = pros.map(c => c.split(':').slice(3, 5).join(':')).map(c => `\`${c}\``).join(', ')
+        mans = mans.map(c => c.split(':').slice(3, 5).join(':')).map(c => `\`${c}\``).join(', ')
+        level = level.includes('must') ? 'must' : level.includes('should') ? 'should' : 'could'
+
+        manifest += `| ${linkify(method.name)} | **${level.toUpperCase()}** | ${uses} | ${pros} | ${mans} |\n`
 
     })
 
