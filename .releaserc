@@ -18,6 +18,11 @@
       "name": "proposed",
       "channel": "proposed",
       "prerelease": true
+    },
+    {
+      "name": "maintenance/1.x",
+      "range": "1.x",
+      "prerelease": "beta"
     }
   ],
   "dryRun": false,
