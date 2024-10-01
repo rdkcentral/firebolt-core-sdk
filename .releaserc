@@ -19,7 +19,7 @@
       "channel": "proposed",
       "prerelease": true
     },
-    {"name": "patch-release-*", "prerelease": true}
+    {"name": "patch-release-*", "prerelease": false}
   ],
   "dryRun": false,
   "plugins": [
