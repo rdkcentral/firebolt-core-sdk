@@ -22,7 +22,7 @@
     {
       "name": "maintenance/1.x",
       "range": "1.x",
-      "prerelease": "beta"
+      "channel": "beta"
     }
   ],
   "dryRun": false,
