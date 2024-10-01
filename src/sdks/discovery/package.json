@@ -1,6 +1,6 @@
 {
 	"name": "@firebolt-js/discovery-sdk",
-	"version": "1.3.0",
+	"version": "1.3.1-patch-release-1-3-1.1",
 	"description": "The Firebolt Discovery JS SDK",
 	"main": "./dist/lib/firebolt-discovery.mjs",
 	"types": "./dist/lib/firebolt-discovery.d.ts",

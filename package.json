@@ -1,6 +1,6 @@
 {
   "name": "@firebolt-js/sdks",
-  "version": "1.3.0",
+  "version": "1.3.1-patch-release-1-3-1.1",
   "description": "The Firebolt JS SDK",
   "type": "module",
   "bin": {

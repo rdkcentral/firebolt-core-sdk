@@ -1,3 +1,10 @@
+## [1.3.1-patch-release-1-3-1.1](https://github.com/rdkcentral/firebolt-apis/compare/v1.3.0...v1.3.1-patch-release-1-3-1.1) (2024-09-30)
+
+
+### Bug Fixes
+
+* Updated tooling version to revert listener issue ([02246a7](https://github.com/rdkcentral/firebolt-apis/commit/02246a7d678766ad4f0ff0c964873eb0292bb733))
+
 # [1.3.0](https://github.com/rdkcentral/firebolt-apis/compare/v1.2.0...v1.3.0) (2024-08-12)
 
 
