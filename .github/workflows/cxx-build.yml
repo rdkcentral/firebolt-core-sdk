@@ -79,6 +79,7 @@ jobs:
           name: core-sdk
           path: |
             package-lock.json
+            package.json
             dist
             src/sdks/core
 
@@ -88,6 +89,7 @@ jobs:
           name: manage-sdk
           path: |
             package-lock.json
+            package.json
             dist
             src/sdks/manage
 
@@ -97,6 +99,7 @@ jobs:
           name: discovery-sdk
           path: |
             package-lock.json
+            package.json
             dist
             src/sdks/discovery        
 
