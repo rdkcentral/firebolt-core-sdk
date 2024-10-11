@@ -133,8 +133,9 @@ jobs:
       
       - name: Run Tests
         run: |
-          chmod +x /__w/core-sdk/TestFireboltCore
-          /__w/core-sdk/TestFireboltCore
+          cd /__w/core-sdk/
+          chmod +x ./TestFireboltCore
+          ./TestFireboltCore
 
   manage_sdk:
     name: Build Manage SDK
