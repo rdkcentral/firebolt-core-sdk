@@ -288,6 +288,10 @@ function buildCPPSDK() {
   sed -i -e 's/prefix=/prefix /g' build.sh
 
   ./build.sh -s "/__w/thunder/install/" || exit 9999
+
+  cd test/
+  chmod +x ./build.sh
+  ./build.sh -f "/__w/${sdk_name}-sdk/data/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}/build/Firebolt" -s "/__w/thunder/install/"
 }
 
 # Check argument and call corresponding function

@@ -1,6 +1,9 @@
 name: CXX build
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - 'feature/cxx-build-workflow-testing'
   pull_request:
     branches:
       - 'main'
