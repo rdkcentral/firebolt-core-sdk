@@ -136,8 +136,7 @@ jobs:
       
       - name: Run Tests
         run: |
-          chmod +x /__w/core-sdk/TestFireboltCore
-          /__w/core-sdk/TestFireboltCore
+          LD_LIBRARY_PATH=/__w/thunder/install/usr/lib/ /__w/core-sdk/TestFireboltCore -u "ws://localhost:9998"
 
   manage_sdk:
     name: Build Manage SDK
