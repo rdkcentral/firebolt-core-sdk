@@ -78,7 +78,7 @@ jobs:
         with:
           name: core-sdk
           path: |
-            package.json
+            package-lock.json
             dist
             src/sdks/core
 
@@ -87,7 +87,7 @@ jobs:
         with:
           name: manage-sdk
           path: |
-            package.json
+            package-lock.json
             dist
             src/sdks/manage
 
@@ -96,7 +96,7 @@ jobs:
         with:
           name: discovery-sdk
           path: |
-            package.json
+            package-lock.json
             dist
             src/sdks/discovery        
 
@@ -133,9 +133,8 @@ jobs:
       
       - name: Run Tests
         run: |
-          cd /__w/core-sdk/
-          chmod +x ./TestFireboltCore
-          ./TestFireboltCore
+          chmod +x /__w/core-sdk/TestFireboltCore
+          /__w/core-sdk/TestFireboltCore
 
   manage_sdk:
     name: Build Manage SDK
