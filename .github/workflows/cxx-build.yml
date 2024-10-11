@@ -125,7 +125,7 @@ jobs:
       - name: Install npm dependencies
         run: |
           cd /__w/core-sdk/
-          npm install
+          npm ci
 
       - name: Build CXX Core SDK 
         run: |
@@ -159,7 +159,7 @@ jobs:
       - name: Install npm dependencies
         run: |
           cd /__w/manage-sdk/
-          npm install
+          npm ci
 
       - name: Build CXX manage SDK 
         run: |
@@ -190,7 +190,7 @@ jobs:
       - name: Install npm dependencies
         run: |
           cd /__w/discovery-sdk/
-          npm install
+          npm ci
 
       - name: Build CXX Discovery SDK 
         run: |
