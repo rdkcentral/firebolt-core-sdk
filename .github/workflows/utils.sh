@@ -1,6 +1,13 @@
 #!/bin/bash
 set -o pipefail
 
+FIREBOLT_VERSION=1.0.0-next.0
+current_apis_dir=$(pwd)
+
+cd ..
+current_dir=$(pwd)
+cd $current_apis_dir
+
 function runTests(){
   echo "Clone firebolt-apis repo with pr branch"
   PR_BRANCH=$(echo "$EVENT_NAME" | tr '[:upper:]' '[:lower:]')
@@ -36,12 +43,7 @@ function runTests(){
   echo "clone fca repo and start it in the background"
   git clone --branch main https://github.com/rdkcentral/firebolt-certification-app.git
   cd firebolt-certification-app
-  echo "Updating Core SDK dependency"
   jq '.dependencies["@firebolt-js/sdk"] = "file:../firebolt-apis/src/sdks/core"' package.json > package.json.tmp && mv package.json.tmp package.json
-  echo "Updating Manage SDK dependency"
-  jq '.dependencies["@firebolt-js/manage-sdk"] = "file:../firebolt-apis/src/sdks/manage"' package.json > package.json.tmp && mv package.json.tmp package.json
-  echo "Updating Discovery SDK dependency"
-  jq '.dependencies["@firebolt-js/discovery-sdk"] = "file:../firebolt-apis/src/sdks/discovery"' package.json > package.json.tmp && mv package.json.tmp package.json
   npm install
   npm start &
   sleep 5s
@@ -152,15 +154,161 @@ function unzipArtifact(){
   echo "Failures=$failures" >> "$GITHUB_ENV"
 }
 
+function generateSource() {
+  echo " ************ Generating CPP SDK Source ************"
+
+  echo "Generating source for Core SDK"
+  cd src/sdks/core
+  npm run cpp
+
+  if [ $? -eq 0 ]
+  then
+        echo "Native Core SDK generated successfully"
+        echo " Core SDK Location"
+        cd build/cpp/src/
+        ls -la
+        echo " ************ Source Generation Completed for Core SDK ************"
+  else
+    echo "Native Core SDK generation failed"
+    exit 1
+  fi
+
+  echo "Generating source for Manage SDK"
+  cd ../../../../manage
+  npm run cpp
+
+  if [ $? -eq 0 ]
+  then
+        echo "Native Manage SDK generated successfully"
+        echo " Manage SDK Location"
+        cd build/cpp/src/
+        ls -la
+        echo " ************ Source Generation Completed for Manage SDK ************"
+  else
+    echo "Native Manage SDK generation failed"
+    exit 1
+  fi
+
+  echo "Generate source for Discovery SDK"
+  cd ../discovery
+  npm run cpp
+
+  if [ $? -eq 0 ]
+  then
+        echo "Native Discovery SDK generated successfully"
+  else
+    echo "Native Discovery SDK generation failed"
+    exit 1
+  fi
+}
+
+function cloneAndInstallThunder() {
+  cd ..
+
+  git clone https://github.com/rdkcentral/Thunder.git
+
+  cd Thunder
+
+  git checkout 283b3d54334010403d85a4e69b3835de23e42331
+
+  cd ..
+
+  git clone https://github.com/rdkcentral/ThunderTools.git
+
+  cd ThunderTools
+
+  git checkout 64b72b5ed491436b0e6bc2327d8a7b0e75ee2870
+
+  cd ..
+
+  echo "current_dir is $current_dir"
+
+  mkdir -p $current_dir/data
+
+  if [ ! -d "$(pwd)/Thunder" ] 
+  then
+      echo "Directory Thunder DOES NOT exist." 
+      exit 9999
+  fi
+
+  if [ ! -d "$(pwd)/ThunderTools" ]
+  then
+      echo "Directory ThunderTools DOES NOT exist."
+      exit 9999
+  fi
+
+  if [ ! -d "$current_dir/firebolt-apis" ]
+  then
+      echo "Directory $current_dir/firebolt-apis DOES NOT exist."
+      exit 9999
+  fi
+
+  cd $current_dir
+
+  [ -d "$current_dir/build" ] && rm -rf $current_dir/build
+
+  echo "Building Thunder";
+
+  cmake -G Ninja -S ThunderTools -B build/ThunderTools -DCMAKE_INSTALL_PREFIX="install/usr" && echo "Tools Setup" || exit 9999
+
+  cmake --build build/ThunderTools --target install && echo "Thunder Tools Build succeeded" || exit 9999
+
+  #-G Ninja is the "Build system generator"
+  #-S is the source path
+  #-B is the output directory
+  cmake -G Ninja -S Thunder -B build/Thunder \
+  -DBUILD_SHARED_LIBS=ON \
+  -DBINDING="127.0.0.1" \
+  -DCMAKE_BUILD_TYPE="Debug" \
+  -DCMAKE_INSTALL_PREFIX="install/usr" \
+  -DCMAKE_MODULE_PATH="${PWD}/install/usr/include/WPEFramework/Modules" \
+  -DDATA_PATH="${PWD}/install/usr/share/WPEFramework" \
+  -DPERSISTENT_PATH="${PWD}/install/var/wpeframework" \
+  -DPORT="55555" \
+  -DPROXYSTUB_PATH="${PWD}/install/usr/lib/wpeframework/proxystubs" \
+  -DSYSTEM_PATH="${PWD}/install/usr/lib/wpeframework/plugins" \
+  -DVOLATILE_PATH="tmp" && echo "Thunder configure succeeded" || exit 9999
+
+  cmake --build build/Thunder --target install && echo "Thunder Build succeeded" || exit 9999
+}
+
+function buildCPPSDK() {
+  local sdk_name=$1
+  
+  echo " ************ Build ${sdk_name^} CPP SDK ************"
+  
+  FIREBOLT_VERSION=1.3.0-next.1
+  cd /__w/${sdk_name}-sdk/src/sdks/${sdk_name}/
+  npm run cpp
+
+  mkdir -p /__w/${sdk_name}-sdk/data
+  tar -zxvf build/cpp/src/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}.tgz -C /__w/${sdk_name}-sdk/data
+  cd /__w/${sdk_name}-sdk/data/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}/
+  chmod +x ./build.sh
+  sed -i -e 's/prefix=/prefix /g' build.sh
+
+  ./build.sh -s "/__w/thunder/install/" || exit 9999
+}
+
 # Check argument and call corresponding function
 if [ "$1" == "runTests" ]; then
-    runTests 
+    runTests
 elif [ "$1" == "getResults" ]; then
     getResults
 elif [ "$1" == "getArtifactData" ]; then
     getArtifactData
 elif [ "$1" == "unzipArtifact" ]; then
     unzipArtifact
+elif [ "$1" == "generateSource" ]; then
+    generateSource
+elif [ "$1" == "cloneAndInstallThunder" ]; then
+    cloneAndInstallThunder
+elif [ "$1" == "buildCoreCPPSDK" ]; then
+    buildCPPSDK "core"
+elif [ "$1" == "buildManageCPPSDK" ]; then
+    buildCPPSDK "manage"
+elif [ "$1" == "buildDiscoveryCPPSDK" ]; then
+    buildCPPSDK "discovery"
 else
     echo "Invalid function specified."
     exit 1
