@@ -130,6 +130,9 @@ jobs:
       - name: Build CXX Core SDK 
         run: |
           .github/workflows/utils.sh buildCoreCPPSDK
+      
+      - name: Run Tests
+        run: /__w/core-sdk/TestFireboltCore
 
   manage_sdk:
     name: Build Manage SDK

@@ -292,6 +292,8 @@ function buildCPPSDK() {
   cd test/
   chmod +x ./build.sh
   ./build.sh -f "/__w/${sdk_name}-sdk/data/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}/build/Firebolt" -s "/__w/thunder/install/"
+
+  cp -f /__w/${sdk_name}-sdk/data/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}/test/build/TestFireboltCore /__w/${sdk_name}-sdk/
 }
 
 # Check argument and call corresponding function
