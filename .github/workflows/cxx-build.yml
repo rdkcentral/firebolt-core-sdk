@@ -132,7 +132,9 @@ jobs:
           .github/workflows/utils.sh buildCoreCPPSDK
       
       - name: Run Tests
-        run: /__w/core-sdk/TestFireboltCore
+        run: |
+        chmod +x /__w/core-sdk/TestFireboltCore
+        /__w/core-sdk/TestFireboltCore
 
   manage_sdk:
     name: Build Manage SDK
