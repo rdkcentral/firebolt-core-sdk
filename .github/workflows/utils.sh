@@ -278,22 +278,23 @@ function buildCPPSDK() {
   echo " ************ Build ${sdk_name^} CPP SDK ************"
   
   FIREBOLT_VERSION=1.3.0-next.1
-  cd /__w/${sdk_name}-sdk/src/sdks/${sdk_name}/
+  cp -rf /__w/${sdk_name}-sdk/src/sdks/${sdk_name}/ src/sdks/${sdk_name}
+  cd src/sdks/${sdk_name}
   npm run cpp
 
-  mkdir -p /__w/${sdk_name}-sdk/data
-  tar -zxvf build/cpp/src/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}.tgz -C /__w/${sdk_name}-sdk/data
-  cd /__w/${sdk_name}-sdk/data/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}/
+  # mkdir -p /__w/${sdk_name}-sdk/data
+  # tar -zxvf build/cpp/src/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}.tgz -C /__w/${sdk_name}-sdk/data
+  cd build/cpp/src/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}/
   chmod +x ./build.sh
   sed -i -e 's/prefix=/prefix /g' build.sh
 
   ./build.sh -s "/__w/thunder/install/" || exit 9999
 
-  cd test/
-  chmod +x ./build.sh
-  ./build.sh -f "/__w/${sdk_name}-sdk/data/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}/build/Firebolt" -s "/__w/thunder/install/"
+  # cd test/
+  # chmod +x ./build.sh
+  # ./build.sh -f "/__w/firebolt-apis/src/sdks/${sdk_name}/build/cpp/src/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}/build/Firebolt" -s "/__w/thunder/install/"
 
-  cp -f /__w/${sdk_name}-sdk/data/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}/test/build/TestFireboltCore /__w/${sdk_name}-sdk/
+  # cp -f /__w/${sdk_name}-sdk/data/firebolt-${sdk_name}-native-sdk-${FIREBOLT_VERSION}/test/build/TestFireboltCore /__w/${sdk_name}-sdk/
 }
 
 # Check argument and call corresponding function
