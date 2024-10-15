@@ -278,7 +278,7 @@ function buildCPPSDK() {
   echo " ************ Build ${sdk_name^} CPP SDK ************"
   
   FIREBOLT_VERSION=1.3.0-next.1
-  cp -rf /__w/${sdk_name}-sdk/src/sdks/${sdk_name}/ src/sdks/${sdk_name}
+  cp -rf /__w/${sdk_name}-sdk/src/sdks/${sdk_name}/ src/sdks/
   cd src/sdks/${sdk_name}
   npm run cpp
 
