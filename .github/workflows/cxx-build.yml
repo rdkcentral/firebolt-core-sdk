@@ -126,9 +126,9 @@ jobs:
           path: /__w/thunder/install/
 
       - name: Install npm dependencies
-        run: |
+        run: npm ci
 # cd /__w/core-sdk/
-          npm ci
+          
 
   #     - name: Build CXX Core SDK 
   #       run: |
