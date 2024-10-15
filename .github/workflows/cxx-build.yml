@@ -130,19 +130,17 @@ jobs:
         with:
           path: ~/.npm
           key: deps-node-modules-${{ hashFiles('package-lock.json') }}
-          
+
       - name: Install npm dependencies
         run: npm ci
-# cd /__w/core-sdk/
-          
-
-  #     - name: Build CXX Core SDK 
-  #       run: |
-  #         .github/workflows/utils.sh buildCoreCPPSDK
+       
+      - name: Build CXX Core SDK 
+        run: |
+          .github/workflows/utils.sh buildCoreCPPSDK
       
-  #     - name: Run Tests
-  #       run: |
-  #         LD_LIBRARY_PATH=/__w/thunder/install/usr/lib/ /__w/core-sdk/TestFireboltCore -u "ws://localhost:9998"
+      - name: Run Tests
+        run: |
+          LD_LIBRARY_PATH=/__w/thunder/install/usr/lib/ /__w/core-sdk/TestFireboltCore -u "ws://localhost:9998"
 
   # manage_sdk:
   #   name: Build Manage SDK
