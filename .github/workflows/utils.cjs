@@ -34,8 +34,8 @@ async function createComment(github, context) {
     const { issue_number, Passes, Failures, Pending, Skipped, ARTIFACT_URL, JOB_PATH } = process.env;
 
     const body = `
-        Core SDK - MFOS standalone sanity report:
-        Passes - ${Passes} Failures - ${Failures} Pending - ${Pending} Skipped - ${Skipped}
+        MFOS standalone sanity report - CORE,MANAGE,DISCOVERY:
+        Total Passes - ${Passes} Failures - ${Failures} Pending - ${Pending} Skipped - ${Skipped}
         Report JSON/HTML Files: ${ARTIFACT_URL}
         Job Logs: ${JOB_PATH}
     `;

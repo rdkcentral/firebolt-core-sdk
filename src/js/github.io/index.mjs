@@ -95,6 +95,8 @@ packageJson.workspaces.forEach(async workspace => {
 const specification = await readJson(path.join('dist', 'firebolt-specification.json'))
 const openrpc = await readJson(path.join('dist', 'firebolt-open-rpc.json'))
 const corerpc = await readJson(path.join('dist', 'firebolt-core-open-rpc.json'))
+const managerpc = await readJson(path.join('dist', 'firebolt-manage-open-rpc.json'))
+const discoveryrpc = await readJson(path.join('dist', 'firebolt-discovery-open-rpc.json'))
 
 const capabilities = () => {
     const getOrCreateCapMethodList = (capabilities, c) => capabilities[c] = capabilities[c] || { uses: [], manages: [], provides: [] }
@@ -168,6 +170,24 @@ if (version === 'latest') {
 writeJson(path.join(parsedArgs.output, 'requirements', version, 'specifications', 'firebolt-open-rpc.json'), openrpc)
 if (version === 'latest') {
     writeJson(path.join(parsedArgs.output, 'requirements', packageJson.version, 'specifications', 'firebolt-open-rpc.json'), openrpc)
+}
+
+// this is the firebolt Core OpenRPC spec JSON
+writeJson(path.join(parsedArgs.output, 'requirements', version, 'specifications', 'firebolt-core-open-rpc.json'), corerpc)
+if (version === 'latest') {
+    writeJson(path.join(parsedArgs.output, 'requirements', packageJson.version, 'specifications', 'firebolt-core-open-rpc.json'), corerpc)
+}
+
+// this is the firebolt Manage OpenRPC spec JSON
+writeJson(path.join(parsedArgs.output, 'requirements', version, 'specifications', 'firebolt-manage-open-rpc.json'), managerpc)
+if (version === 'latest') {
+    writeJson(path.join(parsedArgs.output, 'requirements', packageJson.version, 'specifications', 'firebolt-manage-open-rpc.json'), managerpc)
+}
+
+// this is the firebolt Discovery OpenRPC spec JSON
+writeJson(path.join(parsedArgs.output, 'requirements', version, 'specifications', 'firebolt-discovery-open-rpc.json'), discoveryrpc)
+if (version === 'latest') {
+    writeJson(path.join(parsedArgs.output, 'requirements', packageJson.version, 'specifications', 'firebolt-discovery-open-rpc.json'), discoveryrpc)
 }
 
 function channel(version) {

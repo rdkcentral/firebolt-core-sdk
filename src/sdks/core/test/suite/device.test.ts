@@ -112,17 +112,17 @@ test("Device.make()", () => {
 });
 
 test("Device.hdcp()", () => {
-  const expectedOutput: Device.BooleanMap = {
+  const expectedOutput: Device.HDCPVersionMap = {
     "hdcp1.4": true,
     "hdcp2.2": true,
   };
-  return Device.hdcp().then((res: Device.BooleanMap) => {
+  return Device.hdcp().then((res: Device.HDCPVersionMap) => {
     expect(res).toEqual(expectedOutput);
   });
 });
 
 test("Device.hdcp(subscriber)", () => {
-  return Device.hdcp((supportedHdrProfiles: Device.BooleanMap) => {}).then(
+  return Device.hdcp((supportedHdrProfiles: Device.HDCPVersionMap) => {}).then(
     (res: number) => {
       expect(res > 0).toBe(true);
     }

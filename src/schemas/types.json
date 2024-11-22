@@ -36,9 +36,7 @@
             "enum": [
                 "stereo",
                 "dolbyDigital5.1",
-                "dolbyDigital7.1",
                 "dolbyDigital5.1+",
-                "dolbyDigital7.1+",
                 "dolbyAtmos"
             ]
         },

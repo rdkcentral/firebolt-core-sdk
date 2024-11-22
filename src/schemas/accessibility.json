@@ -100,8 +100,7 @@
             "title": "ClosedCaptionsSettings",
             "type": "object",
             "required": [
-                "enabled",
-                "styles"
+                "enabled"
             ],
             "properties": {
                 "enabled": {
@@ -152,8 +151,7 @@
             "title": "VoiceGuidanceSettings",
             "type": "object",
             "required": [
-                "enabled",
-                "speed"
+                "enabled"
             ],
             "properties": {
                 "enabled": {

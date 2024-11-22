@@ -18,6 +18,7 @@
 
 #include <unistd.h>
 #include <cstring>
+#include <string>
 #include "ManageSDKTest.h"
 
 using namespace std;
@@ -30,6 +31,7 @@ ManageSDKTest::OnPreferredAudioLanguagesChangedNotification ManageSDKTest::_pref
 ManageSDKTest::OnAllowACRCollectionChangedNotification ManageSDKTest::_allowACRCollectionChangedNotification;
 ManageSDKTest::OnSignInNotification ManageSDKTest::_signInNotification;
 ManageSDKTest::OnSignOutNotification ManageSDKTest::_signOutNotification;
+ManageSDKTest::OnAutoLowLatencyModeCapableChangedNotification ManageSDKTest::_autoLowLatencyModeCapableChangedNotification;
 ManageSDKTest::KeyboardProvider ManageSDKTest::_keyboardProvider;
 ManageSDKTest::AcknowledgeChallengeProvider ManageSDKTest::_acknowledgeChallengeProvider;
 ManageSDKTest::PinChallengeProvider ManageSDKTest::_pinChallengeProvider;
@@ -105,6 +107,7 @@ EnumMap<Firebolt::Advertising::SkipRestriction> skipRestrictionMap = {
     { Firebolt::Advertising::SkipRestriction::ADS_UNWATCHED, "adsUnwatched" },
     { Firebolt::Advertising::SkipRestriction::ADS_ALL, "adsAll" },
     { Firebolt::Advertising::SkipRestriction::ALL, "all" }};
+
 void ManageSDKTest::GetAdvertisingSkipRestriction()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -112,9 +115,11 @@ void ManageSDKTest::GetAdvertisingSkipRestriction()
     if (error == Firebolt::Error::None) {
         cout << "Get Advertising SkipRestriction is success : " << ConvertFromEnum<Firebolt::Advertising::SkipRestriction>(skipRestrictionMap, skipRestriction) << endl;
     } else {
-        cout << "Get Advertising SkipRestriction status: " <<  static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetAdvertisingSkipRestriction failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::SetAdvertisingSkipRestriction()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -122,17 +127,18 @@ void ManageSDKTest::SetAdvertisingSkipRestriction()
     for (auto skipRestriction : skipRestrictionMap) {
          cout << skipRestriction.second << endl;
     }
-    std::string skipRestriction;
-    cout << "Enter new skipRestriction : ";
-    cin >> skipRestriction;
+    
+    std::string skipRestriction = "none";
 
     Firebolt::IFireboltAccessor::Instance().AdvertisingInterface().setSkipRestriction(ConvertToEnum<Firebolt::Advertising::SkipRestriction>(skipRestrictionMap, skipRestriction), &error);
     if (error == Firebolt::Error::None) {
         cout << "Set Advertising SkipRestriction is success " << endl;
     } else {
-        cout << "Set Advertising SkipRestriction status: " <<  static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SetAdvertisingSkipRestriction failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::ResetAdvertisingIdentifier()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -140,7 +146,8 @@ void ManageSDKTest::ResetAdvertisingIdentifier()
     if (error == Firebolt::Error::None) {
         cout << "Set Advertising Reset Identifier is success " << endl;
     } else {
-        cout << "Set Advertising Reset Identifier status: " <<  static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("ResetAdvertisingIdentifier failed. " + errorMessage);
     }
 }
 
@@ -153,7 +160,8 @@ void ManageSDKTest::SetAccountSession()
     if (error == Firebolt::Error::None) {
         cout << "Set Account Session is success" << endl;
     } else {
-        cout << "Set Account Session status : " <<  static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SetAccountSession failed. " + errorMessage);
     }
 }
 
@@ -164,27 +172,29 @@ void ManageSDKTest::GetAudioDescriptionsEnabled()
     if (error == Firebolt::Error::None) {
         cout << "Get AudioDescriptions Enabled: " << (enabled ? "true" : "false") << endl;
     } else {
-        cout << "Get AudioDescriptions Enabled status: " <<  static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetAudioDescriptionsEnabled failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::SetAudioDescriptionsEnabled()
 {
     Firebolt::Error error = Firebolt::Error::None;
-    std::string strEnabled;
-    cout << "Enter enabled or not (true/false): ";
-    cin >> strEnabled;
-    bool enabled = strEnabled == "true" ? true : false;
+    bool enabled = true;
     Firebolt::IFireboltAccessor::Instance().AudioDescriptionsInterface().setEnabled(enabled, &error);
     if (error == Firebolt::Error::None) {
         cout << "Set AudioDescriptions Enabled: " << endl;
     } else {
-        cout << "Set AudioDescriptions Enabled status: " <<  static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SetAudioDescriptionsEnabled failed. " + errorMessage);
     }
 }
-void ManageSDKTest::OnAudioDescriptionsEnabledChangedNotification::onEnabledChanged( const bool enabled )
+
+void ManageSDKTest::OnAudioDescriptionsEnabledChangedNotification::onEnabledChanged(const bool enabled)
 {
     cout << "AudioDescriptions Enabled changed, new value --> " << (enabled ? "true" : "false") << endl;
 }
+
 void ManageSDKTest::SubscribeAudioDescriptionsEnabledChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -192,9 +202,11 @@ void ManageSDKTest::SubscribeAudioDescriptionsEnabledChanged()
     if (error == Firebolt::Error::None) {
         cout << "Subscribe AudioDescriptions EnabledChange is success" << endl;
     } else {
-        cout << "Subscribe AudioDescriptions EnabledChange status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SubscribeAudioDescriptionsEnabledChanged failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::UnsubscribeAudioDescriptionsEnabledChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -202,7 +214,8 @@ void ManageSDKTest::UnsubscribeAudioDescriptionsEnabledChanged()
     if (error == Firebolt::Error::None) {
         cout << "Unsubscribe AudioDescriptions EnabledChange is success" << endl;
     } else {
-        cout << "Unsubscribe AudioDescriptions EnabledChange status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("UnsubscribeAudioDescriptionsEnabledChanged failed. " + errorMessage);
     }
 }
 
@@ -214,29 +227,30 @@ void ManageSDKTest::GetDeviceName()
     if (error == Firebolt::Error::None) {
         cout << "Get Device Name = " << name.c_str() << endl;
     } else {
-        cout << "Get Device Name status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetDeviceName failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::SetDeviceName()
 {
     Firebolt::Error error = Firebolt::Error::None;
-    std::string name;
-    cout << "Enter new device name :";
-    getchar();
-    getline(cin, name);
+    std::string name = "Kitchen"; 
     Firebolt::IFireboltAccessor::Instance().DeviceInterface().setName(name, &error);
 
     if (error == Firebolt::Error::None) {
-        cout << "Set Device Name is success" << endl;
+        cout << "Set Device Name to " << name << " is success" << endl;
     } else {
-        cout << "Set Device Name status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SetDeviceName failed. " + errorMessage);
     }
-    cin.putback('\n');
 }
-void ManageSDKTest::OnDeviceNameChangedNotification::onDeviceNameChanged( const std::string& name )
+
+void ManageSDKTest::OnDeviceNameChangedNotification::onDeviceNameChanged(const std::string& name)
 {
     cout << "Name changed, new name --> " << name << endl;
 }
+
 void ManageSDKTest::SubscribeDeviceNameChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -244,9 +258,11 @@ void ManageSDKTest::SubscribeDeviceNameChanged()
     if (error == Firebolt::Error::None) {
         cout << "Subscribe Device NameChange is success" << endl;
     } else {
-        cout << "Subscribe Device NameChange status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SubscribeDeviceNameChanged failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::UnsubscribeDeviceNameChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -254,7 +270,8 @@ void ManageSDKTest::UnsubscribeDeviceNameChanged()
     if (error == Firebolt::Error::None) {
         cout << "Unsubscribe Device NameChange is success" << endl;
     } else {
-        cout << "Unsubscribe Device NameChange status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("UnsubscribeDeviceNameChanged failed. " + errorMessage);
     }
 }
 
@@ -266,28 +283,31 @@ void ManageSDKTest::GetClosedCaptionsBackgroundOpacity()
     if (error == Firebolt::Error::None) {
         cout << "Get ClosedCaption BackgroundOpacity = " << value << endl;
     } else {
-        cout << "Get ClosedCaption BackgroundOpacity status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetClosedCaptionsBackgroundOpacity failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::SetClosedCaptionsBackgroundOpacity()
 {
     Firebolt::Error error = Firebolt::Error::None;
-    uint32_t bgOpacity;
-    cout << "Enter new background opacity: ";
-    scanf("%d", &bgOpacity);
+    uint32_t bgOpacity = 1;
 
     Firebolt::IFireboltAccessor::Instance().ClosedCaptionsInterface().setBackgroundOpacity(bgOpacity, &error);
 
     if (error == Firebolt::Error::None) {
-        cout << "Set ClosedCaption BackgroundOpacity is success" << endl;
+        cout << "Set ClosedCaption BackgroundOpacity to " << bgOpacity << " is success" << endl;
     } else {
-        cout << "Set ClosedCaption BackgroundOpacity status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SetClosedCaptionsBackgroundOpacity failed. " + errorMessage);
     }
 }
-void ManageSDKTest::OnBackgroundOpacityChangedNotification::onBackgroundOpacityChanged( const float opacity )
+
+void ManageSDKTest::OnBackgroundOpacityChangedNotification::onBackgroundOpacityChanged(const float opacity)
 {
     cout << "BackgroundOpacity changed, new value --> " << opacity << endl;
 }
+
 void ManageSDKTest::SubscribeClosedCaptionsBackgroundOpacityChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -295,9 +315,11 @@ void ManageSDKTest::SubscribeClosedCaptionsBackgroundOpacityChanged()
     if (error == Firebolt::Error::None) {
         cout << "Subscribe ClosedCaptions BackgroundOpacityChange is success" << endl;
     } else {
-        cout << "Subscribe ClosedCaptions BackgroundOpacityChange status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SubscribeClosedCaptionsBackgroundOpacityChanged failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::UnsubscribeClosedCaptionsBackgroundOpacityChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -305,7 +327,8 @@ void ManageSDKTest::UnsubscribeClosedCaptionsBackgroundOpacityChanged()
     if (error == Firebolt::Error::None) {
         cout << "Unsubscribe ClosedCaptions BackgroundOpacityChange is success" << endl;
     } else {
-        cout << "Unsubscribe ClosedCaptions BackgroundOpacityChange status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("UnsubscribeClosedCaptionsBackgroundOpacityChanged failed. " + errorMessage);
     }
 }
 
@@ -318,6 +341,7 @@ EnumMap<Firebolt::Accessibility::FontFamily> fontFamilyMap = {
     { Firebolt::Accessibility::FontFamily::CURSIVE, "Cursive" },
     { Firebolt::Accessibility::FontFamily::CASUAL, "Casual" }
 };
+
 void ManageSDKTest::GetClosedCaptionsFontFamily()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -326,31 +350,30 @@ void ManageSDKTest::GetClosedCaptionsFontFamily()
     if (error == Firebolt::Error::None) {
         cout << "Get ClosedCaption FontFamily value = " << ConvertFromEnum<Firebolt::Accessibility::FontFamily>(fontFamilyMap, value) << endl;
     } else {
-        cout << "Get ClosedCaption FontFamily status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetClosedCaptionsFontFamily failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::SetClosedCaptionsFontFamily()
 {
     Firebolt::Error error = Firebolt::Error::None;
-    std::string fontFamily;
-    cout << "Supported font family -> " << endl;
-    for (auto family : fontFamilyMap) {
-         cout << family.second << endl;
-    }
-    cout << "Enter new font family : ";
-    cin >> fontFamily;
+    Firebolt::Accessibility::FontFamily fontFamily = Firebolt::Accessibility::FontFamily::MONOSPACED_SERIF;
 
-    Firebolt::IFireboltAccessor::Instance().ClosedCaptionsInterface().setFontFamily(ConvertToEnum<Firebolt::Accessibility::FontFamily>(fontFamilyMap, fontFamily), &error);
+    Firebolt::IFireboltAccessor::Instance().ClosedCaptionsInterface().setFontFamily(fontFamily, &error);
     if (error == Firebolt::Error::None) {
-        cout << "Set ClosedCaption FontFamily is success" << endl;
+        cout << "Set ClosedCaption FontFamily to MonospacedSerif is success" << endl;
     } else {
-        cout << "Set ClosedCaption FontFamily status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SetClosedCaptionsFontFamily failed. " + errorMessage);
     }
 }
-void ManageSDKTest::OnFontFamilyChangedNotification::onFontFamilyChanged( const Firebolt::Accessibility::FontFamily& family )
+
+void ManageSDKTest::OnFontFamilyChangedNotification::onFontFamilyChanged(const Firebolt::Accessibility::FontFamily& family)
 {
     cout << "FontFamily changed, new code --> " << ConvertFromEnum<Firebolt::Accessibility::FontFamily>(fontFamilyMap, family) << endl;
 }
+
 void ManageSDKTest::SubscribeClosedCaptionsFontFamilyChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -358,9 +381,11 @@ void ManageSDKTest::SubscribeClosedCaptionsFontFamilyChanged()
     if (error == Firebolt::Error::None) {
         cout << "Subscribe ClosedCaptions FontFamilyChange is success" << endl;
     } else {
-        cout << "Subscribe ClosedCaptions FontFamilyChange status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SubscribeClosedCaptionsFontFamilyChanged failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::UnsubscribeClosedCaptionsFontFamilyChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -368,7 +393,8 @@ void ManageSDKTest::UnsubscribeClosedCaptionsFontFamilyChanged()
     if (error == Firebolt::Error::None) {
         cout << "Unsubscribe ClosedCaptions FontFamilyChange is success" << endl;
     } else {
-        cout << "Unsubscribe ClosedCaptions FontFamilyChange status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("UnsubscribeClosedCaptionsFontFamilyChanged failed. " + errorMessage);
     }
 }
 
@@ -380,49 +406,37 @@ void ManageSDKTest::GetLocalizationPreferredAudioLanguages()
     if (error == Firebolt::Error::None) {
         cout << "Get Localization PreferredAudioLanguages : " << endl;
         for (auto language: languages) {
-            cout << "----- > " <<language << endl;
+            cout << "----- > " << language << endl;
         }
     } else {
-        cout << "Get Localization PreferredAudioLanguages status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetLocalizationPreferredAudioLanguages failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::SetLocalizationPreferredAudioLanguages()
 {
     Firebolt::Error error = Firebolt::Error::None;
-    const std::vector<std::string> languages = { "ara", "jpn", "hin", "eng", "per", "dut" };
-    cout << "Sample language code --> " << endl;
-    for (auto language : languages) {
-         cout << language << " ";
-    }
-    std::string language;
-    cout << " enter new audio language code to set : ";
-    getchar();
-    getline(cin, language);
+    std::vector<std::string> newLanguages = { "eng" };
 
-    std::vector<std::string> newLanguages;
-    string delimeter = " ";
-    char* token = strtok(const_cast<char*>(language.c_str()), delimeter.c_str());
-    while (token != nullptr)
-    {
-        newLanguages.push_back(string(token));
-        token = strtok(nullptr, delimeter.c_str());
-    }
     Firebolt::IFireboltAccessor::Instance().LocalizationInterface().setPreferredAudioLanguages(newLanguages, &error);
 
     if (error == Firebolt::Error::None) {
-        cout << "Set Localization PreferredAudioLanguages is success" << endl;
+        cout << "Set Localization PreferredAudioLanguages to eng is success" << endl;
     } else {
-        cout << "Get Localization PreferredAudioLanguages status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SetLocalizationPreferredAudioLanguages failed. " + errorMessage);
     }
-    cin.putback('\n');
 }
-void ManageSDKTest::OnPreferredAudioLanguagesChangedNotification::onPreferredAudioLanguagesChanged( const std::vector<std::string>& languages)
+
+void ManageSDKTest::OnPreferredAudioLanguagesChangedNotification::onPreferredAudioLanguagesChanged(const std::vector<std::string>& languages)
 {
     cout << "PreferredAudioLanguages Changed, new languages --> " << endl;
     for (auto language : languages) {
         cout << " -> " << language << endl;
     }
 }
+
 void ManageSDKTest::SubscribeLocalizationPreferredAudioLanguagesChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -430,9 +444,11 @@ void ManageSDKTest::SubscribeLocalizationPreferredAudioLanguagesChanged()
     if (error == Firebolt::Error::None) {
         cout << "Subscribe Localization PreferredAudioLanguagesChange is success" << endl;
     } else {
-        cout << "Subscribe Localization PreferredAudioLanguagesChange status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SubscribeLocalizationPreferredAudioLanguagesChanged failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::UnsubscribeLocalizationPreferredAudioLanguagesChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -440,7 +456,8 @@ void ManageSDKTest::UnsubscribeLocalizationPreferredAudioLanguagesChanged()
     if (error == Firebolt::Error::None) {
         cout << "Unsubscribe Localization PreferredAudioLanguagesChange is success" << endl;
     } else {
-        cout << "Unsubscribe Localization PreferredAudioLanguagesChange status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("UnsubscribeLocalizationPreferredAudioLanguagesChanged failed. " + errorMessage);
     }
 }
 
@@ -452,28 +469,30 @@ void ManageSDKTest::GetPrivacyAllowACRCollection()
     if (error == Firebolt::Error::None) {
         cout << "Get Privacy AllowACRCollection : " << (allowACRCollection ? "true" : "false") << endl;
     } else {
-        cout << "Get Privacy AllowACRCollection status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetPrivacyAllowACRCollection failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::SetPrivacyAllowACRCollection()
 {
     Firebolt::Error error = Firebolt::Error::None;
-    std::string strAllowACRCollection;
-    cout << "Enter new allowACRCollection (true/false): ";
-    cin >> strAllowACRCollection;
-    bool allowACRCollection = strAllowACRCollection == "true" ? true : false;
-    Firebolt::IFireboltAccessor::Instance().PrivacyInterface().setAllowACRCollection(allowACRCollection , &error);
+    bool allowACRCollection = false;
+    Firebolt::IFireboltAccessor::Instance().PrivacyInterface().setAllowACRCollection(allowACRCollection, &error);
 
     if (error == Firebolt::Error::None) {
         cout << "Set Privacy AllowACRCollection is success" << endl;
     } else {
-        cout << "Get Privacy AllowACRCollection status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SetPrivacyAllowACRCollection failed. " + errorMessage);
     }
 }
-void ManageSDKTest::OnAllowACRCollectionChangedNotification::onAllowACRCollectionChanged( const bool allowACRCollection )
+
+void ManageSDKTest::OnAllowACRCollectionChangedNotification::onAllowACRCollectionChanged(const bool allowACRCollection)
 {
     cout << "AllowACRCollection Changed, new value of allowACRCollection : " << (allowACRCollection ? "true" : "false") << endl;
 }
+
 void ManageSDKTest::SubscribePrivacyAllowACRCollectionChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -481,9 +500,11 @@ void ManageSDKTest::SubscribePrivacyAllowACRCollectionChanged()
     if (error == Firebolt::Error::None) {
         cout << "Subscribe Privacy AllowACRCollectionChanged is success" << endl;
     } else {
-        cout << "Subscribe Privacy AllowACRCollectionChanged status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SubscribePrivacyAllowACRCollectionChanged failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::UnsubscribePrivacyAllowACRCollectionChanged()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -491,9 +512,11 @@ void ManageSDKTest::UnsubscribePrivacyAllowACRCollectionChanged()
     if (error == Firebolt::Error::None) {
         cout << "Unsubscribe Privacy AllowACRCollectionChanged is success" << endl;
     } else {
-        cout << "Unsubscribe Privacy AllowACRCollectionChanged status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("UnsubscribePrivacyAllowACRCollectionChanged failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::GetPrivacySettings()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -514,15 +537,16 @@ void ManageSDKTest::GetPrivacySettings()
         cout << "\tallowUnentitledResumePoints : " << privacySettings.allowUnentitledResumePoints << endl;
         cout << "\tallowWatchHistory : " << privacySettings.allowWatchHistory << endl;
     } else {
-        cout << "Get Privacy Settings status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetPrivacySettings failed. " + errorMessage);
     }
-
 }
 
-void ManageSDKTest::OnSignInNotification::onSignIn( const Firebolt::Discovery::Event& event )
+void ManageSDKTest::OnSignInNotification::onSignIn(const Firebolt::Discovery::Event& event)
 {
     cout << "Discovery SignIn Event for appId --> " << event.appId << endl;
 }
+
 void ManageSDKTest::SubscribeDiscoverySignInNotification()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -530,9 +554,11 @@ void ManageSDKTest::SubscribeDiscoverySignInNotification()
     if (error == Firebolt::Error::None) {
         cout << "Subscribe Discovery SignIn Notification is success" << endl;
     } else {
-        cout << "Subscribe Discovery SignIn Notification status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SubscribeDiscoverySignInNotification failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::UnsubscribeDiscoverySignInNotification()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -540,14 +566,16 @@ void ManageSDKTest::UnsubscribeDiscoverySignInNotification()
     if (error == Firebolt::Error::None) {
         cout << "Unsubscribe Discovery SignIn Notification is success" << endl;
     } else {
-        cout << "Unsubscribe Discovery SignIn Notification status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("UnsubscribeDiscoverySignInNotification failed. " + errorMessage);
     }
 }
 
-void ManageSDKTest::OnSignOutNotification::onSignOut( const Firebolt::Discovery::Event& event )
+void ManageSDKTest::OnSignOutNotification::onSignOut(const Firebolt::Discovery::Event& event)
 {
     cout << "Discovery SignOut Event for appId --> " << event.appId << endl;
 }
+
 void ManageSDKTest::SubscribeDiscoverySignOutNotification()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -555,9 +583,11 @@ void ManageSDKTest::SubscribeDiscoverySignOutNotification()
     if (error == Firebolt::Error::None) {
         cout << "Subscribe Discovery SignOut Notification is success" << endl;
     } else {
-        cout << "Subscribe Discovery SignOut Notification status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SubscribeDiscoverySignOutNotification failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::UnsubscribeDiscoverySignOutNotification()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -565,7 +595,8 @@ void ManageSDKTest::UnsubscribeDiscoverySignOutNotification()
     if (error == Firebolt::Error::None) {
         cout << "Unsubscribe Discovery SignOut Notification is success" << endl;
     } else {
-        cout << "Unsubscribe Discovery SignOut Notification status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("UnsubscribeDiscoverySignOutNotification failed. " + errorMessage);
     }
 }
 
@@ -575,6 +606,7 @@ ManageSDKTest::KeyboardProvider::KeyboardProvider()
     , _keyInput(false)
 {
 }
+
 void ManageSDKTest::KeyboardProvider::SendMessage(bool response)
 {
     if (_keyInput) {
@@ -586,9 +618,7 @@ void ManageSDKTest::KeyboardProvider::SendMessage(bool response)
         cout << _parameters.message << " : ";
         getline(cin, key);
         if (response) {
-            Firebolt::Keyboard::KeyboardResult keyboardResult;
-            keyboardResult.text = key;
-            keyboardResult.canceled = false;
+            std::string keyboardResult = key;
             cout << " Invoking _session->result " << endl;
             _session->result(keyboardResult);
         } else {
@@ -605,35 +635,42 @@ void ManageSDKTest::KeyboardProvider::SendMessage(bool response)
         cout << " there is no active keyboard input session " << endl;
     }
 }
+
 void ManageSDKTest::KeyboardProvider::standard(const Firebolt::Keyboard::KeyboardParameters& parameters, std::unique_ptr<Firebolt::Keyboard::IKeyboardSession> session)
 {
     cout << "KeyboardProvider Standard is invoked" << endl;
     startKeyboardSession(parameters, std::move(session));
 }
+
 void ManageSDKTest::KeyboardProvider::password(const Firebolt::Keyboard::KeyboardParameters& parameters, std::unique_ptr<Firebolt::Keyboard::IKeyboardSession> session)
 {
     cout << "KeyboardProvider Password is invoked" << endl;
     startKeyboardSession(parameters, std::move(session));
 }
+
 void ManageSDKTest::KeyboardProvider::email(const Firebolt::Keyboard::KeyboardParameters& parameters, std::unique_ptr<Firebolt::Keyboard::IKeyboardSession> session)
 {
     cout << "KeyboardProvider Email is invoked" << endl;
     startKeyboardSession(parameters, std::move(session));
 }
-void ManageSDKTest::KeyboardProvider::startKeyboardSession( const Firebolt::Keyboard::KeyboardParameters& parameters, std::unique_ptr<Firebolt::Keyboard::IKeyboardSession> session )
+
+void ManageSDKTest::KeyboardProvider::startKeyboardSession(const Firebolt::Keyboard::KeyboardParameters& parameters, std::unique_ptr<Firebolt::Keyboard::IKeyboardSession> session)
 {
     _session = std::move(session);
     _parameters = parameters;
     _keyInput = true;
 }
+
 void ManageSDKTest::RegisterKeyboardProvider()
 {
     Firebolt::IFireboltAccessor::Instance().KeyboardInterface().provide(_keyboardProvider);
 }
+
 void ManageSDKTest::SendResponseMessageToKeyboardProvider()
 {
     _keyboardProvider.SendMessage(true);
 }
+
 void ManageSDKTest::SendErrorMessageToKeyboardProvider()
 {
     _keyboardProvider.SendMessage(false);
@@ -645,6 +682,7 @@ ManageSDKTest::AcknowledgeChallengeProvider::AcknowledgeChallengeProvider()
     , _challengeInput(false)
 {
 }
+
 void ManageSDKTest::AcknowledgeChallengeProvider::SendMessage(bool response)
 {
     if (_challengeInput) {
@@ -674,25 +712,30 @@ void ManageSDKTest::AcknowledgeChallengeProvider::SendMessage(bool response)
         cout << " there is no active acknowledge challenge input session " << endl;
     }
 }
+
 void ManageSDKTest::AcknowledgeChallengeProvider::challenge(const Firebolt::AcknowledgeChallenge::Challenge& parameters, std::unique_ptr<Firebolt::AcknowledgeChallenge::IAcknowledgeChallengeSession> session)
 {
     cout << "AcknowledgeChallengeProvider challenge is invoked" << endl;
     startAcknowledgeChallengeSession(parameters, std::move(session));
 }
-void ManageSDKTest::AcknowledgeChallengeProvider::startAcknowledgeChallengeSession( const Firebolt::AcknowledgeChallenge::Challenge& parameters, std::unique_ptr<Firebolt::AcknowledgeChallenge::IAcknowledgeChallengeSession> session )
+
+void ManageSDKTest::AcknowledgeChallengeProvider::startAcknowledgeChallengeSession(const Firebolt::AcknowledgeChallenge::Challenge& parameters, std::unique_ptr<Firebolt::AcknowledgeChallenge::IAcknowledgeChallengeSession> session)
 {
     _session = std::move(session);
     _parameters = parameters;
     _challengeInput = true;
 }
+
 void ManageSDKTest::RegisterAcknowledgeChallengeProvider()
 {
     Firebolt::IFireboltAccessor::Instance().AcknowledgeChallengeInterface().provide(_acknowledgeChallengeProvider);
 }
+
 void ManageSDKTest::SendResponseMessageToAcknowledgeChallengeProvider()
 {
     _acknowledgeChallengeProvider.SendMessage(true);
 }
+
 void ManageSDKTest::SendErrorMessageToAcknowledgeChallengeProvider()
 {
     _acknowledgeChallengeProvider.SendMessage(false);
@@ -704,6 +747,7 @@ ManageSDKTest::PinChallengeProvider::PinChallengeProvider()
     , _challengeInput(false)
 {
 }
+
 void ManageSDKTest::PinChallengeProvider::SendMessage(bool response)
 {
     if (_challengeInput) {
@@ -738,25 +782,30 @@ void ManageSDKTest::PinChallengeProvider::SendMessage(bool response)
         cout << " there is no active pin challenge input session " << endl;
     }
 }
+
 void ManageSDKTest::PinChallengeProvider::challenge(const Firebolt::PinChallenge::PinChallenge& parameters, std::unique_ptr<Firebolt::PinChallenge::IPinChallengeSession> session)
 {
     cout << "PinChallengeProvider challenge is invoked" << endl;
     startPinChallengeSession(parameters, std::move(session));
 }
-void ManageSDKTest::PinChallengeProvider::startPinChallengeSession( const Firebolt::PinChallenge::PinChallenge& parameters, std::unique_ptr<Firebolt::PinChallenge::IPinChallengeSession> session )
+
+void ManageSDKTest::PinChallengeProvider::startPinChallengeSession(const Firebolt::PinChallenge::PinChallenge& parameters, std::unique_ptr<Firebolt::PinChallenge::IPinChallengeSession> session)
 {
     _session = std::move(session);
     _parameters = parameters;
     _challengeInput = true;
 }
+
 void ManageSDKTest::RegisterPinChallengeProvider()
 {
     Firebolt::IFireboltAccessor::Instance().PinChallengeInterface().provide(_pinChallengeProvider);
 }
+
 void ManageSDKTest::SendResponseMessageToPinChallengeProvider()
 {
     _pinChallengeProvider.SendMessage(true);
 }
+
 void ManageSDKTest::SendErrorMessageToPinChallengeProvider()
 {
     _pinChallengeProvider.SendMessage(false);
@@ -772,59 +821,49 @@ void ManageSDKTest::GetLocalizationAdditionalInfo()
            cout << " " << element.first << " : " <<  element.second << endl;
         }
     } else {
-        cout << "AdditionalInfo call status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetLocalizationAdditionalInfo failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::AddLocalizationAdditionalInfo()
 {
     Firebolt::Error error = Firebolt::Error::None;
-    std::string key;
-    cout << "Enter new key :";
-    getchar();
-    getline(cin, key);
-    std::string value;
-    cout << "Enter new value :";
-    getline(cin, value);
+    std::string key = "testKey";
+    std::string value = "testValue";
 
     Firebolt::IFireboltAccessor::Instance().LocalizationInterface().addAdditionalInfo(key, value, &error);
     if (error == Firebolt::Error::None) {
         cout << "Add AdditionalInfo is success" << endl;
     } else {
-        cout << "Add AdditionalInfo status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("AddLocalizationAdditionalInfo failed. " + errorMessage);
     }
-
-    cin.putback('\n');
 }
+
 void ManageSDKTest::RemoveLocalizationAdditionalInfo()
 {
     Firebolt::Error error = Firebolt::Error::None;
-    std::string key;
-    cout << "Enter key to be removed :";
-    getchar();
-    getline(cin, key);
+    std::string key = "testKey";
 
     Firebolt::IFireboltAccessor::Instance().LocalizationInterface().removeAdditionalInfo(key, &error);
     if (error == Firebolt::Error::None) {
         cout << "Remove AdditionalInfo is success" << endl;
     } else {
-        cout << "Remove AdditionalInfo status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("RemoveLocalizationAdditionalInfo failed. " + errorMessage);
     }
-
-    cin.putback('\n');
 }
 
 void ManageSDKTest::GetUserGrantsPermission()
 {
     Firebolt::Error error = Firebolt::Error::None;
-    cout << "Enter appId :";
-    getchar();
-    std::string appId;
-    getline(cin, appId);
+    std::string appId = "certApp";
 
     std::vector<Firebolt::UserGrants::GrantInfo> grantInfo = Firebolt::IFireboltAccessor::Instance().UserGrantsInterface().app(appId, &error);
     if (error == Firebolt::Error::None) {
         cout << "Get UserGrants Permission is success" << endl;
-	if (grantInfo.size() > 0) {
+        if (grantInfo.size() > 0) {
             cout << "Grant Permission list : " << endl;
             for (auto info : grantInfo) {
                 cout << "GrantState : " << static_cast<int>(info.state) << endl;
@@ -832,69 +871,59 @@ void ManageSDKTest::GetUserGrantsPermission()
                 cout << "Role : " << static_cast<int>(info.role) << endl;
                 cout << "Lifespan : " << static_cast<int>(info.lifespan) << endl;
             }
-	}
+        }
     } else {
-        cout << "Get UserGrants Permission status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetUserGrantsPermission failed. " + errorMessage);
     }
-
-    cin.putback('\n');
 }
+
 void ManageSDKTest::GrantUserGrantsPermission()
 {
     Firebolt::Error error = Firebolt::Error::None;
     Firebolt::UserGrants::GrantModificationOptions grantModificationOptions;
-    cout << "Enter appId :";
-    getchar();
-    std::string appId;
-    getline(cin, appId);
+    std::string appId = "certApp";
     grantModificationOptions.appId = std::make_optional<std::string>(appId);
 
     Firebolt::IFireboltAccessor::Instance().UserGrantsInterface().grant(Firebolt::Capabilities::Role::USE, "xrn:firebolt:capability:device:model", grantModificationOptions, &error);
     if (error == Firebolt::Error::None) {
         cout << "Grant UserGrants Permission is success" << endl;
     } else {
-        cout << "Grant UserGrants Permission status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GrantUserGrantsPermission failed. " + errorMessage);
     }
-
-    cin.putback('\n');
 }
+
 void ManageSDKTest::DenyUserGrantsPermission()
 {
     Firebolt::Error error = Firebolt::Error::None;
     Firebolt::UserGrants::GrantModificationOptions grantModificationOptions;
-    cout << "Enter appId :";
-    getchar();
-    std::string appId;
-    getline(cin, appId);
+    std::string appId = "certApp";
     grantModificationOptions.appId = std::make_optional<std::string>(appId);
 
     Firebolt::IFireboltAccessor::Instance().UserGrantsInterface().deny(Firebolt::Capabilities::Role::USE, "xrn:firebolt:capability:device:model", grantModificationOptions, &error);
     if (error == Firebolt::Error::None) {
         cout << "Deny UserGrants Permission is success" << endl;
     } else {
-        cout << "Deny UserGrants Permission status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("DenyUserGrantsPermission failed. " + errorMessage);
     }
-
-    cin.putback('\n');
 }
+
 void ManageSDKTest::ClearUserGrantsPermission()
 {
     Firebolt::Error error = Firebolt::Error::None;
     Firebolt::UserGrants::GrantModificationOptions grantModificationOptions;
-    cout << "Enter appId :";
-    getchar();
-    std::string appId;
-    getline(cin, appId);
+    std::string appId = "certApp";
     grantModificationOptions.appId = std::make_optional<std::string>(appId);
 
     Firebolt::IFireboltAccessor::Instance().UserGrantsInterface().clear(Firebolt::Capabilities::Role::USE, "xrn:firebolt:capability:device:model", grantModificationOptions, &error);
     if (error == Firebolt::Error::None) {
         cout << "Clear UserGrants Permission is success" << endl;
     } else {
-        cout << "Clear UserGrants Permission status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("ClearUserGrantsPermission failed. " + errorMessage);
     }
-
-    cin.putback('\n');
 }
 
 void PrintAP(const Firebolt::Wifi::AccessPoint ap)
@@ -912,6 +941,7 @@ void PrintAP(const Firebolt::Wifi::AccessPoint ap)
         cout << " Frequency : " << ap.frequency.value() << endl;
     }
 }
+
 void PrintAPList(const Firebolt::Wifi::AccessPointList& apList)
 {
     if (apList.list.has_value()) {
@@ -927,18 +957,21 @@ void PrintAPList(const Firebolt::Wifi::AccessPointList& apList)
         cout << "empty list " << endl;
     }
 }
+
 void ManageSDKTest::WifiScan()
 {
     Firebolt::Error error = Firebolt::Error::None;
-    int32_t timeout = -1;
+    int32_t timeout = 1;
     _apList = Firebolt::IFireboltAccessor::Instance().WifiInterface().scan(timeout, &error);
     if (error == Firebolt::Error::None) {
         cout << "Wifi Scan is success, ";
 	PrintAPList(_apList);
     } else {
-        cout << "Wifi Scan status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("WifiScan failed. " + errorMessage);
     }
 }
+
 void ManageSDKTest::WifiConnect()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -961,12 +994,14 @@ void ManageSDKTest::WifiConnect()
             cout << "Wifi Connect is success, ";
             PrintAP(connectedAP);
         } else {
-            cout << "Wifi Connect status = " << static_cast<int>(error) << endl;
+            std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+            throw std::runtime_error("WifiConnect failed. " + errorMessage);
         }
     } else {
         cout << "Empty AP list, please initiate scan before trying connect " << endl;
     }
 }
+
 void ManageSDKTest::WifiDisconnect()
 {
     Firebolt::Error error = Firebolt::Error::None;
@@ -974,6 +1009,108 @@ void ManageSDKTest::WifiDisconnect()
     if (error == Firebolt::Error::None) {
         cout << "Wifi Disconnect is success, ";
     } else {
-        cout << "Wifi Disconnect status = " << static_cast<int>(error) << endl;
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("WifiDisconnect failed. " + errorMessage);
+    }
+}
+
+void ManageSDKTest::OnAutoLowLatencyModeCapableChangedNotification::onAutoLowLatencyModeCapableChanged( const Firebolt::HDMIInput::AutoLowLatencyModeCapableChangedInfo& info)
+{
+    cout << "Low latency capable changed"  << endl;
+}
+
+void ManageSDKTest::GlobalSubscribeHdmiAutoLowLatencyModeCapableChanged()
+{
+    Firebolt::Error error = Firebolt::Error::None;
+    Firebolt::IFireboltAccessor::Instance().HDMIInputInterface().globalSubscribe(_autoLowLatencyModeCapableChangedNotification, &error);
+    if (error == Firebolt::Error::None) {
+        cout << "Global Subscribe for HDMIInput AutoLowLatencyModeCapable is a success." << endl;
+    } else {
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SubscribeHDMIInputAutoLowLatencyModeCapable failed." + errorMessage);
+    }
+}
+
+void ManageSDKTest::GlobalUnsubscribeHdmiAutoLowLatencyModeCapableChanged()
+{
+    Firebolt::Error error = Firebolt::Error::None;
+    Firebolt::IFireboltAccessor::Instance().HDMIInputInterface().globalUnsubscribe(_autoLowLatencyModeCapableChangedNotification, &error);
+    if (error == Firebolt::Error::None) {
+        cout << "Global Unsubscribe for HDMIInput AutoLowLatencyModeCapable is a success." << endl;
+    } else {
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("UnsubscribeHDMIInputAutoLowLatencyModeCapable failed." + errorMessage);
+    }
+}
+
+void ManageSDKTest::GetAutoLowLatencyModeCapable()
+{
+    Firebolt::Error error = Firebolt::Error::None;
+    std::string port = "HDMI1";
+    bool result = Firebolt::IFireboltAccessor::Instance().HDMIInputInterface().autoLowLatencyModeCapable(port, &error);
+
+    if (error == Firebolt::Error::None) {
+        cout << "GetAutoLowLatencyModeCapable is a success." << endl;
+    } else {
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetAutoLowLatencyModeCapable failed. " + errorMessage);
+    }
+}
+
+void ManageSDKTest::SetAutoLowLatencyModeCapable()
+{
+    Firebolt::Error error = Firebolt::Error::None;
+    std::string port = "HDMI1";
+    bool value = false;
+    Firebolt::IFireboltAccessor::Instance().HDMIInputInterface().setAutoLowLatencyModeCapable(port, value, &error);
+
+    if (error == Firebolt::Error::None) {
+        cout << "SetAutoLowLatencyModeCapable is a success." << endl;
+    } else {
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SetAutoLowLatencyModeCapable failed. " + errorMessage);
+    }
+}
+
+void ManageSDKTest::GetEdidVersion()
+{
+    Firebolt::Error error = Firebolt::Error::None;
+    std::string port = "HDMI1";
+    Firebolt::IFireboltAccessor::Instance().HDMIInputInterface().edidVersion(port, &error);
+
+    if (error == Firebolt::Error::None) {
+        cout << "GetEdidVersion is a success." << endl;
+    } else {
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetEdidVersion failed. " + errorMessage);
+    }
+}
+
+void ManageSDKTest::SetEdidVersion()
+{
+    Firebolt::Error error = Firebolt::Error::None;
+    std::string port = "HDMI1";
+    Firebolt::HDMIInput::EDIDVersion value = Firebolt::HDMIInput::EDIDVersion::V1_4;
+    Firebolt::IFireboltAccessor::Instance().HDMIInputInterface().setEdidVersion(port, value, &error);
+
+    if (error == Firebolt::Error::None) {
+        cout << "SetEdidVersion is a success." << endl;
+    } else {
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("SetEdidVersionfailed. " + errorMessage);
+    }
+}
+
+void ManageSDKTest::GetHdmiPortInfo()
+{
+    Firebolt::Error error = Firebolt::Error::None;
+    std::string portId = "HDMI1";
+    Firebolt::IFireboltAccessor::Instance().HDMIInputInterface().port(portId, &error);
+
+    if (error == Firebolt::Error::None) {
+        cout << "GetHdmiPortInfo is a success." << endl;
+    } else {
+        std::string errorMessage = "Error: " + std::to_string(static_cast<int>(error));
+        throw std::runtime_error("GetHdmiPortInfo failed. " + errorMessage);
     }
 }

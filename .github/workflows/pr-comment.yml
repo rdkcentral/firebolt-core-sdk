@@ -5,7 +5,7 @@ on:
     types:
       - "completed"
     workflows:
-      - "Core SDK - MFOS standalone sanity report"
+      - "MFOS standalone sanity report - CORE,MANAGE,DISCOVERY"
 
 jobs:
   comment-on-pr:
@@ -37,6 +37,7 @@ jobs:
           ./.github/workflows/utils.sh unzipArtifact
 
       - name: Post a Comment
+        if: ${{ env.PR_NUMBER != null && env.PR_NUMBER != '' }}
         uses: actions/github-script@v6
         with:
           script: |

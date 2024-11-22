@@ -48,7 +48,7 @@ const doImport = (source, target, clear=false, report=false) => {
       if (!result.capabilities[capability]) {
           logSuccess(`${report ? 'Missing' : 'Adding'} capability ${capability}.`)
       }
-      result.capabilities[capability] = Object.assign({
+        result.capabilities[capability] = Object.assign({
           level: 'must',
           use: {
               public: uses.includes(capability),
@@ -62,19 +62,19 @@ const doImport = (source, target, clear=false, report=false) => {
               public: provides.includes(capability),
               negotiable: true && provides.includes(capability)
           }
-      }, result.capabilities[capability] || {})
-      if (uses.includes(capability) != result.capabilities[capability].use.public) {
-          logSuccess(` - ${report ? 'Incorrect' : 'Setting'} use.public: ${uses.includes(capability)} for ${capability}.`)
-          result.capabilities[capability].use.public = uses.includes(capability)
-      }
-      if (manages.includes(capability) != result.capabilities[capability].manage.public) {
-          logSuccess(` - ${report ? 'Incorrect' : 'Setting'} manage.public: ${manages.includes(capability)} for ${capability}.`)
-          result.capabilities[capability].manage.public = manages.includes(capability)
-      }
-      if (provides.includes(capability) != result.capabilities[capability].provide.public) {
-          logSuccess(` - ${report ? 'Incorrect' : 'Setting'} provides.public: ${provides.includes(capability)} for ${capability}.`)
-          result.capabilities[capability].provide.public = provides.includes(capability)
-      }
+        }, result.capabilities[capability] || {})
+        if (uses.includes(capability) != result.capabilities[capability].use.public) {
+            logSuccess(` - ${report ? 'Incorrect' : 'Setting'} use.public: ${uses.includes(capability)} for ${capability}.`)
+            result.capabilities[capability].use.public = uses.includes(capability)
+        }
+        if (manages.includes(capability) != result.capabilities[capability].manage.public) {
+            logSuccess(` - ${report ? 'Incorrect' : 'Setting'} manage.public: ${manages.includes(capability)} for ${capability}.`)
+            result.capabilities[capability].manage.public = manages.includes(capability)
+        }
+        if (provides.includes(capability) != result.capabilities[capability].provide.public) {
+            logSuccess(` - ${report ? 'Incorrect' : 'Setting'} provides.public: ${provides.includes(capability)} for ${capability}.`)
+            result.capabilities[capability].provide.public = provides.includes(capability)
+        }
     })
 
     Object.keys(result.capabilities).forEach(cap => {
@@ -117,6 +117,13 @@ const doImport = (source, target, clear=false, report=false) => {
         unused.forEach(c => logSuccess(' - ' + c))
     }
 
+    const caps = result.capabilities
+    result.capabilities = {}
+    //.filter(([_, c]) => c.level != "could")
+    Object.entries(caps).sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0).forEach(([key, value]) => {
+        result.capabilities[key] = value
+    })
+
     return result
 }
 
@@ -127,11 +134,11 @@ const run = async(version, parsedArgs) => {
     if (parsedArgs.report) {
         report = true
     }
-    
+
     console.log()
     logHeader(`Adding OpenRPC Capabilities`)
     
-    return doImport(rpc, version, false, report)    
+    return doImport(rpc, version, false, report)
 }
 
 export default run

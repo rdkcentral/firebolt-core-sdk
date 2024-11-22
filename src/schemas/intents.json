@@ -609,10 +609,16 @@
                             "properties": {
                                 "query": {
                                     "type": "string"
+                                },
+                                "suggestions": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "https://meta.comcast.com/firebolt/entity#/definitions/Entity"
+                                    }
                                 }
                             },
                             "additionalProperties": false
-                        }
+                        }   
                     }
                 }
             ],

@@ -45,7 +45,7 @@
     [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md", "package.json", "package-lock.json", "npm-shrinkwrap.json", "src/sdks/core/package.json", "src/sdks/manage/package.json"]
+        "assets": ["CHANGELOG.md", "package.json", "package-lock.json", "npm-shrinkwrap.json", "src/sdks/core/package.json", "src/sdks/manage/package.json", "src/sdks/discovery/package.json"]
       }
     ],
     [

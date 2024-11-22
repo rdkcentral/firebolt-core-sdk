@@ -430,553 +430,553 @@
 				},
         {
           "name": "deprecated"
-        }        
-			],
-			"summary": "Provide a list of purchased content for the authenticated account, such as rentals and electronic sell through purchases.",
-			"params": [
-				{
-					"name": "correlationId",
-					"required": true,
-					"schema": {
-						"type": [
-							"string",
-							"null"
-						]
-					}
-				},
-				{
-					"name": "result",
-					"required": true,
-					"schema": {
-						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/discovery#/definitions/PurchasedContentResult"
-					},
-					"summary": "The data for the purachasedContent"
-				}
-			],
-			"result": {
-				"name": "success",
-				"summary": "True if the push operation is successful",
-				"schema": {
-					"type": "boolean"
-				}
-			},
-			"examples": [
-				{
-					"name": "Inform the platform of the user's purchased content",
-					"params": [
-						{
-							"name": "correlationId",
-							"value": null
-						},
-						{
-							"name": "result",
-							"value": {
-								"totalCount": 10,
-								"expires": "2025-01-01T00:00:00.000Z",
-								"entries": [
-									{
-										"identifiers": {
-											"entityId": "345"
-										},
-										"entityType": "program",
-										"programType": "movie",
-										"title": "Cool Runnings",
-										"synopsis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar sapien et ligula ullamcorper malesuada proin libero nunc.",
-										"releaseDate": "1993-01-01T00:00:00.000Z",
-										"contentRatings": [
-											{
-												"scheme": "US-Movie",
-												"rating": "PG"
-											},
-											{
-												"scheme": "CA-Movie",
-												"rating": "G"
-											}
-										],
-										"waysToWatch": [
-											{
-												"identifiers": {
-													"assetId": "123"
-												},
-												"expires": "2025-01-01T00:00:00.000Z",
-												"entitled": true,
-												"entitledExpires": "2025-01-01T00:00:00.000Z",
-												"offeringType": "buy",
-												"price": 2.99,
-												"videoQuality": [
-													"UHD"
-												],
-												"audioProfile": [
-													"dolbyAtmos"
-												],
-												"audioLanguages": [
-													"en"
-												],
-												"closedCaptions": [
-													"en"
-												],
-												"subtitles": [
-													"es"
-												],
-												"audioDescriptions": [
-													"en"
-												]
-											}
-										]
-									}
-								]
-							}
-						}
-					],
-					"result": {
-						"name": "success",
-						"value": true
-					}
-				}
-			],
-			"description": "Return content purchased by the user, such as rentals and electronic sell through purchases.\n\nThe app should return the user's 100 most recent purchases in `entries`. The total count of purchases must be provided in `count`. If `count` is greater than the total number of `entries`, the UI may provide a link into the app to see the complete purchase list.\n\nThe `EntityInfo` object returned is not required to have `waysToWatch` populated, but it is recommended that it do so in case the UI wants to surface additional information on the purchases screen.\n\nThe app should implement both Push and Pull methods for `purchasedContent`.\n\nThe app should actively push `purchasedContent` when:\n\n*  The app becomes Active.\n*  When the state of the purchasedContent set has changed.\n*  The app goes into Inactive or Background state, if there is a chance a change event has been missed."
-		},
-		{
-			"name": "watched",
-			"summary": "Notify the platform that content was partially or completely watched",
-			"tags": [
-				{
-					"name": "polymorphic-reducer"
-				},
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:discovery:watched"
-					]
-				}
-			],
-			"params": [
-				{
-					"name": "entityId",
-					"required": true,
-					"schema": {
-						"type": "string"
-					},
-					"summary": "The entity Id of the watched content."
-				},
-				{
-					"name": "progress",
-					"summary": "How much of the content has been watched (percentage as 0-1 for VOD, number of seconds for live)",
-					"schema": {
-						"type": "number",
-						"minimum": 0
-					}
-				},
-				{
-					"name": "completed",
-					"summary": "Whether or not this viewing is considered \"complete,\" per the app's definition thereof",
-					"schema": {
-						"type": "boolean"
-					}
-				},
-				{
-					"name": "watchedOn",
-					"summary": "Date/Time the content was watched, ISO 8601 Date/Time",
-					"schema": {
-						"type": "string",
-						"format": "date-time"
-					}
-				}
-			],
-			"result": {
-				"name": "success",
-				"summary": "whether the call was successful or not",
-				"schema": {
-					"type": "boolean"
-				}
-			},
-			"examples": [
-				{
-					"name": "Notifying the platform of watched content",
-					"params": [
-						{
-							"name": "entityId",
-							"value": "partner.com/entity/123"
-						},
-						{
-							"name": "progress",
-							"value": 0.95
-						},
-						{
-							"name": "completed",
-							"value": true
-						},
-						{
-							"name": "watchedOn",
-							"value": "2021-04-23T18:25:43.511Z"
-						}
-					],
-					"result": {
-						"name": "success",
-						"value": true
-					}
-				}
-			]
-		},
-		{
-			"name": "watchNext",
-			"summary": "Suggest a call-to-action for this app on the platform home screen",
-			"tags": [
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:discovery:watch-next"
-					]
-				}
-			],
-			"params": [
-				{
-					"name": "title",
-					"summary": "The title of this call to action",
-					"schema": {
-						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/LocalizedString"
-					},
-					"required": true
-				},
-				{
-					"name": "identifiers",
-					"summary": "A set of content identifiers for this call to action",
-					"schema": {
-						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/entertainment#/definitions/ContentIdentifiers"
-					},
-					"required": true
-				},
-				{
-					"name": "expires",
-					"summary": "When this call to action should no longer be presented to users",
-					"schema": {
-						"type": "string",
-						"format": "date-time"
-					}
-				},
-				{
-					"name": "images",
-					"summary": "A set of images for this call to action",
-					"schema": {
-						"type": "object",
-						"patternProperties": {
-							"^.*$": {
-								"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/LocalizedString"
-							}
-						}
-					}
-				}
-			],
-			"result": {
-				"name": "success",
-				"summary": "whether the call was successful or not",
-				"schema": {
-					"type": "boolean"
-				}
-			},
-			"examples": [
-				{
-					"name": "Suggest a watch-next tile for the home screen",
-					"params": [
-						{
-							"name": "title",
-							"value": "A Cool Show"
-						},
-						{
-							"name": "identifiers",
-							"value": {
-								"entityId": "partner.com/entity/123"
-							}
-						},
-						{
-							"name": "expires",
-							"value": "2021-04-23T18:25:43.511Z"
-						},
-						{
-							"name": "images",
-							"value": {
-								"3x4": {
-									"en-US": "https://i.ytimg.com/vi/4r7wHMg5Yjg/maxresdefault.jpg",
-									"es": "https://i.ytimg.com/vi/4r7wHMg5Yjg/maxresdefault.jpg"
-								},
-								"16x9": {
-									"en": "https://i.ytimg.com/vi/4r7wHMg5Yjg/maxresdefault.jpg"
-								}
-							}
-						}
-					],
-					"result": {
-						"name": "success",
-						"value": true
-					}
-				},
-				{
-					"name": "Suggest a watch-next tile for the home screen",
-					"params": [
-						{
-							"name": "title",
-							"value": "A Fantastic Show"
-						},
-						{
-							"name": "identifiers",
-							"value": {
-								"entityId": "partner.com/entity/456"
-							}
-						}
-					],
-					"result": {
-						"name": "success",
-						"value": true
-					}
-				}
-			]
-		},
-		{
-			"name": "entitlements",
-			"tags": [
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:discovery:content-access"
-					]
-				},
-				{
-					"name": "deprecated",
-					"x-since": "0.10.0",
-					"x-alternative": "Discovery.contentAccess()"
-				}
-			],
-			"summary": "Inform the platform of the users latest entitlements w/in this app.",
-			"params": [
-				{
-					"name": "entitlements",
-					"summary": "Array of entitlement objects",
-					"schema": {
-						"type": "array",
-						"items": {
-							"$ref": "https://meta.rdkcentral.com/firebolt/schemas/entertainment#/definitions/Entitlement"
-						}
-					},
-					"required": true
-				}
-			],
-			"result": {
-				"name": "success",
-				"summary": "whether the call was successful or not",
-				"schema": {
-					"type": "boolean"
-				}
-			},
-			"examples": [
-				{
-					"name": "Update user's entitlements",
-					"params": [
-						{
-							"name": "entitlements",
-							"value": [
-								{
-									"entitlementId": "partner.com/entitlement/123",
-									"startTime": "2021-04-23T18:25:43.511Z",
-									"endTime": "2021-04-23T18:25:43.511Z"
-								},
-								{
-									"entitlementId": "partner.com/entitlement/456",
-									"startTime": "2021-04-23T18:25:43.511Z",
-									"endTime": "2021-04-23T18:25:43.511Z"
-								}
-							]
-						}
-					],
-					"result": {
-						"name": "success",
-						"value": true
-					}
-				}
-			]
-		},
-		{
-			"name": "contentAccess",
-			"summary": "Inform the platform of what content the user can access either by discovering it or consuming it. Availabilities determine which content is discoverable to a user, while entitlements determine if the user can currently consume that content. Content can be available but not entitled, this means that user can see the content but when they try to open it they must gain an entitlement either through purchase or subscription upgrade. In case the access changed off-device, this API should be called any time the app comes to the foreground to refresh the access. This API should also be called any time the availabilities or entitlements change within the app for any reason. Typical reasons may include the user signing into an account or upgrading a subscription. Less common cases can cause availabilities to change, such as moving to a new service location. When availabilities or entitlements are removed from the subscriber (such as when the user signs out), then an empty array should be given. To clear both, use the Discovery.clearContentAccess convenience API.",
-			"tags": [
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:discovery:content-access"
-					]
-				}
-			],
-			"params": [
-				{
-					"name": "ids",
-					"summary": "A list of identifiers that represent content that is discoverable or consumable for the subscriber",
-					"schema": {
-						"$ref": "#/components/schemas/ContentAccessIdentifiers"
-					},
-					"required": true
-				}
-			],
-			"result": {
-				"name": "result",
-				"schema": {
-					"const": null
-				}
-			},
-			"examples": [
-				{
-					"name": "Update subscriber's availabilities",
-					"params": [
-						{
-							"name": "ids",
-							"value": {
-								"availabilities": [
-									{
-										"type": "channel-lineup",
-										"id": "partner.com/availability/123",
-										"startTime": "2021-04-23T18:25:43.511Z",
-										"endTime": "2021-04-23T18:25:43.511Z"
-									},
-									{
-										"type": "channel-lineup",
-										"id": "partner.com/availability/456",
-										"startTime": "2021-04-23T18:25:43.511Z",
-										"endTime": "2021-04-23T18:25:43.511Z"
-									}
-								]
-							}
-						}
-					],
-					"result": {
-						"name": "result",
-						"value": null
-					}
-				},
-				{
-					"name": "Update subscriber's availabilities and entitlements",
-					"params": [
-						{
-							"name": "ids",
-							"value": {
-								"availabilities": [
-									{
-										"type": "channel-lineup",
-										"id": "partner.com/availability/123",
-										"startTime": "2021-04-23T18:25:43.511Z",
-										"endTime": "2021-04-23T18:25:43.511Z"
-									},
-									{
-										"type": "channel-lineup",
-										"id": "partner.com/availability/456",
-										"startTime": "2021-04-23T18:25:43.511Z",
-										"endTime": "2021-04-23T18:25:43.511Z"
-									}
-								],
-								"entitlements": [
-									{
-										"entitlementId": "123",
-										"startTime": "2025-01-01T00:00:00.000Z",
-										"endTime": "2025-01-01T00:00:00.000Z"
-									}
-								]
-							}
-						}
-					],
-					"result": {
-						"name": "result",
-						"value": null
-					}
-				},
-				{
-					"name": "Update subscriber's entitlements",
-					"params": [
-						{
-							"name": "ids",
-							"value": {
-								"entitlements": [
-									{
-										"entitlementId": "123",
-										"startTime": "2025-01-01T00:00:00.000Z",
-										"endTime": "2025-01-01T00:00:00.000Z"
-									}
-								]
-							}
-						}
-					],
-					"result": {
-						"name": "result",
-						"value": null
-					}
-				},
-				{
-					"name": "Clear a subscriber's entitlements",
-					"params": [
-						{
-							"name": "ids",
-							"value": {
-								"entitlements": []
-							}
-						}
-					],
-					"result": {
-						"name": "result",
-						"value": null
-					}
-				},
-				{
-					"name": "Clear a subscriber's availabilities",
-					"params": [
-						{
-							"name": "ids",
-							"value": {
-								"availabilities": []
-							}
-						}
-					],
-					"result": {
-						"name": "result",
-						"value": null
-					}
-				}
-			]
-		},
-		{
-			"name": "clearContentAccess",
-			"summary": "Clear both availabilities and entitlements from the subscriber. This is equivalent of calling `Discovery.contentAccess({ availabilities: [], entitlements: []})`. This is typically called when the user signs out of an account.",
-			"tags": [
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:discovery:content-access"
-					]
-				}
-			],
-			"params": [],
-			"result": {
-				"name": "result",
-				"schema": {
-					"const": null
-				}
-			},
-			"examples": [
-				{
-					"name": "Clear subscriber's availabilities and entitlements",
-					"params": [],
-					"result": {
-						"name": "result",
-						"value": null
-					}
-				}
-			]
-		},
-		{
-			"name": "launch",
-			"tags": [
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:lifecycle:launch"
-					]
-				}
-			],
+        }
+      ],
+      "summary": "Provide a list of purchased content for the authenticated account, such as rentals and electronic sell through purchases.",
+      "params": [
+        {
+          "name": "correlationId",
+          "required": true,
+          "schema": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        {
+          "name": "result",
+          "required": true,
+          "schema": {
+            "$ref": "https://meta.comcast.com/firebolt/discovery#/definitions/PurchasedContentResult"
+          },
+          "summary": "The data for the purchasedContent"
+        }
+      ],
+      "result": {
+        "name": "success",
+        "summary": "True if the push operation is successful",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "examples": [
+        {
+          "name": "Inform the platform of the user's purchased content",
+          "params": [
+            {
+              "name": "correlationId",
+              "value": null
+            },
+            {
+              "name": "result",
+              "value": {
+                "totalCount": 10,
+                "expires": "2025-01-01T00:00:00.000Z",
+                "entries": [
+                  {
+                    "identifiers": {
+                      "entityId": "345"
+                    },
+                    "entityType": "program",
+                    "programType": "movie",
+                    "title": "Cool Runnings",
+                    "synopsis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar sapien et ligula ullamcorper malesuada proin libero nunc.",
+                    "releaseDate": "1993-01-01T00:00:00.000Z",
+                    "contentRatings": [
+                      {
+                        "scheme": "US-Movie",
+                        "rating": "PG"
+                      },
+                      {
+                        "scheme": "CA-Movie",
+                        "rating": "G"
+                      }
+                    ],
+                    "waysToWatch": [
+                      {
+                        "identifiers": {
+                          "assetId": "123"
+                        },
+                        "expires": "2025-01-01T00:00:00.000Z",
+                        "entitled": true,
+                        "entitledExpires": "2025-01-01T00:00:00.000Z",
+                        "offeringType": "buy",
+                        "price": 2.99,
+                        "videoQuality": [
+                          "UHD"
+                        ],
+                        "audioProfile": [
+                          "dolbyAtmos"
+                        ],
+                        "audioLanguages": [
+                          "en"
+                        ],
+                        "closedCaptions": [
+                          "en"
+                        ],
+                        "subtitles": [
+                          "es"
+                        ],
+                        "audioDescriptions": [
+                          "en"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "result": {
+            "name": "success",
+            "value": true
+          }
+        }
+      ],
+      "description": "Return content purchased by the user, such as rentals and electronic sell through purchases.\n\nThe app should return the user's 100 most recent purchases in `entries`. The total count of purchases must be provided in `count`. If `count` is greater than the total number of `entries`, the UI may provide a link into the app to see the complete purchase list.\n\nThe `EntityInfo` object returned is not required to have `waysToWatch` populated, but it is recommended that it do so in case the UI wants to surface additional information on the purchases screen.\n\nThe app should implement both Push and Pull methods for `purchasedContent`.\n\nThe app should actively push `purchasedContent` when:\n\n*  The app becomes Active.\n*  When the state of the purchasedContent set has changed.\n*  The app goes into Inactive or Background state, if there is a chance a change event has been missed."
+    },
+    {
+      "name": "watched",
+      "summary": "Notify the platform that content was partially or completely watched",
+      "tags": [
+        {
+          "name": "polymorphic-reducer"
+        },
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:discovery:watched"
+          ]
+        }
+      ],
+      "params": [
+        {
+          "name": "entityId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "summary": "The entity Id of the watched content."
+        },
+        {
+          "name": "progress",
+          "summary": "How much of the content has been watched (percentage as (0-0.999) for VOD, number of seconds for live)",
+          "schema": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        {
+          "name": "completed",
+          "summary": "Whether or not this viewing is considered \"complete,\" per the app's definition thereof",
+          "schema": {
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "watchedOn",
+          "summary": "Date/Time the content was watched, ISO 8601 Date/Time",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      ],
+      "result": {
+        "name": "success",
+        "summary": "whether the call was successful or not",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "examples": [
+        {
+          "name": "Notifying the platform of watched content",
+          "params": [
+            {
+              "name": "entityId",
+              "value": "partner.com/entity/123"
+            },
+            {
+              "name": "progress",
+              "value": 0.95
+            },
+            {
+              "name": "completed",
+              "value": true
+            },
+            {
+              "name": "watchedOn",
+              "value": "2021-04-23T18:25:43.511Z"
+            }
+          ],
+          "result": {
+            "name": "success",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "watchNext",
+      "summary": "Suggest a call-to-action for this app on the platform home screen",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:discovery:watch-next"
+          ]
+        }
+      ],
+      "params": [
+        {
+          "name": "title",
+          "summary": "The title of this call to action",
+          "schema": {
+            "$ref": "https://meta.comcast.com/firebolt/types#/definitions/LocalizedString"
+          },
+          "required": true
+        },
+        {
+          "name": "identifiers",
+          "summary": "A set of content identifiers for this call to action",
+          "schema": {
+            "$ref": "https://meta.comcast.com/firebolt/entertainment#/definitions/ContentIdentifiers"
+          },
+          "required": true
+        },
+        {
+          "name": "expires",
+          "summary": "When this call to action should no longer be presented to users",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        {
+          "name": "images",
+          "summary": "A set of images for this call to action",
+          "schema": {
+            "type": "object",
+            "patternProperties": {
+              "^.*$": {
+                "$ref": "https://meta.comcast.com/firebolt/types#/definitions/LocalizedString"
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "name": "success",
+        "summary": "whether the call was successful or not",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "examples": [
+        {
+          "name": "Suggest a watch-next tile for the home screen",
+          "params": [
+            {
+              "name": "title",
+              "value": "A Cool Show"
+            },
+            {
+              "name": "identifiers",
+              "value": {
+                "entityId": "partner.com/entity/123"
+              }
+            },
+            {
+              "name": "expires",
+              "value": "2021-04-23T18:25:43.511Z"
+            },
+            {
+              "name": "images",
+              "value": {
+                "3x4": {
+                  "en-US": "https://i.ytimg.com/vi/4r7wHMg5Yjg/maxresdefault.jpg",
+                  "es": "https://i.ytimg.com/vi/4r7wHMg5Yjg/maxresdefault.jpg"
+                },
+                "16x9": {
+                  "en": "https://i.ytimg.com/vi/4r7wHMg5Yjg/maxresdefault.jpg"
+                }
+              }
+            }
+          ],
+          "result": {
+            "name": "success",
+            "value": true
+          }
+        },
+        {
+          "name": "Suggest a watch-next tile for the home screen",
+          "params": [
+            {
+              "name": "title",
+              "value": "A Fantastic Show"
+            },
+            {
+              "name": "identifiers",
+              "value": {
+                "entityId": "partner.com/entity/456"
+              }
+            }
+          ],
+          "result": {
+            "name": "success",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "entitlements",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:discovery:content-access"
+          ]
+        },
+        {
+          "name": "deprecated",
+          "x-since": "0.10.0",
+          "x-alternative": "Discovery.contentAccess()"
+        }
+      ],
+      "summary": "Inform the platform of the users latest entitlements w/in this app.",
+      "params": [
+        {
+          "name": "entitlements",
+          "summary": "Array of entitlement objects",
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "https://meta.comcast.com/firebolt/entertainment#/definitions/Entitlement"
+            }
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "success",
+        "summary": "whether the call was successful or not",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "examples": [
+        {
+          "name": "Update user's entitlements",
+          "params": [
+            {
+              "name": "entitlements",
+              "value": [
+                {
+                  "entitlementId": "partner.com/entitlement/123",
+                  "startTime": "2021-04-23T18:25:43.511Z",
+                  "endTime": "2021-04-23T18:25:43.511Z"
+                },
+                {
+                  "entitlementId": "partner.com/entitlement/456",
+                  "startTime": "2021-04-23T18:25:43.511Z",
+                  "endTime": "2021-04-23T18:25:43.511Z"
+                }
+              ]
+            }
+          ],
+          "result": {
+            "name": "success",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "contentAccess",
+      "summary": "Inform the platform of what content the user can access either by discovering it or consuming it. Availabilities determine which content is discoverable to a user, while entitlements determine if the user can currently consume that content. Content can be available but not entitled, this means that user can see the content but when they try to open it they must gain an entitlement either through purchase or subscription upgrade. In case the access changed off-device, this API should be called any time the app comes to the foreground to refresh the access. This API should also be called any time the availabilities or entitlements change within the app for any reason. Typical reasons may include the user signing into an account or upgrading a subscription. Less common cases can cause availabilities to change, such as moving to a new service location. When availabilities or entitlements are removed from the subscriber (such as when the user signs out), then an empty array should be given. To clear both, use the Discovery.clearContentAccess convenience API.",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:discovery:content-access"
+          ]
+        }
+      ],
+      "params": [
+        {
+          "name": "ids",
+          "summary": "A list of identifiers that represent content that is discoverable or consumable for the subscriber",
+          "schema": {
+            "$ref": "#/components/schemas/ContentAccessIdentifiers"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "result",
+        "schema": {
+          "const": null
+        }
+      },
+      "examples": [
+        {
+          "name": "Update subscriber's availabilities",
+          "params": [
+            {
+              "name": "ids",
+              "value": {
+                "availabilities": [
+                  {
+                    "type": "channel-lineup",
+                    "id": "partner.com/availability/123",
+                    "startTime": "2021-04-23T18:25:43.511Z",
+                    "endTime": "2021-04-23T18:25:43.511Z"
+                  },
+                  {
+                    "type": "channel-lineup",
+                    "id": "partner.com/availability/456",
+                    "startTime": "2021-04-23T18:25:43.511Z",
+                    "endTime": "2021-04-23T18:25:43.511Z"
+                  }
+                ]
+              }
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": null
+          }
+        },
+        {
+          "name": "Update subscriber's availabilities and entitlements",
+          "params": [
+            {
+              "name": "ids",
+              "value": {
+                "availabilities": [
+                  {
+                    "type": "channel-lineup",
+                    "id": "partner.com/availability/123",
+                    "startTime": "2021-04-23T18:25:43.511Z",
+                    "endTime": "2021-04-23T18:25:43.511Z"
+                  },
+                  {
+                    "type": "channel-lineup",
+                    "id": "partner.com/availability/456",
+                    "startTime": "2021-04-23T18:25:43.511Z",
+                    "endTime": "2021-04-23T18:25:43.511Z"
+                  }
+                ],
+                "entitlements": [
+                  {
+                    "entitlementId": "123",
+                    "startTime": "2025-01-01T00:00:00.000Z",
+                    "endTime": "2025-01-01T00:00:00.000Z"
+                  }
+                ]
+              }
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": null
+          }
+        },
+        {
+          "name": "Update subscriber's entitlements",
+          "params": [
+            {
+              "name": "ids",
+              "value": {
+                "entitlements": [
+                  {
+                    "entitlementId": "123",
+                    "startTime": "2025-01-01T00:00:00.000Z",
+                    "endTime": "2025-01-01T00:00:00.000Z"
+                  }
+                ]
+              }
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": null
+          }
+        },
+        {
+          "name": "Clear a subscriber's entitlements",
+          "params": [
+            {
+              "name": "ids",
+              "value": {
+                "entitlements": []
+              }
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": null
+          }
+        },
+        {
+          "name": "Clear a subscriber's availabilities",
+          "params": [
+            {
+              "name": "ids",
+              "value": {
+                "availabilities": []
+              }
+            }
+          ],
+          "result": {
+            "name": "result",
+            "value": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "clearContentAccess",
+      "summary": "Clear both availabilities and entitlements from the subscriber. This is equivalent of calling `Discovery.contentAccess({ availabilities: [], entitlements: []})`. This is typically called when the user signs out of an account.",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:discovery:content-access"
+          ]
+        }
+      ],
+      "params": [],
+      "result": {
+        "name": "result",
+        "schema": {
+          "const": null
+        }
+      },
+      "examples": [
+        {
+          "name": "Clear subscriber's availabilities and entitlements",
+          "params": [],
+          "result": {
+            "name": "result",
+            "value": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "launch",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:lifecycle:launch"
+          ]
+        }
+      ],
       "summary": "Launch or foreground the specified app, and optionally instructs it to navigate to the specified user action. \n For the Primary Experience, the appId can be any one of:  \n\n - xrn:firebolt:application-type:main \n\n - xrn:firebolt:application-type:settings",
 			"params": [
 				{
@@ -1160,27 +1160,52 @@
 						{
 							"name": "appId",
               "value": "xrn:firebolt:application-type:main"
-						},
-						{
-							"name": "intent",
-							"value": {
-								"action": "search",
-								"context": {
-									"source": "voice"
-								}
-							}
-						}
-					],
-					"result": {
-						"name": "success",
-						"value": true
-					}
-				},
-				{
-					"name": "Launch the Aggregated Experience to it's settings screen.",
-					"params": [
-						{
-							"name": "appId",
+            },
+            {
+              "name": "intent",
+              "value": {
+                "action": "search",
+                "context": {
+                  "source": "voice"
+                }
+              }
+            }
+          ],
+          "result": {
+            "name": "success",
+            "value": true
+          }
+        },
+        {
+          "name": "Launch the Aggregated Experience to it's settings screen.",
+          "params": [
+            {
+              "name": "appId",
+              "value": "xrn:firebolt:application-type:settings"
+            },
+            {
+              "name": "intent",
+              "value": {
+                "action": "section",
+                "data": {
+                  "sectionName": "settings"
+                },
+                "context": {
+                  "source": "voice"
+                }
+              }
+            }
+          ],
+          "result": {
+            "name": "success",
+            "value": true
+          }
+        },
+        {
+          "name": "Launch the Aggregated Experience to it's linear/epg guide.",
+          "params": [
+            {
+              "name": "appId",
               "value": "xrn:firebolt:application-type:main"
 						},
 						{

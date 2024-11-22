@@ -1,19 +1,17 @@
 {
 	"name": "@firebolt-js/manage-sdk",
-	"version": "1.2.0-next.5",
+	"version": "1.5.0-next.9",
 	"description": "The Firebolt Manage JS SDK",
 	"main": "./dist/lib/firebolt-manage.mjs",
 	"types": "./dist/lib/firebolt-manage.d.ts",
-	"exports": {
-		".": "./dist/lib/firebolt-manage.mjs"
-	},
 	"type": "module",
 	"scripts": {
 		"validate": "npx firebolt-openrpc validate --input ./dist/firebolt-manage-open-rpc.json",
 		"sdk": "npx firebolt-openrpc sdk --server ./dist/firebolt-manage-open-rpc.json --template ./src/js --output ./build/javascript/src",
-		"cpp": "npm run cpp:compile && npm run cpp:install",
+		"native": "npx firebolt-openrpc sdk --server ./dist/firebolt-manage-open-rpc.json --template ./src/js --output ./build/c/src --language ../../../node_modules/@firebolt-js/openrpc/languages/c",
+		"cpp": "npm run cpp:compile && cp ./dist/firebolt-manage-open-rpc.json ./build/cpp/src && npm run cpp:install",
 		"cpp:compile": "npx firebolt-openrpc sdk --server ./dist/firebolt-manage-open-rpc.json --template ./src/cpp --output ./build/cpp/src --static-module Platform --language ../../../node_modules/@firebolt-js/openrpc/languages/cpp",
-		"cpp:install": "./build/cpp/src/scripts/install.sh -i ./build/cpp/src -s ./build/cpp/src/ -m manage",
+		"cpp:install": "chmod +x ./build/cpp/src/scripts/install.sh && sdkVersion=$(npm run -s getVersion) && ./build/cpp/src/scripts/install.sh -i ./build/cpp/src -s ./build/cpp/src/ -m manage -v $sdkVersion",
 		"compile": "cd ../../.. && npm run compile",
 		"slice": "npx firebolt-openrpc slice -i ../../../dist/firebolt-open-rpc.json --sdk ./sdk.config.json -o ./dist/firebolt-manage-open-rpc.json",
 		"docs": "npx firebolt-openrpc docs --server ./dist/firebolt-manage-open-rpc.json --output build/docs/markdown --as-path",
@@ -28,7 +26,8 @@
 		"test": "npm run test:setup && NODE_OPTIONS=--experimental-vm-modules npx --config=jest.config.json --detectOpenHandles jest",
 		"prepack": "node ../../js/version.mjs validate && npm run broilerplate",
 		"broilerplate": "rm ./CONTRIBUTING.md && cp ../../../CONTRIBUTING.md ./CONTRIBUTING.md && rm ./LICENSE && cp ../../../LICENSE ./LICENSE && rm ./NOTICE && cp ../../../NOTICE ./NOTICE",
-		"prettier": "prettier build/**/*.mjs --write --parser babel && prettier build/**/*.md --write --parser markdown"
+		"prettier": "prettier build/**/*.mjs --write --parser babel && prettier build/**/*.ts --write --parser typescript && prettier build/**/*.md --write --parser markdown",
+		"getVersion": "node -p \"require('./package.json').version\""
 	},
 	"repository": {
 		"type": "git",

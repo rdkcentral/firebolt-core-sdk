@@ -39,8 +39,6 @@ endif ()
 
 find_package(WPEFramework CONFIG REQUIRED)
 find_package(${NAMESPACE}Core CONFIG REQUIRED)
-find_package(Firebolt CONFIG REQUIRED)
-find_package(${FIREBOLT_NAMESPACE}SDK CONFIG REQUIRED)
 
 set(TESTAPP TestFireboltManage)
 
@@ -52,6 +50,8 @@ target_link_libraries(${TESTAPP}
     PRIVATE
         ${NAMESPACE}Core::${NAMESPACE}Core
         ${FIREBOLT_NAMESPACE}SDK::${FIREBOLT_NAMESPACE}SDK
+        nlohmann_json_schema_validator
+        gtest_main
 )
 
 target_include_directories(${TESTAPP}
@@ -59,6 +59,7 @@ target_include_directories(${TESTAPP}
         $<BUILD_INTERFACE:${FIREBOLT_PATH}/usr/include/${FIREBOLT_NAMESPACE}SDK>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SRC_DIR}/>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SRC_DIR}/../>
+        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/>
 )
 
 set_target_properties(${TESTAPP} PROPERTIES
@@ -73,3 +74,34 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/${FIREBOLT_NAMESPACE}/usr/bin
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/${TESTAPP} ${CMAKE_BINARY_DIR}/${FIREBOLT_NAMESPACE}/usr/bin
 )
+
+if(ENABLE_UNIT_TESTS)
+    set(UNIT_TESTS_APP FireboltManageUnitTests)
+
+    message("Setup ${UNIT_TESTS_APP}")
+
+    file(GLOB UNIT_TESTS "unit/*")
+
+    add_executable(${UNIT_TESTS_APP} 
+        ManageSDKTest.cpp
+        Unit.cpp
+        ${UNIT_TESTS}
+    )
+    
+    link_directories(${CMAKE_SOURCE_DIR}/../../Thunder/install/usr/lib/)
+    target_link_libraries(${UNIT_TESTS_APP}
+        PRIVATE
+            ${NAMESPACE}Core::${NAMESPACE}Core
+            ${FIREBOLT_NAMESPACE}SDK::${FIREBOLT_NAMESPACE}SDK
+            nlohmann_json_schema_validator
+            gtest_main
+    )
+
+    target_include_directories(${UNIT_TESTS_APP}
+        PRIVATE
+            $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/>
+    )
+
+    include(GoogleTest)
+    gtest_discover_tests(${UNIT_TESTS_APP})
+endif()

@@ -1,494 +1,480 @@
 {
-	"openrpc": "1.2.4",
-	"info": {
-		"title": "Localization",
-		"description": "Methods for accessessing location and language preferences",
-		"version": "0.0.0"
-	},
-	"methods": [
-		{
-			"name": "locality",
-			"tags": [
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:localization:locality"
-					]
-				},
-				{
-					"name": "property"
-				}
-			],
-			"summary": "Get the locality/city the device is located in",
-			"params": [],
-			"result": {
-				"name": "locality",
-				"summary": "the device city",
-				"schema": {
-					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/localization#/definitions/Locality"
-				}
-			},
-			"examples": [
-				{
-					"name": "Default example #1",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "Philadelphia"
-					}
-				},
-				{
-					"name": "Default example #2",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "Rockville"
-					}
-				}
-			]
-		},
-		{
-			"name": "postalCode",
-			"tags": [
-				{
-					"name": "property"
-				},
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:localization:postal-code"
-					]
-				}
-			],
-			"summary": "Get the postal code the device is located in",
-			"params": [],
-			"result": {
-				"name": "postalCode",
-				"summary": "the device postal code",
-				"schema": {
-					"type": "string"
-				}
-			},
-			"examples": [
-				{
-					"name": "Default example #1",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "19103"
-					}
-				},
-				{
-					"name": "Default example #2",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "20850"
-					}
-				}
-			]
-		},
-		{
-			"name": "countryCode",
-			"tags": [
-				{
-					"name": "property"
-				},
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:localization:country-code"
-					]
-				}
-			],
-			"summary": "Get the ISO 3166-1 alpha-2 code for the country device is located in",
-			"params": [],
-			"result": {
-				"name": "code",
-				"summary": "the device country code",
-				"schema": {
-					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/localization#/definitions/CountryCode"
-				}
-			},
-			"examples": [
-				{
-					"name": "Default example #1",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "US"
-					}
-				},
-				{
-					"name": "Default example #2",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "UK"
-					}
-				}
-			]
-		},
-		{
-			"name": "language",
-			"summary": "Get the ISO 639 1/2 code for the preferred language",
-			"params": [],
-			"tags": [
-				{
-					"name": "deprecated",
-					"x-since": "0.17.0",
-					"x-alternative": "Localization.locale"
-				},
-				{
-					"name": "property"
-				},
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:localization:language"
-					]
-				}
-			],
-			"result": {
-				"name": "lang",
-				"summary": "the device language",
-				"schema": {
-					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/localization#/definitions/Language"
-				}
-			},
-			"examples": [
-				{
-					"name": "Default example #1",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "en"
-					}
-				},
-				{
-					"name": "Default example #2",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "es"
-					}
-				}
-			]
-		},
-		{
-			"name": "preferredAudioLanguages",
-			"summary": "A prioritized list of ISO 639 1/2 codes for the preferred audio languages on this device.",
-			"params": [],
-			"tags": [
-				{
-					"name": "property"
-				},
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:localization:language"
-					]
-				}
-			],
-			"result": {
-				"name": "languages",
-				"summary": "the preferred audio languages",
-				"schema": {
-					"type": "array",
-					"items": {
-						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/localization#/definitions/ISO639_2Language"
-					}
-				}
-			},
-			"examples": [
-				{
-					"name": "Default Example",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": [
-							"spa",
-							"eng"
-						]
-					}
-				},
-				{
-					"name": "Default Example #2",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": [
-							"eng",
-							"spa"
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "locale",
-			"tags": [
-				{
-					"name": "property"
-				},
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:localization:locale"
-					]
-				}
-			],
-			"summary": "Get the *full* BCP 47 code, including script, region, variant, etc., for the preferred langauage/locale",
-			"params": [],
-			"result": {
-				"name": "locale",
-				"summary": "the device locale",
-				"schema": {
-					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/localization#/definitions/Locale"
-				}
-			},
-			"examples": [
-				{
-					"name": "Default example #1",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "en-US"
-					}
-				},
-				{
-					"name": "Default example #2",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "es-US"
-					}
-				}
-			]
-		},
-		{
-			"name": "latlon",
-			"tags": [
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:localization:location"
-					]
-				}
-			],
-			"summary": "Get the approximate latitude and longitude coordinates of the device location",
-			"params": [],
-			"result": {
-				"name": "latlong",
-				"summary": "lat/long tuple",
-				"schema": {
-					"$ref": "#/components/schemas/LatLon"
-				}
-			},
-			"examples": [
-				{
-					"name": "Default Example",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": [
-							39.9549,
-							75.1699
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "additionalInfo",
-			"tags": [
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:localization:additional-info"
-					]
-				}
-			],
-			"summary": "Get any platform-specific localization information, in an Map<string, string>",
-			"params": [],
-			"result": {
-				"name": "info",
-				"summary": "the additional info",
-				"schema": {
-					"type": "object",
-					"additionalProperties": {
-						"type": "string",
-						"maxLength": 1024
-					},
-					"maxProperties": 32
-				}
-			},
-			"examples": [
-				{
-					"name": "Default Example",
-					"params": [],
-					"result": {
-						"name": "info",
-						"value": {}
-					}
-				}
-			]
-		},
-		{
-			"name": "addAdditionalInfo",
-			"tags": [
-				{
-					"name": "capabilities",
-					"x-manages": [
-						"xrn:firebolt:capability:localization:additional-info"
-					]
-				}
-			],
-			"summary": "Add any platform-specific localization information in key/value pair",
-			"params": [
-				{
-					"name": "key",
-					"summary": "Key to add additionalInfo",
-					"schema": {
-						"type": "string"
-					},
-					"required": true
-				},
-				{
-					"name": "value",
-					"summary": "Value to be set for additionalInfo",
-					"schema": {
-						"type": "string"
-					},
-					"required": true
-				}
-			],
-			"result": {
-				"name": "result",
-				"schema": {
-					"const": null
-				}
-			},
-			"examples": [
-				{
-					"name": "Add an additionalInfo for localization",
-					"params": [
-						{
-							"name": "key",
-							"value": "defaultKey"
-						},
-						{
-							"name": "value",
-							"value": "defaultValue="
-						}
-					],
-					"result": {
-						"name": "defaultResult",
-						"value": null
-					}
-				}
-			]
-		},
-		{
-			"name": "removeAdditionalInfo",
-			"tags": [
-				{
-					"name": "capabilities",
-					"x-manages": [
-						"xrn:firebolt:capability:localization:additional-info"
-					]
-				}
-			],
-			"summary": "Remove any platform-specific localization information from map",
-			"params": [
-				{
-					"name": "key",
-					"summary": "Key to remove additionalInfo",
-					"schema": {
-						"type": "string"
-					},
-					"required": true
-				}
-			],
-			"result": {
-				"name": "result",
-				"schema": {
-					"const": null
-				}
-			},
-			"examples": [
-				{
-					"name": "Remove an additionalInfo for localization",
-					"params": [
-						{
-							"name": "key",
-							"value": "defaultKey"
-						}
-					],
-					"result": {
-						"name": "defaultResult",
-						"value": null
-					}
-				}
-			]
-		},
-		{
-			"name": "timeZone",
-			"tags": [
-				{
-					"name": "property"
-				},
-				{
-					"name": "capabilities",
-					"x-uses": [
-						"xrn:firebolt:capability:localization:time-zone"
-					]
-				}
-			],
-			"summary": "Set the IANA timezone for the device",
-			"params": [],
-			"result": {
-				"name": "result",
-				"schema": {
-					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/localization#/definitions/TimeZone"
-				}
-			},
-			"examples": [
-				{
-					"name": "Default Example",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "America/New_York"
-					}
-				},
-				{
-					"name": "Additional Example",
-					"params": [],
-					"result": {
-						"name": "Default Result",
-						"value": "America/Los_Angeles"
-					}
-				}
-			]
-		}
-	],
-	"components": {
-		"schemas": {
-			"LatLon": {
-				"type": "array",
-				"items": [
-					{
-						"type": "number"
-					},
-					{
-						"type": "number"
-					}
-				],
-				"additionalItems": false,
-				"minItems": 2,
-				"maxItems": 2
-			}
-		}
-	}
+  "openrpc": "1.2.4",
+  "info": {
+    "title": "Localization",
+    "description": "Methods for accessessing location and language preferences",
+    "version": "0.0.0"
+  },
+  "methods": [
+    {
+      "name": "locality",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:localization:locality"
+          ]
+        },
+        {
+          "name": "property"
+        }
+      ],
+      "summary": "Get the locality/city the device is located in",
+      "params": [],
+      "result": {
+        "name": "locality",
+        "summary": "the device city",
+        "schema": {
+          "$ref": "https://meta.comcast.com/firebolt/localization#/definitions/Locality"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": "Philadelphia"
+          }
+        },
+        {
+          "name": "Default example #2",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": "Rockville"
+          }
+        }            
+      ] 
+    },
+    {
+      "name": "postalCode",
+      "tags": [
+        {
+          "name": "property"
+        },
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:localization:postal-code"
+          ]
+        }
+      ],
+      "summary": "Get the postal code the device is located in",
+      "params": [],
+      "result": {
+        "name": "postalCode",
+        "summary": "the device postal code",
+        "schema": { "type": "string" }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": "19103"
+          }
+        },
+        {
+          "name": "Default example #2",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": "20850"
+          }
+        }        
+      ]
+    },
+    {
+      "name": "countryCode",
+      "tags": [
+        {
+          "name": "property"
+        },
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:localization:country-code"
+          ]
+        }
+      ],
+      "summary": "Get the ISO 3166-1 alpha-2 code for the country device is located in",
+      "params": [],
+      "result": {
+        "name": "code",
+        "summary": "the device country code",
+        "schema": {
+          "$ref": "https://meta.comcast.com/firebolt/localization#/definitions/CountryCode"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": "US"
+          }
+        },
+        {
+          "name": "Default example #2",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": "UK"
+          }
+        }      
+      ]    
+    },
+    {
+      "name": "language",
+      "summary": "Get the ISO 639 1/2 code for the preferred language",
+      "params": [],
+      "tags": [
+        {
+          "name": "deprecated",
+          "x-since": "0.17.0",
+          "x-alternative": "Localization.locale"
+        },
+        {
+          "name": "property"
+        },
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:localization:language"
+          ]
+        }
+      ],
+      "result": {
+        "name": "lang",
+        "summary": "the device language",
+        "schema": {
+          "$ref": "https://meta.comcast.com/firebolt/localization#/definitions/Language"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": "en"
+          }
+        },
+        {
+          "name": "Default example #2",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": "es"
+          }
+        }            
+      ]
+    },
+    {
+      "name": "preferredAudioLanguages",
+      "summary": "A prioritized list of ISO 639 1/2 codes for the preferred audio languages on this device.",
+      "params": [],
+      "tags": [
+        {
+          "name": "property"
+        },
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:localization:language"
+          ]
+        }
+      ],
+      "result": {
+        "name": "languages",
+        "summary": "the preferred audio languages",
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "https://meta.comcast.com/firebolt/localization#/definitions/ISO639_2Language"
+          }
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": ["spa", "eng"]
+          }
+        }, 
+        {
+          "name": "Default Example #2",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": ["eng", "spa"]
+          }
+        }             
+      ]
+    },
+    {
+      "name": "locale",
+      "tags": [
+        {
+          "name": "property"
+        },
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:localization:locale"
+          ]
+        }
+      ],
+      "summary": "Get the *full* BCP 47 code, including script, region, variant, etc., for the preferred langauage/locale",
+      "params": [],
+      "result": {
+        "name": "locale",
+        "summary": "the device locale",
+        "schema": {
+          "$ref": "https://meta.comcast.com/firebolt/localization#/definitions/Locale"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default example #1",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": "en-US"
+          }
+        },
+        {
+          "name": "Default example #2",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": "es-US"
+          }
+        }       
+      ]   
+    },
+    {
+      "name": "latlon",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:localization:location"
+          ]
+        }
+      ],
+      "summary": "Get the approximate latitude and longitude coordinates of the device location",
+      "params": [],
+      "result": {
+        "name": "latlong",
+        "summary": "lat/long tuple",
+        "schema": {
+          "$ref": "#/components/schemas/LatLon"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": [39.9549, 75.1699]
+          }
+        }            
+      ]
+    },
+    {
+      "name": "additionalInfo",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:localization:additional-info"
+          ]
+        }
+      ],
+      "summary": "Get any platform-specific localization information",
+      "params": [],
+      "result": {
+        "name": "info",
+        "summary": "the additional info",
+        "schema": {
+          "type": "object",
+          "additionalProperties": {
+            "type": ["number", "string", "boolean"],
+            "maxLength": 1024
+          },
+          "maxProperties": 32
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Example",
+          "params": [],
+          "result": {
+            "name": "info",
+            "value": {
+            }
+          }
+        }            
+      ]   
+    },
+    {
+      "name": "addAdditionalInfo",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-manages": [
+            "xrn:firebolt:capability:localization:additional-info"
+          ]
+        }
+      ],
+      "summary": "Add any platform-specific localization information in key/value pair",
+      "params": [
+        {
+          "name": "key",
+          "summary": "Key to add additionalInfo",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "value",
+          "summary": "Value to be set for additionalInfo. Value can be a number, string or boolean",
+          "schema": {
+            "type": ["number", "string", "boolean"]
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "result",
+        "schema": {
+          "const": null
+        }
+      },
+      "examples": [
+        {
+          "name": "Add an additionalInfo for localization",
+          "params": [
+            {
+              "name": "key",
+              "value": "defaultKey"
+            },
+            {
+              "name": "value",
+              "value": "defaultValue="
+            }
+          ],
+          "result": {
+            "name": "defaultResult",
+            "value": null
+          }
+        }            
+      ]   
+    },
+    {
+      "name": "removeAdditionalInfo",
+      "tags": [
+        {
+          "name": "capabilities",
+          "x-manages": [
+            "xrn:firebolt:capability:localization:additional-info"
+          ]
+        }
+      ],
+      "summary": "Remove any platform-specific localization information from map",
+      "params": [
+        {
+          "name": "key",
+          "summary": "Key to remove additionalInfo",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "result": {
+        "name": "result",
+        "schema": {
+          "const": null
+        }
+      },
+      "examples": [
+        {
+          "name": "Remove an additionalInfo for localization",
+          "params": [
+            {
+              "name": "key",
+              "value": "defaultKey"
+            }
+          ],
+          "result": {
+            "name": "defaultResult",
+            "value": null
+          }
+        }            
+      ]   
+    },
+    {
+      "name": "timeZone",
+      "tags": [
+          {
+              "name": "property"
+          },
+          {
+              "name": "capabilities",
+              "x-uses": [
+                  "xrn:firebolt:capability:localization:time-zone"
+              ]
+          }
+      ],
+      "summary": "Set the IANA timezone for the device",
+      "params": [],
+      "result": {
+          "name": "result",
+          "schema": {
+              "$ref": "https://meta.comcast.com/firebolt/localization#/definitions/TimeZone"
+          }
+      },
+      "examples": [
+          {
+              "name": "Default Example",
+              "params": [],
+              "result": {
+                  "name": "Default Result",
+                  "value": "America/New_York"
+              }
+          },
+          {
+              "name": "Additional Example",
+              "params": [],
+              "result": {
+                  "name": "Default Result",
+                  "value": "America/Los_Angeles"
+              }
+          }
+      ]
+    }
+  ],
+  "components": {
+    "schemas": {
+      "LatLon": {
+        "type": "array",
+        "items": [
+          { "type": "number" },
+          { "type": "number" }
+        ],
+        "additionalItems": false,
+        "minItems": 2,
+        "maxItems": 2
+      }      
+    }
+  }
 }

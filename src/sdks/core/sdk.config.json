@@ -23,7 +23,7 @@
             "use": [
                 "xrn:firebolt:capability:advertising:configuration",
                 "xrn:firebolt:capability:advertising:identifier",
-                "xrn:firebolt:capability:privacy:advertising"
+                "xrn:firebolt:capability:advertising:policy"
             ]
         },
         {
@@ -129,7 +129,7 @@
             "module": "SecondScreen",
             "use": [
                 "xrn:firebolt:capability:protocol:dial",
-                "xrn:firebolt:capability:device:info"
+                "xrn:firebolt:capability:secondscreen:protocol"
             ]
         },
         {

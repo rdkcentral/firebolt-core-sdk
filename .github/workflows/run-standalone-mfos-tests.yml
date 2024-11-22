@@ -1,12 +1,13 @@
-name: Core SDK - MFOS standalone sanity report
+name: MFOS standalone sanity report - CORE,MANAGE,DISCOVERY
 
 on:
+  repository_dispatch:
+    types: [trigger-workflow]
   pull_request:
     types:
       - opened
       - synchronize
     branches: [ next ]
-
 jobs:
   RunStandaloneTests:
     runs-on: ubuntu-latest
@@ -14,17 +15,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Run tests and create assets
+       # Set the branch if the workflow is triggered from external
+      - name: Set PR Branch based on the trigger
+        id: set-pr-branch
+        run: |
+          if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
+            echo "OPENRPC_PR_BRANCH='${{ github.event.client_payload.OPENRPC_PR_BRANCH }}'" >> $GITHUB_ENV  # Set from payload
+          else
+            echo "OPENRPC_PR_BRANCH=''" >> $GITHUB_ENV  # Clear the variable for other events
+          fi
+
+      # Run tests
+      - name: Run Core Manage and Discovery tests and create assets
         env:
           EVENT_NAME: ${{ github.event_name }}
           GITHUB_REF: ${{ github.ref }}
           PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
-          INTENT: ${{ secrets.INTENT }}
+          INTENT: ${{ vars.INTENT }}
+          OPENRPC_PR_BRANCH: ${{ env.OPENRPC_PR_BRANCH }} # Comes from OPENRPC repo if triggered externally
         run: |
           ./.github/workflows/utils.sh runTests
 
       - name: Upload report.json as an artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: report
           path: ${{ github.workspace }}/report

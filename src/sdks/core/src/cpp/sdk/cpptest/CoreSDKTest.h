@@ -36,7 +36,7 @@ class CoreSDKTest {
     };
     class OnScreenResolutionChangedNotification : public Firebolt::Device::IDevice::IOnScreenResolutionChangedNotification {
     public:
-        void onScreenResolutionChanged( const Firebolt::Device::Resolution& ) override;
+        void onScreenResolutionChanged( const std::string& ) override;
     };
     class OnPreferredAudioLanguagesChangedNotification : public Firebolt::Localization::ILocalization::IOnPreferredAudioLanguagesChangedNotification {
     public:
@@ -92,6 +92,7 @@ public:
     static void GetAccountUid();
 
     static void GetDeviceName();
+    static void GetDeviceVersion();
     static void SubscribeDeviceNameChanged();
     static void UnsubscribeDeviceNameChanged();
     static void GetDeviceModel();
@@ -131,6 +132,9 @@ public:
     static void GetProfileFlags();
 
     static void LifecycleClose();
+    static void LifecycleFinished();
+    static void LifecycleReady();
+    static void LifecycleState();
     static void SubscribeLifecycleBackgroundNotification();
     static void UnsubscribeLifecycleBackgroundNotification();
     static void SubscribeLifecycleForegroundNotification();
@@ -151,6 +155,9 @@ public:
 
     static void MetricsStartContent();
     static void MetricsStopContent();
+    static void MetricsReady();
+    static void MetricsSignIn();
+    static void MetricsSignOut();
 
     static void GetSecondScreenDevice();
     static void GetSecondScreenProtocols();
@@ -174,6 +181,7 @@ public:
     static void SubscribeDiscoveryOnNavigateToLaunchNotification();
     static void UnsubscribeDiscoveryOnNavigateToLaunchNotification();
     static void DiscoveryWatchNext();
+    static void DiscoveryUserInterest();
 
     static void ParametersInitialization();
 
@@ -199,4 +207,3 @@ private:
     static KeyboardPasswordAsyncResponse _keyboardPasswordAsyncResponse;
     static KeyboardStandardAsyncResponse _keyboardStandardAsyncResponse;
 };
-

@@ -1,6 +1,6 @@
 {
   "name": "@firebolt-js/sdks",
-  "version": "1.2.0-next.5",
+  "version": "1.5.0-next.9",
   "description": "The Firebolt JS SDK",
   "type": "module",
   "bin": {
@@ -47,6 +47,7 @@
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@firebolt-js/openrpc": "rdkcentral/firebolt-openrpc#major/rpc",
+    "@firebolt-js/schemas": "2.0.0",
     "@saithodev/semantic-release-backmerge": "^3.2.0",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",

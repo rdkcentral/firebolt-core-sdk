@@ -108,6 +108,11 @@ class ManageSDKTest {
         bool _challengeInput;
     };
 
+    class OnAutoLowLatencyModeCapableChangedNotification : public Firebolt::HDMIInput::IHDMIInput::IOnAutoLowLatencyModeCapableChangedNotification {
+    public:
+        void onAutoLowLatencyModeCapableChanged( const Firebolt::HDMIInput::AutoLowLatencyModeCapableChangedInfo& ) override;
+    };
+
 public:
     ManageSDKTest() = default;
     virtual ~ManageSDKTest() = default;
@@ -183,6 +188,15 @@ public:
     static void WifiConnect();
     static void WifiDisconnect();
 
+    static void GlobalSubscribeHdmiAutoLowLatencyModeCapableChanged();
+    static void GlobalUnsubscribeHdmiAutoLowLatencyModeCapableChanged();
+
+    static void GetAutoLowLatencyModeCapable();
+    static void SetAutoLowLatencyModeCapable();
+    static void GetEdidVersion();
+    static void SetEdidVersion();
+    static void GetHdmiPortInfo();
+
     static bool WaitOnConnectionReady();
 
 private:
@@ -199,6 +213,7 @@ private:
     static PinChallengeProvider _pinChallengeProvider;
     static OnSignInNotification _signInNotification;
     static OnSignOutNotification _signOutNotification;
+    static OnAutoLowLatencyModeCapableChangedNotification _autoLowLatencyModeCapableChangedNotification;
 
     static Firebolt::Wifi::AccessPointList _apList;
 };

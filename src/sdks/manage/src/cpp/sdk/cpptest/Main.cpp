@@ -1,397 +1,172 @@
+/*
+ * Copyright 2023 Comcast Cable Communications Management, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #include <getopt.h>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <stdexcept>
 #include "ManageSDKTest.h"
 
-void ShowMenu()
-{
-    printf("Options ---- >\n"
-           "\tA : Get/Set Advertising skipRestriction\n"
-           "\tT : Set Account Session\n"
-           "\tE : Get/Set/Subscribe/Unsubscribe AudioDescriptions Enabled\n"
-           "\tN : Get/Set/Subscribe/Unsubscribe Device Name\n"
-           "\tB : Get/Set/Subscribe/Unsubscribe ClosedCaption Background Opacity\n"
-           "\tF : Get/Set/Subscribe/Unsubscribe ClosedCaption Font Family\n"
-           "\tL : Get/Set/Subscribe/Unsubscribe Localization Preferred AudioLanguages\n"
-           "\tC : Get/Set/Subscribe/Unsubscribe Privacy Allow ACR Collection\n"
-           "\tS : Get Privacy Settings\n"
-           "\tI : Subscribe/Unsubscribe SignIn notification\n"
-           "\tO : Subscribe/Unsubscribe SignOut notification\n"
-           "\tR : Reset Advertising Identifier\n"
-           "\tK : Register for Keyboard Provider and check sequence\n"
-           "\tG : Register for Acknowledge Challenge Provider and check sequence\n"
-           "\tP : Register for Pin Challenge Provider and check sequence\n"
-           "\tD : Operate on Localization Additional Info\n"
-           "\tU : Grant/Deny/Clear permission on App\n"
-           "\tW : Scan Wifi on device\n"
-           "\tQ : Quit\n\n"
-          );
-}
+using namespace std;
 
-void ShowWifiOperationsMenu()
-{
-    printf("Options \n"
-         "\tS : Scan access points\n"
-         "\tC : Connect to selected access point \n"
-         "\tD : Disconnect from access point \n"
-         "\tQ : Quit\n");
-}
+const char* options = ":hu:";
 
-void ShowUserGrantsMenu()
-{
-    printf("Invoke lifecyclesession management sequence from postman \n"
-         "Once the permission granted/denies/cleared, please use provider + api test to validate it \n"
-         "Here capabilty used for the testing is hardcoded as device:model\n"
-         "\tG : Get Permission\n"
-         "\tR : Grant Permission\n"
-         "\tD : Deny Permission\n"
-         "\tC : Clear Permission\n"
-         "\tQ : Quit\n");
-}
+void RunAllTests() {
+    bool allTestsPassed = true;
+    vector<string> errorMessages;
 
-void ShowAdditionalInfoMenu()
-{
-    printf("Options \n"
-         "\tG : Get Additional Info\n"
-         "\tA : Add Additional Info\n"
-         "\tR : Remove Additional Info\n"
-         "\tQ : Quit\n");
-}
-
-void ShowPropertyMenu(std::string& module, std::string& property)
-{
-    printf("%s:%s property options \n"
-         "\tG : Get value\n"
-         "\tS : Set value\n"
-         "\tQ : Quit\n", module.c_str(), property.c_str());
-}
-
-void ShowPropertyWithEventMenu(std::string& module, std::string& property)
-{
-    printf("%s:%s property options \n"
-         "\tG : Get value\n"
-         "\tS : Set value\n"
-         "\tR : Show subscribe/unscribe event menu\n"
-         "\tQ : Quit\n", module.c_str(), property.c_str());
-}
-
-void ShowProviderMenu(std::string& module)
-{
-    printf("Invoke lifecyclesession management from postman and api sequence from other entity for %s and press\n"
-         "\tR : To Send Response\n"
-         "\tE : To Send Error\n"
-         "\tQ : Quit\n", module.c_str());
-}
-
-void ShowEventMenu()
-{
-    printf("Options \n"
-         "\tS : Subscribe Event\n"
-         "\tU : Unsubscribe Event\n"
-         "\tQ : Quit\n");
-}
-
-void HandleUserGrants()
-{
-    int opt;
-    do {
-        getchar();
-        ShowUserGrantsMenu();
-        printf("Enter option : ");
-        opt = toupper(getchar());
-        switch (opt) {
-        case 'G': {
-            ManageSDKTest::GetUserGrantsPermission();
-            break;
+    auto runTest = [&allTestsPassed, &errorMessages](auto testFunction, const string& testName) {
+        try {
+            testFunction();
+        } catch (const exception& e) {
+            errorMessages.push_back("Test " + testName + " failed: " + e.what());
+            allTestsPassed = false;
         }
-        case 'R': {
-            ManageSDKTest::GrantUserGrantsPermission();
-            break;
+    };
+
+    // Ensure the connection is ready before running tests
+    if (ManageSDKTest::WaitOnConnectionReady()) {
+        // Advertising methods
+        runTest(ManageSDKTest::GetAdvertisingSkipRestriction, "GetAdvertisingSkipRestriction");
+        runTest(ManageSDKTest::SetAdvertisingSkipRestriction, "SetAdvertisingSkipRestriction");
+        runTest(ManageSDKTest::ResetAdvertisingIdentifier, "ResetAdvertisingIdentifier");
+
+        // Account methods
+        runTest(ManageSDKTest::SetAccountSession, "SetAccountSession");
+
+        // AudioDescriptions methods
+        runTest(ManageSDKTest::GetAudioDescriptionsEnabled, "GetAudioDescriptionsEnabled");
+        runTest(ManageSDKTest::SetAudioDescriptionsEnabled, "SetAudioDescriptionsEnabled");
+        runTest(ManageSDKTest::SubscribeAudioDescriptionsEnabledChanged, "SubscribeAudioDescriptionsEnabledChanged");
+        runTest(ManageSDKTest::UnsubscribeAudioDescriptionsEnabledChanged, "UnsubscribeAudioDescriptionsEnabledChanged");
+
+        // Device methods
+        runTest(ManageSDKTest::GetDeviceName, "GetDeviceName");
+        runTest(ManageSDKTest::SetDeviceName, "SetDeviceName");
+        runTest(ManageSDKTest::SubscribeDeviceNameChanged, "SubscribeDeviceNameChanged");
+        runTest(ManageSDKTest::UnsubscribeDeviceNameChanged, "UnsubscribeDeviceNameChanged");
+
+        // ClosedCaptions methods
+        runTest(ManageSDKTest::GetClosedCaptionsBackgroundOpacity, "GetClosedCaptionsBackgroundOpacity");
+        runTest(ManageSDKTest::SetClosedCaptionsBackgroundOpacity, "SetClosedCaptionsBackgroundOpacity");
+        runTest(ManageSDKTest::SubscribeClosedCaptionsBackgroundOpacityChanged, "SubscribeClosedCaptionsBackgroundOpacityChanged");
+        runTest(ManageSDKTest::UnsubscribeClosedCaptionsBackgroundOpacityChanged, "UnsubscribeClosedCaptionsBackgroundOpacityChanged");
+
+        runTest(ManageSDKTest::GetClosedCaptionsFontFamily, "GetClosedCaptionsFontFamily");
+        runTest(ManageSDKTest::SetClosedCaptionsFontFamily, "SetClosedCaptionsFontFamily");
+        runTest(ManageSDKTest::SubscribeClosedCaptionsFontFamilyChanged, "SubscribeClosedCaptionsFontFamilyChanged");
+        runTest(ManageSDKTest::UnsubscribeClosedCaptionsFontFamilyChanged, "UnsubscribeClosedCaptionsFontFamilyChanged");
+
+        // Localization methods
+        runTest(ManageSDKTest::GetLocalizationPreferredAudioLanguages, "GetLocalizationPreferredAudioLanguages");
+        runTest(ManageSDKTest::SetLocalizationPreferredAudioLanguages, "SetLocalizationPreferredAudioLanguages");
+        runTest(ManageSDKTest::SubscribeLocalizationPreferredAudioLanguagesChanged, "SubscribeLocalizationPreferredAudioLanguagesChanged");
+        runTest(ManageSDKTest::UnsubscribeLocalizationPreferredAudioLanguagesChanged, "UnsubscribeLocalizationPreferredAudioLanguagesChanged");
+
+        runTest(ManageSDKTest::GetLocalizationAdditionalInfo, "GetLocalizationAdditionalInfo");
+        runTest(ManageSDKTest::AddLocalizationAdditionalInfo, "AddLocalizationAdditionalInfo");
+        runTest(ManageSDKTest::RemoveLocalizationAdditionalInfo, "RemoveLocalizationAdditionalInfo");
+
+        // Privacy methods
+        runTest(ManageSDKTest::GetPrivacyAllowACRCollection, "GetPrivacyAllowACRCollection");
+        runTest(ManageSDKTest::SetPrivacyAllowACRCollection, "SetPrivacyAllowACRCollection");
+        runTest(ManageSDKTest::SubscribePrivacyAllowACRCollectionChanged, "SubscribePrivacyAllowACRCollectionChanged");
+        runTest(ManageSDKTest::UnsubscribePrivacyAllowACRCollectionChanged, "UnsubscribePrivacyAllowACRCollectionChanged");
+
+        runTest(ManageSDKTest::GetPrivacySettings, "GetPrivacySettings");
+
+        // Discovery methods
+        runTest(ManageSDKTest::SubscribeDiscoverySignInNotification, "SubscribeDiscoverySignInNotification");
+        runTest(ManageSDKTest::UnsubscribeDiscoverySignInNotification, "UnsubscribeDiscoverySignInNotification");
+        runTest(ManageSDKTest::SubscribeDiscoverySignOutNotification, "SubscribeDiscoverySignOutNotification");
+        runTest(ManageSDKTest::UnsubscribeDiscoverySignOutNotification, "UnsubscribeDiscoverySignOutNotification");
+
+        // UserGrants methods
+        runTest(ManageSDKTest::GetUserGrantsPermission, "GetUserGrantsPermission");
+        runTest(ManageSDKTest::GrantUserGrantsPermission, "GrantUserGrantsPermission");
+        runTest(ManageSDKTest::DenyUserGrantsPermission, "DenyUserGrantsPermission");
+        runTest(ManageSDKTest::ClearUserGrantsPermission, "ClearUserGrantsPermission");
+
+        // Wifi methods
+        // runTest(ManageSDKTest::WifiScan, "WifiScan");
+        // runTest(ManageSDKTest::WifiConnect, "WifiConnect");
+        // runTest(ManageSDKTest::WifiDisconnect, "WifiDisconnect");
+
+        // Provider registration
+        runTest(ManageSDKTest::RegisterKeyboardProvider, "RegisterKeyboardProvider");
+        runTest(ManageSDKTest::SendResponseMessageToKeyboardProvider, "SendResponseMessageToKeyboardProvider");
+        runTest(ManageSDKTest::SendErrorMessageToKeyboardProvider, "SendErrorMessageToKeyboardProvider");
+
+        runTest(ManageSDKTest::RegisterAcknowledgeChallengeProvider, "RegisterAcknowledgeChallengeProvider");
+        runTest(ManageSDKTest::SendResponseMessageToAcknowledgeChallengeProvider, "SendResponseMessageToAcknowledgeChallengeProvider");
+        runTest(ManageSDKTest::SendErrorMessageToAcknowledgeChallengeProvider, "SendErrorMessageToAcknowledgeChallengeProvider");
+
+        runTest(ManageSDKTest::RegisterPinChallengeProvider, "RegisterPinChallengeProvider");
+        runTest(ManageSDKTest::SendResponseMessageToPinChallengeProvider, "SendResponseMessageToPinChallengeProvider");
+        runTest(ManageSDKTest::SendErrorMessageToPinChallengeProvider, "SendErrorMessageToPinChallengeProvider");
+
+        runTest(ManageSDKTest::GlobalSubscribeHdmiAutoLowLatencyModeCapableChanged, "GlobalSubscribeHdmiAutoLowLatencyModeCapableChanged");
+        runTest(ManageSDKTest::GlobalUnsubscribeHdmiAutoLowLatencyModeCapableChanged, "GlobalUnsubscribeHdmiAutoLowLatencyModeCapableChanged");
+
+        runTest(ManageSDKTest::GetAutoLowLatencyModeCapable, "GetAutoLowLatencyModeCapable");
+        runTest(ManageSDKTest::SetAutoLowLatencyModeCapable, "SetAutoLowLatencyModeCapable");
+        runTest(ManageSDKTest::GetEdidVersion, "GetEdidVersion");
+        runTest(ManageSDKTest::SetEdidVersion, "SetEdidVersion");
+        runTest(ManageSDKTest::GetHdmiPortInfo, "GetHdmiPortInfo");
+        
+        if (allTestsPassed) {
+            cout << "============================" << endl;
+            cout << "ALL MANAGE SDK TESTS SUCCEEDED!" << endl;
+            cout << "============================" << endl;
+        } else {
+            cout << "============================" << endl;
+            cout << "SOME TESTS FAILED:" << endl;
+            for (const auto& errorMessage : errorMessages) {
+                cout << errorMessage << endl;
+            }
+            cout << "============================" << endl;
+            exit(1);
         }
-        case 'D': {
-            ManageSDKTest::DenyUserGrantsPermission();
-            break;
-        }
-        case 'C': {
-            ManageSDKTest::ClearUserGrantsPermission();
-            break;
-        }
-        default:
-            break;
-        }
-    } while (opt != 'Q');
+    } else {
+        cout << "Manage Test not able to connect with server..." << endl;
+        exit(1);
+    }
 }
 
-void HandleAdditionalInfo()
-{
-    int opt;
-    do {
-        getchar();
-        ShowAdditionalInfoMenu();
-        printf("Enter option : ");
-        opt = toupper(getchar());
-        switch (opt) {
-        case 'G': {
-            ManageSDKTest::GetLocalizationAdditionalInfo();
-            break;
-        }
-        case 'A': {
-            ManageSDKTest::AddLocalizationAdditionalInfo();
-            break;
-        }
-        case 'R': {
-            ManageSDKTest::RemoveLocalizationAdditionalInfo();
-            break;
-        }
-        default:
-            break;
-        }
-    } while (opt != 'Q');
-}
-
-#define VALUE(string) #string
-#define TO_STRING(string) VALUE(string)
-
-#define HandleEventListener(Module, eventFuncName) \
-{ \
-    int opt; \
-    do { \
-        getchar(); \
-        ShowEventMenu(); \
-        printf("Enter option : "); \
-        opt = toupper(getchar()); \
-        switch (opt) { \
-        case 'S': { \
-            ManageSDKTest::Subscribe##Module##eventFuncName(); \
-            break; \
-        } \
-        case 'U': { \
-            ManageSDKTest::Unsubscribe##Module##eventFuncName(); \
-            break; \
-        } \
-        default: \
-            break; \
-        } \
-    } while (opt != 'Q'); \
-}
-
-#define HandleProperty(Module, Property) \
-{ \
-    int opt; \
-    do { \
-        getchar(); \
-        std::string module = TO_STRING(Module); \
-        std::string property = TO_STRING(Property); \
-        ShowPropertyMenu(module, property); \
-        printf("Enter option : "); \
-        opt = toupper(getchar()); \
-        switch (opt) { \
-        case 'G': { \
-            ManageSDKTest::Get##Module##Property(); \
-            break; \
-        } \
-        case 'S': { \
-            ManageSDKTest::Set##Module##Property(); \
-            break; \
-        } \
-        default: \
-            break; \
-        } \
-    } while (opt != 'Q'); \
-}
-
-
-#define HandlePropertyWithEvent(Module, Property) \
-{ \
-    int opt; \
-    do { \
-        getchar(); \
-        std::string module = TO_STRING(Module); \
-        std::string property = TO_STRING(Property); \
-        ShowPropertyWithEventMenu(module, property); \
-        printf("Enter option : "); \
-        opt = toupper(getchar()); \
-        switch (opt) { \
-        case 'G': { \
-            ManageSDKTest::Get##Module##Property(); \
-            break; \
-        } \
-        case 'S': { \
-            ManageSDKTest::Set##Module##Property(); \
-            break; \
-        } \
-        case 'R': { \
-            HandleEventListener(Module, Property##Changed) \
-            break; \
-        } \
-        default: \
-            break; \
-        } \
-    } while (opt != 'Q'); \
-}
-
-#define HandleProviderSequence(Module) \
-{ \
-    int opt; \
-    do { \
-        getchar(); \
-        std::string module = TO_STRING(Module); \
-        ShowProviderMenu(module); \
-        printf("Enter option : "); \
-        opt = toupper(getchar()); \
-        switch (opt) { \
-        case 'R': { \
-            ManageSDKTest::SendResponseMessageTo##Module##Provider(); \
-            break; \
-        } \
-        case 'E': { \
-            ManageSDKTest::SendErrorMessageTo##Module##Provider(); \
-            break; \
-        } \
-        default: \
-            break; \
-        } \
-    } while (opt != 'Q'); \
-}
-
-void HandleWifiOperations()
-{
-    int opt;
-    do {
-        getchar();
-        ShowWifiOperationsMenu();
-        printf("Enter option : ");
-        opt = toupper(getchar());
-        switch (opt) {
-        case 'S': {
-            ManageSDKTest::WifiScan();
-            break;
-        }
-        case 'C': {
-            ManageSDKTest::WifiConnect();
-            break;
-        }
-        case 'D': {
-            ManageSDKTest::WifiDisconnect(); // This method is not avaialble from ripple now
-            break;
-        }
-        default:
-            break;
-        }
-    } while (opt != 'Q');
-}
-
-#define options ":hu:"
-int main (int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     int c;
-    std::string url = "ws://127.0.0.1:9998";
-    while ((c = getopt (argc, argv, options)) != -1) {
-        switch (c)
-        {
+    string url = "ws://127.0.0.1:9998";
+    while ((c = getopt(argc, argv, options)) != -1) {
+        switch (c) {
             case 'u':
-                 url = optarg;
-                 break;
-
+                url = optarg;
+                break;
             case 'h':
-                 printf("./TestFireboltManage -u ws://ip:port\n");
-                 exit(1);
+                printf("./TestFireboltManage -u ws://ip:port\n");
+                exit(1);
         }
     }
 
     printf("Firebolt Manage SDK Test\n");
+
     ManageSDKTest::CreateFireboltInstance(url);
-    int option;
-
-    if (ManageSDKTest::WaitOnConnectionReady() == true) {
-       do {
-            ShowMenu();
-            printf("Enter option : ");
-            option = toupper(getchar());
-            switch (option) {
-            case 'A': {
-                HandleProperty(Advertising, SkipRestriction)
-                break;
-            }
-            case 'T': {
-                ManageSDKTest::SetAccountSession();
-                break;
-            }
-            case 'E': {
-                HandlePropertyWithEvent(AudioDescriptions, Enabled)
-                break;
-            }
-            case 'N': {
-                HandlePropertyWithEvent(Device, Name)
-                break;
-            }
-            case 'B': {
-                HandlePropertyWithEvent(ClosedCaptions, BackgroundOpacity)
-                break;
-            }
-            case 'F': {
-                HandlePropertyWithEvent(ClosedCaptions, FontFamily)
-                break;
-            }
-            case 'L': {
-                HandlePropertyWithEvent(Localization, PreferredAudioLanguages)
-                break;
-            }
-            case 'C': {
-                HandlePropertyWithEvent(Privacy, AllowACRCollection)
-                break;
-            }
-            case 'S': {
-                ManageSDKTest::GetPrivacySettings();
-                break;
-            }
-            case 'I': {
-                HandleEventListener(Discovery, SignInNotification)
-                break;
-            }
-            case 'O': {
-                HandleEventListener(Discovery, SignOutNotification)
-                break;
-            }
-            case 'R': {
-                ManageSDKTest::ResetAdvertisingIdentifier();
-                break;
-            }
-            case 'K': {
-                ManageSDKTest::RegisterKeyboardProvider();
-                HandleProviderSequence(Keyboard)
-                break;
-            }
-            case 'G': {
-                ManageSDKTest::RegisterAcknowledgeChallengeProvider();
-                HandleProviderSequence(AcknowledgeChallenge)
-                break;
-            }
-            case 'P': {
-                ManageSDKTest::RegisterPinChallengeProvider();
-                HandleProviderSequence(PinChallenge)
-                break;
-            }
-            case 'D': {
-                HandleAdditionalInfo();
-                break;
-            }
-            case 'U': {
-                HandleUserGrants();
-                break;
-            }
-            case 'W': {
-                HandleWifiOperations();
-                break;
-            }
-            default:
-                break;
-            }
-            getchar(); // Skip white space
-        } while (option != 'Q');
-
-    } else {
-        printf("Manage Test not able to connect with server.... \n");
-    }
-
+    RunAllTests();
     ManageSDKTest::DestroyFireboltInstance();
 
     return 0;
