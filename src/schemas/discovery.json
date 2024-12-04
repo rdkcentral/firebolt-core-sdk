@@ -1,0 +1,79 @@
+{
+    "title": "Discovery",
+    "$id": "https://meta.rdkcentral.com/firebolt/schemas/discovery",
+    "anyOf": [
+      {
+        "$ref": "#/definitions/PurchasedContentResult"
+      }
+    ],
+    "definitions": {
+      "PurchasedContentResult": {
+        "title": "PurchasedContentResult",
+        "type": "object",
+        "properties": {
+          "expires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "$ref": "https://meta.rdkcentral.com/firebolt/schemas/entertainment#/definitions/EntityInfo"
+            }
+          }
+        },
+        "required": [
+          "expires",
+          "totalCount",
+          "entries"
+        ],
+        "additionalProperties": false
+      },
+      "EntityInfoResult": {
+        "title": "EntityInfoResult",
+        "description": "The result for an `entityInfo()` push or pull.",
+        "type": "object",
+        "properties": {
+          "expires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "entity": {
+            "$ref": "https://meta.rdkcentral.com/firebolt/schemas/entertainment#/definitions/EntityInfo"
+          },
+          "related": {
+            "type": "array",
+            "items": {
+              "$ref": "https://meta.rdkcentral.com/firebolt/schemas/entertainment#/definitions/EntityInfo"
+            }
+          }
+        },
+        "required": [
+          "expires",
+          "entity"
+        ],
+        "additionalProperties": false
+      },
+      "InterestType": {
+        "title": "InterestType",
+        "type": "string",
+        "enum": [
+          "interest",
+          "disinterest"
+        ]
+      },
+      "InterestReason": {
+        "title": "InterestReason",
+        "type": "string",
+        "enum": [
+          "playlist",
+          "reaction",
+          "recording"
+        ]
+      }
+    }
+  }

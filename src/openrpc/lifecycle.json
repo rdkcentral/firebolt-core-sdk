@@ -1,387 +1,261 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "Lifecycle",
-    "description": "Methods and events for responding to lifecycle changes in your app",
-    "version": "0.0.0"
-  },
-  "methods": [
-    {
-      "name": "ready",
-      "tags": [
-        {
-          "name": "calls-metrics"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:lifecycle:ready"
-          ]
-        },
-        {
-          "name": "exclude-from-sdk"
-        }
-      ],
-      "summary": "Notify the platform that the app is ready",
-      "params": [],
-      "result": {
-        "name": "result",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Let the platform know that your app is ready",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": null
-          }
-        }
-      ]
-    },
-    {
-      "name": "close",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:lifecycle:state"
-          ]
-        }
-      ],
-      "summary": "Request that the platform move your app out of focus",
-      "params": [
-        {
-          "name": "reason",
-          "summary": "The reason the app is requesting to be closed",
-          "required": true,
-          "schema": {
-            "$ref": "https://meta.comcast.com/firebolt/lifecycle#/definitions/CloseReason"
-          }
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Close the app when the user presses back on the app home screen",
-          "params": [
-            {
-              "name": "reason",
-              "value": "remoteButton"
-            }
-          ],
-          "result": {
-            "name": "Default Result",
-            "value": null
-          }
-        },
-        {
-          "name": "Close the app when the user selects an exit menu item",
-          "params": [
-            {
-              "name": "reason",
-              "value": "userExit"
-            }
-          ],
-          "result": {
-            "name": "Default Result",
-            "value": null
-          }
-        }
-      ]
-    },
-    {
-      "name": "finished",
-      "tags": [
-        {
-          "name": "exclude-from-sdk"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:lifecycle:state"
-          ]
-        }
-      ],
-      "summary": "Notify the platform that the app is done unloading",
-      "params": [],
-      "result": {
-        "name": "results",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": null
-          }
-        }
-      ]
-    },
-    {
-      "name": "state",
-      "summary": "Get the current state of the app. This function is **synchronous**.",
-      "tags": [
-        {
-          "name": "synchronous"
-        },
-        {
-          "name": "exclude-from-sdk"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:lifecycle:state"
-          ]
-        }
-      ],
-      "params": [],
-      "result": {
-        "name": "state",
-        "summary": "the current state of the app.",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/lifecycle#/definitions/LifecycleState"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "foreground"
-          }
-        }
-      ]
-    },
-    {
-      "name": "onInactive",
-      "tags": [
-        {
-          "name": "event"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:lifecycle:state"
-          ]
-        }
-      ],
-      "summary": "Listen to the inactive event",
-      "params": [],
-      "result": {
-        "name": "value",
-        "schema": {
-          "$ref": "#/components/schemas/LifecycleEvent"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "state": "inactive",
-              "previous": "initializing"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "onForeground",
-      "tags": [
-        {
-          "name": "event"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:lifecycle:state"
-          ]
-        }
-      ],
-      "summary": "Listen to the foreground event",
-      "params": [],
-      "result": {
-        "name": "value",
-        "schema": {
-          "$ref": "#/components/schemas/LifecycleEvent"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "state": "foreground",
-              "previous": "inactive"
-            }
-          }
-        },
-        {
-          "name": "Move to foreground via remote branded buton",
-          "params": [],
-          "result": {
-            "name": "value",
-            "value": {
-              "state": "foreground",
-              "previous": "inactive",
-              "source": "remote"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "onBackground",
-      "tags": [
-        {
-          "name": "event"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:lifecycle:state"
-          ]
-        }
-      ],
-      "summary": "Listen to the background event",
-      "params": [],
-      "result": {
-        "name": "value",
-        "schema": {
-          "$ref": "#/components/schemas/LifecycleEvent"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "state": "background",
-              "previous": "foreground"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "onSuspended",
-      "tags": [
-        {
-          "name": "event"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:lifecycle:state"
-          ]
-        }
-      ],
-      "summary": "Listen to the suspended event",
-      "params": [],
-      "result": {
-        "name": "value",
-        "schema": {
-          "$ref": "#/components/schemas/LifecycleEvent"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "state": "suspended",
-              "previous": "inactive"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "onUnloading",
-      "tags": [
-        {
-          "name": "event"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:lifecycle:state"
-          ]
-        }
-      ],
-      "summary": "Listen to the unloading event",
-      "params": [],
-      "result": {
-        "name": "value",
-        "schema": {
-          "$ref": "#/components/schemas/LifecycleEvent"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "state": "unloading",
-              "previous": "inactive"
-            }
-          }
-        }
-      ]
-    }
-  ],
-  "components": {
-    "schemas": {
-      "LifecycleEvent": {
-        "title": "LifecycleEvent",
-        "description": "A an object describing the previous and current states",
-        "type": "object",
-        "required": [
-          "state",
-          "previous"
-        ],
-        "properties": {
-          "state": {
-            "$ref": "https://meta.comcast.com/firebolt/lifecycle#/definitions/LifecycleState",
-            "description": "The current lifcycle state"
-          },
-          "previous": {
-            "$ref": "https://meta.comcast.com/firebolt/lifecycle#/definitions/LifecycleState",
-            "description": "The previous lifcycle state"
-          },
-          "source": {
-            "type": "string",
-            "enum": [
-              "voice",
-              "remote"
-            ],
-            "description": "The source of the lifecycle change."
-          }
-        }
-      }
-    }
-  }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Lifecycle",
+		"description": "Methods and events for responding to lifecycle changes in your app",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "provideApplication",
+			"tags": [
+				{
+					"name": "registration",
+					"x-interface": "Application"
+				},
+				{
+					"name": "capabilities",
+					"x-provides": "xrn:firebolt:capability:lifecycle:application"
+				}
+			],
+			"summary": "Register an app's Application interface.",
+			"params": [
+				{
+					"name": "enabled",
+					"required": true,
+					"schema": {
+						"type": "boolean"
+					}
+				}
+			],
+			"result": {
+				"name": "result",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "enabled",
+							"value": true
+						}
+					],
+					"result": {
+						"name": "result",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "provideActivatable",
+			"tags": [
+				{
+					"name": "registration",
+					"x-interface": "Activatable"
+				},
+				{
+					"name": "capabilities",
+					"x-provides": "xrn:firebolt:capability:lifecycle:activatable"
+				}
+			],
+			"summary": "Register an app's Activatable interface.",
+			"params": [
+				{
+					"name": "enabled",
+					"required": true,
+					"schema": {
+						"type": "boolean"
+					}
+				}
+			],
+			"result": {
+				"name": "result",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "enabled",
+							"value": true
+						}
+					],
+					"result": {
+						"name": "result",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "provideSleepable",
+			"tags": [
+				{
+					"name": "registration",
+					"x-interface": "Sleepable"
+				},
+				{
+					"name": "capabilities",
+					"x-provides": "xrn:firebolt:capability:lifecycle:sleepable"
+				}
+			],
+			"summary": "Register an app's Sleepable interface.",
+			"params": [
+				{
+					"name": "enabled",
+					"required": true,
+					"schema": {
+						"type": "boolean"
+					}
+				}
+			],
+			"result": {
+				"name": "result",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "enabled",
+							"value": true
+						}
+					],
+					"result": {
+						"name": "result",
+						"value": null
+					}
+				}
+			]
+		},				
+		{
+			"name": "close",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:lifecycle:state"
+					]
+				}
+			],
+			"summary": "Request that the platform move your app out of focus",
+			"params": [
+				{
+					"name": "reason",
+					"summary": "The reason the app is requesting to be closed",
+					"required": true,
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/lifecycle#/definitions/CloseReason"
+					}
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Close the app when the user presses back on the app home screen",
+					"params": [
+						{
+							"name": "reason",
+							"value": "remoteButton"
+						}
+					],
+					"result": {
+						"name": "Default Result",
+						"value": null
+					}
+				},
+				{
+					"name": "Close the app when the user selects an exit menu item",
+					"params": [
+						{
+							"name": "reason",
+							"value": "userExit"
+						}
+					],
+					"result": {
+						"name": "Default Result",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "finished",
+			"tags": [
+				{
+					"name": "exclude-from-sdk"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:lifecycle:application"
+					]
+				}
+			],
+			"summary": "Notify the platform that the app is done unloading",
+			"params": [],
+			"result": {
+				"name": "results",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": null
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"LifecycleEvent": {
+				"title": "LifecycleEvent",
+				"description": "A an object describing the previous and current states",
+				"type": "object",
+				"required": [
+					"state",
+					"previous"
+				],
+				"properties": {
+					"state": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/lifecycle#/definitions/LifecycleState",
+						"description": "The current lifcycle state"
+					},
+					"previous": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/lifecycle#/definitions/LifecycleState",
+						"description": "The previous lifcycle state"
+					},
+					"source": {
+						"type": "string",
+						"enum": [
+							"voice",
+							"remote"
+						],
+						"description": "The source of the lifecycle change."
+					}
+				}
+			}	
+		}
+	}
 }

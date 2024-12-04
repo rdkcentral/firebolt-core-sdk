@@ -1,0 +1,345 @@
+{
+    "title": "Capabilities",
+    "$id": "https://meta.rdkcentral.com/firebolt/schemas/capabilities",
+    "oneOf": [
+        {
+            "$ref": "#/definitions/Capability"
+        },
+        {
+            "$ref": "#/definitions/Role"
+        },
+        {
+            "$ref": "#/definitions/DenyReason"
+        },
+        {
+            "$ref": "#/definitions/CapabilityInfo"
+        }
+    ],
+    "definitions": {
+        "GrantPolicy": {
+            "type": "object",
+            "required": [
+                "options",
+                "scope",
+                "lifespan",
+                "overridable"
+            ],
+            "if": {
+                "properties": {
+                    "lifespan": {
+                        "const": "seconds"
+                    }
+                }
+            },
+            "then": {
+                "required": [
+                    "lifespanTtl"
+                ]
+            },
+            "properties": {
+                "options": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/GrantRequirements"
+                    }
+                },
+                "scope": {
+                    "type": "string",
+                    "enum": [
+                        "app",
+                        "device"
+                    ]
+                },
+                "lifespan": {
+                    "type": "string",
+                    "enum": [
+                        "once",
+                        "forever",
+                        "appActive",
+                        "powerActive",
+                        "seconds"
+                    ]
+                },
+                "lifespanTtl": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "privacySetting": {
+                    "$ref": "#/definitions/PrivacySetting"
+                },
+                "overridable": {
+                    "type": "boolean"
+                },
+                "evaluateAt": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "invocation",
+                            "activeSession"
+                        ],
+                        "description": "Describes when this grant policy should be evaluated. 'invocation' causes this policy to be evaluated when a firebolt method is invoked and that method requires the capability this policy is for. 'activeSession' is when an application's firebolt state transitions to an active state (foreground/background) from an inactive state and this application is permitted to this capability. This field on the policy is an array, which means this policy could be evaluated at multiple places. For instance the policy could be evaluated at both invocation time and activeSession time. The default value for this field is ['invocation'], meaning the policy is only evaluated when a method is invoked."
+                    }
+                },
+                "persistence": {
+                    "type": "string",
+                    "enum": [
+                        "account",
+                        "device"
+                    ],
+                    "description": "Tells Firebolt how to persist the grant state for this policy. If this is set to account, then any device that shares the same account id will have their user grant synced. If a user makes a grant decision on one device, that grant decision will be used by another device on the same account. The time of expiration for the grant is shared across devices as well. Only lifespan of 'forever' and 'seconds' are supported for account persistence. The means of syncing the user grants across devices is left up to the Firebolt implementation. The default value for persistence is 'device', this just means the grants are stored locally on the current device and are not shared to any other devices."
+                }
+            },
+            "additionalProperties": false,
+            "examples": [
+                {
+                    "options": [
+                        {
+                            "steps": [
+                                {
+                                    "capability": "xrn:firebolt:capability:usergrant:acknowledge"
+                                }
+                            ]
+                        }
+                    ],
+                    "scope": "app",
+                    "lifespan": "seconds",
+                    "lifespanTtl": 86400,
+                    "overridable": true
+                },
+                {
+                    "options": [],
+                    "scope": "device",
+                    "lifespan": "once",
+                    "overridable": true,
+                    "privacySetting": {
+                        "property": "Privacy.allowACR",
+                        "autoApplyPolicy": "always"
+                    }
+                },
+                {
+                    "options": [
+                        {
+                            "steps": [
+                                {
+                                    "capability": "xrn:firebolt:capability:usergrant:acknowledge"
+                                }
+                            ]
+                        }
+                    ],
+                    "scope": "app",
+                    "lifespan": "seconds",
+                    "lifespanTtl": 86400,
+                    "overridable": true,
+                    "evaluateAt": [
+                        "invocation",
+                        "activeSession"
+                    ],
+                    "persistence": "account"
+                }
+            ]
+        },
+        "PrivacySetting": {
+            "type": "object",
+            "required": [
+                "property",
+                "autoApplyPolicy"
+            ],
+            "properties": {
+                "property": {
+                    "type": "string",
+                    "description": "The Firebolt <Module>.<getter> RPC method name for a property",
+                    "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+$"
+                },
+                "autoApplyPolicy": {
+                    "type": "string",
+                    "enum": [
+                        "always",
+                        "allowed",
+                        "disallowed",
+                        "never"
+                    ],
+                    "description": "Policy which describes how to to silently apply the grant. 'always' - Silently grant if value matches allow-value and silently deny if value does not match allow value. 'allowed' - Silently grant if value matches allow-value. 'disallowed' - Silently deny if value does not match allow-value. 'never' - Do not silently grant for any case"
+                },
+                "updateProperty": {
+                    "type": "boolean",
+                    "description": "Whether to update the property value to match the grant."
+                }
+            },
+            "additionalProperties": false
+        },
+        "GrantRequirements": {
+            "type": "object",
+            "required": [
+                "steps"
+            ],
+            "properties": {
+                "steps": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/GrantStep"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "GrantStep": {
+            "type": "object",
+            "required": [
+                "capability"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "capability": {
+                    "$ref": "#/definitions/GrantKey"
+                },
+                "configuration": {
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            }
+        },
+        "GrantKey": {
+            "title": "GrantKey",
+            "allOf": [
+                {
+                    "$ref": "https://meta.rdkcentral.com/firebolt/schemas/capabilities#/definitions/Capability"
+                },
+                {
+                    "type": "string",
+                    "pattern": ":usergrant:[a-z0-9]+?$"
+                }
+            ]
+        },
+        "Capability": {
+            "title": "Capability",
+            "type": "string",
+            "description": "A Capability is a discrete unit of functionality that a Firebolt device might be able to perform.",
+            "pattern": "^xrn:firebolt:capability:([a-z0-9\\-]+)((:[a-z0-9\\-]+)?)$"
+        },
+        "Role": {
+            "title": "Role",
+            "description": "Role provides access level for the app for a given capability.",
+            "type": "string",
+            "enum": [
+                "use",
+                "manage",
+                "provide"
+            ]
+        },
+        "Permission": {
+            "title": "Permission",
+            "description": "A capability combined with a Role, which an app may be permitted (by a distributor) or granted (by an end user).",
+            "type": "object",
+            "required": [
+                "capability"
+            ],
+            "properties": {
+                "role": {
+                    "$ref": "#/definitions/Role"
+                },
+                "capability": {
+                    "$ref": "#/definitions/Capability"
+                }
+            },
+            "additionalProperties": false
+        },
+        "DenyReason": {
+            "title": "DenyReason",
+            "description": "Reasons why a Capability might not be invokable",
+            "type": "string",
+            "enum": [
+                "unpermitted",
+                "unsupported",
+                "disabled",
+                "unavailable",
+                "grantDenied",
+                "ungranted"
+            ]
+        },
+        "CapPermissionStatus": {
+            "type": "object",
+            "properties": {
+                "permitted": {
+                    "type": "boolean",
+                    "description": "Provides info whether the capability is permitted"
+                },
+                "granted": {
+                    "oneOf": [
+                        {
+                            "type": "boolean",
+                            "description": "Provides info whether the capability is granted"
+                        },
+                        {
+                            "const": null
+                        }
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "CapabilityInfo": {
+            "title": "CapabilityInfo",
+            "type": "object",
+            "required": [
+                "supported",
+                "available",
+                "use",
+                "manage",
+                "provide"
+            ],
+            "properties": {
+                "capability": {
+                    "$ref": "#/definitions/Capability"
+                },
+                "supported": {
+                    "type": "boolean",
+                    "description": "Provides info whether the capability is supported"
+                },
+                "available": {
+                    "type": "boolean",
+                    "description": "Provides info whether the capability is available"
+                },
+                "use": {
+                    "$ref": "#/definitions/CapPermissionStatus"
+                },
+                "manage": {
+                    "$ref": "#/definitions/CapPermissionStatus"
+                },
+                "provide": {
+                    "$ref": "#/definitions/CapPermissionStatus"
+                },
+                "details": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DenyReason"
+                    },
+                    "minItems": 1,
+                    "maxItems": 6
+                }
+            },
+            "additionalProperties": false,
+            "examples": [
+                {
+                    "capability": "xrn:firebolt:capability:keyboard",
+                    "supported": true,
+                    "available": true,
+                    "use": {
+                        "permitted": true,
+                        "granted": true
+                    },
+                    "manage": {
+                        "permitted": true,
+                        "granted": true
+                    },
+                    "provide": {
+                        "permitted": true,
+                        "granted": true
+                    }
+                }
+            ]
+        }
+    }
+}

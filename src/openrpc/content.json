@@ -1,0 +1,198 @@
+{
+    "openrpc": "1.2.4",
+    "info": {
+        "title": "Content",
+        "version": "0.0.0",
+        "description": ""
+    },
+    "methods": [
+        {
+            "name": "requestUserInterest",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-provided-by": "Interest.userInterest",
+                    "x-uses": [
+                        "xrn:firebolt:capability:discovery:interest"
+                    ]
+                }
+            ],
+            "summary": "Provide information about the entity currently displayed or selected on the screen.",
+            "description": "Provide information about the entity currently displayed or selected on the screen.",
+            "params": [
+                {
+                    "name": "type",
+                    "required": true,
+                    "schema": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/discovery#/definitions/InterestType"
+                    }
+                },
+                {
+                    "name": "reason",
+                    "required": true,
+                    "schema": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/discovery#/definitions/InterestReason"
+                    }
+                }
+            ],
+            "result": {
+                "name": "interest",
+                "schema": {
+                    "$ref": "#/components/schemas/InterestResult"
+                },
+                "summary": "The EntityDetails data."
+            },
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [
+                        {
+                            "name": "type",
+                            "value": "interest"
+                        },
+                        {
+                            "name": "reason",
+                            "value": "playlist"
+                        }
+                    ],
+                    "result": {
+                        "name": "interest",
+                        "value": {
+                            "appId": "cool-app",
+                            "entity": {
+                                "identifiers": {
+                                    "entityId": "345",
+                                    "entityType": "program",
+                                    "programType": "movie"
+                                },
+                                "info": {
+                                    "title": "Cool Runnings",
+                                    "synopsis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar sapien et ligula ullamcorper malesuada proin libero nunc.",
+                                    "releaseDate": "1993-01-01T00:00:00.000Z",
+                                    "contentRatings": [
+                                        {
+                                            "scheme": "US-Movie",
+                                            "rating": "PG"
+                                        },
+                                        {
+                                            "scheme": "CA-Movie",
+                                            "rating": "G"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "userInterest",
+            "tags": [
+                {
+                    "name": "notifier"
+                },
+                {
+                    "name": "capabilities",
+                    "x-provided-by": "Discovery.userInterest",
+                    "x-uses": [
+                        "xrn:firebolt:capability:discovery:interest"
+                    ]
+                }
+            ],
+            "summary": "Provide information about the entity currently displayed or selected on the screen.",
+            "description": "Provide information about the entity currently displayed or selected on the screen.",
+            "params": [
+                {
+                    "name": "interest",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/InterestEvent"
+                    },
+                    "summary": "The EntityDetails data."
+                }
+            ],
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [
+                        {
+                            "name": "interest",
+                            "value": {
+                                "appId": "cool-app",
+                                "type": "interest",
+                                "reason": "playlist",
+                                "entity": {
+                                    "identifiers": {
+                                        "entityId": "345",
+                                        "entityType": "program",
+                                        "programType": "movie"
+                                    },
+                                    "info": {
+                                        "title": "Cool Runnings",
+                                        "synopsis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar sapien et ligula ullamcorper malesuada proin libero nunc.",
+                                        "releaseDate": "1993-01-01T00:00:00.000Z",
+                                        "contentRatings": [
+                                            {
+                                                "scheme": "US-Movie",
+                                                "rating": "PG"
+                                            },
+                                            {
+                                                "scheme": "CA-Movie",
+                                                "rating": "G"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }                        
+                    ]
+                }
+            ]
+        }
+    ],
+    "components": {
+        "schemas": {
+            "InterestResult": {
+                "title": "InterestResult",
+                "type": "object",
+                "properties": {
+                    "appId": {
+                        "type": "string"
+                    },
+                    "entity": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/entity#/definitions/EntityDetails"
+                    }
+                },
+                "required": [
+                    "appId",
+                    "entity"
+                ]
+            },
+            "InterestEvent": {
+                "title": "InterestEvent",
+                "type": "object",
+                "properties": {
+                    "appId": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/discovery#/definitions/InterestType"
+                    },
+                    "reason": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/discovery#/definitions/InterestReason"
+                    },
+                    "entity": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/entity#/definitions/EntityDetails"
+                    }
+                },
+                "required": [
+                    "appId",
+                    "entity",
+                    "type",
+                    "reason"
+                ]
+            }
+        }
+    }
+}

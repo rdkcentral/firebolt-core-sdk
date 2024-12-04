@@ -141,6 +141,15 @@
             "manage": [
                 "xrn:firebolt:capability:discovery:sign-in-status"
             ]
+        },
+        {
+            "module": "HDMIInput",
+            "use": [
+                "xrn:firebolt:capability:inputs:hdmi"
+            ],
+            "manage": [
+                "xrn:firebolt:capability:inputs:hdmi"
+            ]
         }
     ]
 }

@@ -1,0 +1,43 @@
+name: Attempt to merge next to main
+on:
+  workflow_dispatch:
+
+jobs:
+  # Check if next can merge into main
+  perform_merge:
+    name: Perform merge if "next" can merge into "main"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          repo-token: ${{ secrets.SEMANTIC_RELEASE_BOT_PAT }}
+          persist-credentials: true
+
+      # Set user identity
+      - name: Set-Identity
+        run: |
+          git config --global user.email "${{ secrets.GLOBAL_GITHUB_EMAIL }}"
+          git config --global user.name "${{ secrets.GLOBAL_GITHUB_USER }}"
+
+      # Checkout "main"
+      - name: Checkout main
+        run: git checkout "main"
+
+      - name: Perform the merge from next to main
+        run: |
+          git merge next
+          git push origin "main"
+          echo "Push to main succeeded"
+
+  # If the merge cannot be performed, let stakeholders know
+  message_on_failure:
+    name: Merge failure
+    needs: perform_merge
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+
+    steps:
+      - name: Post error message (To-Do)
+        run: echo "Next cannot be merged into main cleanly"

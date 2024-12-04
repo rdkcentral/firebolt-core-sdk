@@ -1,0 +1,52 @@
+name: Comment Artifact URL on PR
+
+on:
+  workflow_run:
+    types:
+      - "completed"
+    workflows:
+      - "Core SDK - MFOS standalone sanity report"
+
+jobs:
+  comment-on-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Artifact And Job Data
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          SERVER_URL: ${{ github.server_url }}
+          GITHUB_REPO: ${{ github.repository }}
+          WORKFLOW_RUN_EVENT_OBJ: ${{ toJSON(github.event.workflow_run) }}
+        run: |
+          ./.github/workflows/utils.sh getArtifactData
+
+      - name: Download an artifact
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { downloadArtifact } = require('./.github/workflows/utils.cjs');
+            downloadArtifact(process.env.ARTIFACT_ID,process.env.JOB_PATH,process.env.PR_NUMBER,context,github);
+
+      - name: Unzip an artifact
+        run: |
+          ./.github/workflows/utils.sh unzipArtifact
+
+      - name: Post a Comment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { createComment } = require('./.github/workflows/utils.cjs');
+            createComment(github, context);
+        env:
+          issue_number: ${{ env.PR_NUMBER }}
+          Passes: ${{ env.Passes }}
+          Failures: ${{ env.Failures }}
+          Pending: ${{ env.Pending }}
+          Skipped: ${{ env.Skipped }}
+          ARTIFACT_URL: ${{ env.ARTIFACT_URL }}
+          JOB_PATH: ${{ env.JOB_PATH }}

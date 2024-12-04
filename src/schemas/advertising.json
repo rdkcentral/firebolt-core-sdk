@@ -1,0 +1,23 @@
+{
+    "title": "Advertising",
+    "$id": "https://meta.rdkcentral.com/firebolt/schemas/advertising",
+    "oneOf": [
+      {
+        "$ref": "#/definitions/SkipRestriction"
+      }
+    ],
+    "definitions": {
+      "SkipRestriction": {
+        "title": "SkipRestriction",
+        "$comment": "xrn:advertising:policy:skipRestriction:",
+        "type": "string",
+        "enum": [
+          "none",
+          "adsUnwatched",
+          "adsAll",
+          "all"
+        ],
+        "description": "The advertisement skip restriction.\n\nApplies to fast-forward/rewind (e.g. trick mode), seeking over an entire opportunity (e.g. jump), seeking out of what's currently playing, and \"Skip this ad...\" features. Seeking over multiple ad opportunities only requires playback of the _last_ opportunity, not all opportunities, preceding the seek destination.\n\n| Value        | Description                                                                    |\n|--------------|--------------------------------------------------------------------------------|\n| none         |No fast-forward, jump, or skip restrictions                                    |\n| adsUnwatched | Restrict fast-forward, jump, and skip for unwatched ad opportunities only.     |\n| adsAll       | Restrict fast-forward, jump, and skip for all ad opportunities                 |\n| all          | Restrict fast-forward, jump, and skip for all ad opportunities and all content |\n\nNamespace: `xrn:advertising:policy:skipRestriction:`\n\n"
+      }
+    }
+  }

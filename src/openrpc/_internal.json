@@ -1,82 +1,83 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "Internal",
-    "description": "Internal methods for SDK / FEE integration",
-    "version": "0.0.0"
-  },
-  "methods": [
-    {
-      "name": "initialize",
-      "tags": [
-        {
-          "name": "rpc-only"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:lifecycle:initialize"
-          ]
-        }
-      ],
-      "summary": "Initialize the SDK / FEE session.",
-      "description": "A single version of the Firebolt SDK is compiled into each app. When an app starts up, the SDK **MUST** call this method as soon as possible and **before** any other JSON-RPC methods are sent.",
-      "params": [
-        {
-          "name": "version",
-          "required": true,
-          "schema": {
-            "$ref": "https://meta.comcast.com/firebolt/types#/definitions/SemanticVersion"
-          },
-          "summary": "The semantic version of the SDK."
-        }
-      ],
-      "result": {
-        "name": "session",
-        "summary": "Info about the SDK/FEE session",
-        "schema": {
-          "type": "object",
-          "required": ["version"],
-          "properties": {
-            "version": {
-              "$ref": "https://meta.comcast.com/firebolt/types#/definitions/SemanticVersion",
-              "description": "The semantic version of the FEE."
-            }
-          },
-          "additionalProperties": false
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [
-            {
-              "name": "version",
-              "value": {
-                "major": 1,
-                "minor": 0,
-                "patch": 0,
-                "readable": "Firebolt SDK 1.0.0"
-              }
-            }
-          ],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "version": {
-                "major": 1,
-                "minor": 0,
-                "patch": 0,
-                "readable": "Firebolt FEE 1.0.0"                
-              }
-            }
-          }
-        }            
-      ]    
-    }
-  ],
-  "components": {
-    "schemas": {    
-    }
-  }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Internal",
+		"description": "Internal methods for SDK / FEE integration",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "initialize",
+			"tags": [
+				{
+					"name": "rpc-only"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:lifecycle:initialize"
+					]
+				}
+			],
+			"summary": "Initialize the SDK / FEE session.",
+			"description": "A single version of the Firebolt SDK is compiled into each app. When an app starts up, the SDK **MUST** call this method as soon as possible and **before** any other JSON-RPC methods are sent.",
+			"params": [
+				{
+					"name": "version",
+					"required": true,
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/SemanticVersion"
+					},
+					"summary": "The semantic version of the SDK."
+				}
+			],
+			"result": {
+				"name": "session",
+				"summary": "Info about the SDK/FEE session",
+				"schema": {
+					"type": "object",
+					"required": [
+						"version"
+					],
+					"properties": {
+						"version": {
+							"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/SemanticVersion",
+							"description": "The semantic version of the FEE."
+						}
+					},
+					"additionalProperties": false
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "version",
+							"value": {
+								"major": 1,
+								"minor": 0,
+								"patch": 0,
+								"readable": "Firebolt SDK 1.0.0"
+							}
+						}
+					],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"version": {
+								"major": 1,
+								"minor": 0,
+								"patch": 0,
+								"readable": "Firebolt FEE 1.0.0"
+							}
+						}
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {}
+	}
 }

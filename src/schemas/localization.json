@@ -1,0 +1,46 @@
+{
+    "title": "Localization",
+    "$id": "https://meta.rdkcentral.com/firebolt/schemas/localization",
+    "oneOf": [
+        {
+            "$ref": "#/definitions/Locality"
+        },
+        {
+            "$ref": "#/definitions/CountryCode"
+        },
+        {
+            "$ref": "#/definitions/Language"
+        },
+        {
+            "$ref": "#/definitions/Locale"
+        },
+        {
+            "$ref": "#/definitions/TimeZone"
+        }
+    ],
+    "definitions": {
+        "CountryCode": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+        },
+        "Language": {
+            "type": "string",
+            "pattern": "^[A-Za-z]{2}$"
+        },
+        "ISO639_2Language": {
+            "type": "string",
+            "pattern": "^[a-z]{3}$"
+        },
+        "Locality": {
+            "type": "string"
+        },
+        "Locale": {
+            "type": "string",
+            "pattern": "^[a-zA-Z]+([a-zA-Z0-9\\-]*)$"
+        },
+        "TimeZone": {
+            "type": "string",
+            "pattern": "^[-+_\/ A-Za-z 0-9]*$"
+        }
+    }
+}

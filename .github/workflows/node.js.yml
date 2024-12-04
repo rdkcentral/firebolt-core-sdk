@@ -39,5 +39,5 @@ jobs:
     - run: npm run compile
     - run: npm run slice
     - run: npm run validate:compiled
-    - run: npm run sdks
+    - run: npm run sdk
     - run: npm run test

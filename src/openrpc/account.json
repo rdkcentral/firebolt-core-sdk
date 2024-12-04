@@ -1,140 +1,142 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "Account",
-    "description": "A module for querying about the device account.",
-    "version": "0.0.0"
-  },
-  "methods": [
-    {
-      "name": "id",
-      "summary": "Get the platform back-office account identifier",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:immutable"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:account:id"
-          ]
-        }
-      ],
-      "result": {
-        "name": "id",
-        "summary": "the id",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "123"
-          }
-        }
-      ]
-    },
-    {
-      "name": "uid",
-      "summary": "Gets a unique id for the current app & account",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:immutable"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:account:uid"
-          ]
-        }
-      ],
-      "result": {
-        "name": "uniqueId",
-        "summary": "a unique ID",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the unique ID",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "ee6723b8-7ab3-462c-8d93-dbf61227998e"
-          }
-        }
-      ]
-    },
-    {
-      "name": "session",
-      "summary": "Used by a distributor to push Session token to firebolt.",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-manages": [
-            "xrn:firebolt:capability:token:account"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "token",
-          "schema": {
-            "$ref": "#/components/schemas/Token"
-          }
-        },
-        {
-          "name": "expiresIn",
-          "schema": {
-            "$ref": "#/components/schemas/Expiry"
-          }
-        }
-      ],
-      "result": {
-        "name": "result",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [
-            {
-              "name": "token",
-              "value": "RmlyZWJvbHQgTWFuYWdlIFNESyBSb2NrcyEhIQ=="
-            },
-            {
-              "name": "expiresIn",
-              "value": 84000
-            }
-          ],
-          "result": {
-            "name": "defaultResult",
-            "value": null
-          }
-        }
-      ]
-    }
-  ],
-  "components": {
-    "schemas": {
-      "Token": {
-        "type": "string",
-        "description": "Encoded token provided by the Distributor for Device Authentication."
-      },
-      "Expiry": {
-        "type": "integer",
-        "description": "Number of secs before the token expires",
-        "minimum": 1
-      }
-    }
-  }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Account",
+		"description": "A module for querying about the device account.",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "id",
+			"summary": "Get the platform back-office account identifier",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:immutable"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:account:id"
+					]
+				}
+			],
+			"result": {
+				"name": "id",
+				"summary": "the id",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "123"
+					}
+				}
+			]
+		},
+		{
+			"name": "uid",
+			"summary": "Gets a unique id for the current app & account",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:immutable"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:account:uid"
+					]
+				}
+			],
+			"result": {
+				"name": "uniqueId",
+				"summary": "a unique ID",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the unique ID",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "ee6723b8-7ab3-462c-8d93-dbf61227998e"
+					}
+				}
+			]
+		},
+		{
+			"name": "session",
+			"summary": "Used by a distributor to push Session token to firebolt.",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-manages": [
+						"xrn:firebolt:capability:token:account"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "token",
+          "required": true,
+					"schema": {
+						"$ref": "#/components/schemas/Token"
+					}
+				},
+				{
+					"name": "expiresIn",
+          "required": true,
+					"schema": {
+						"$ref": "#/components/schemas/Expiry"
+					}
+				}
+			],
+			"result": {
+				"name": "result",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "token",
+							"value": "RmlyZWJvbHQgTWFuYWdlIFNESyBSb2NrcyEhIQ=="
+						},
+						{
+							"name": "expiresIn",
+							"value": 84000
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"Token": {
+				"type": "string",
+				"description": "Encoded token provided by the Distributor for Device Authentication."
+			},
+			"Expiry": {
+				"type": "integer",
+				"description": "Number of secs before the token expires",
+				"minimum": 1
+			}
+		}
+	}
 }

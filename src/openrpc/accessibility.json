@@ -1,234 +1,244 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "Accessibility",
-    "version": "0.0.0",
-    "description": "The `Accessibility` module provides access to the user/device settings for closed captioning and voice guidance.\n\nApps **SHOULD** attempt o respect these settings, rather than manage and persist seprate settings, which would be different per-app."
-  },
-  "methods": [
-    {
-      "name": "closedCaptions",
-      "summary": "Get the user's preferred closed-captions settings",
-      "params": [],
-      "tags": [
-        {
-          "name": "deprecated",
-          "x-alternative": "Accessibility.closedCaptionsSettings()",
-          "x-since": "0.6.0"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:accessibility:closedcaptions"
-          ]
-        }
-      ],
-      "result": {
-        "name": "closedCaptionsSettings",
-        "summary": "the closed captions settings",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/ClosedCaptionsSettings"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the closed captions settings",
-          "params": [],
-          "result": {
-            "name": "settings",
-            "value": {
-              "enabled": true,
-              "styles": {
-                "fontFamily": "Monospace sans-serif",
-                "fontSize": 1,
-                "fontColor": "#ffffff",
-                "fontEdge": "none",
-                "fontEdgeColor": "#7F7F7F",
-                "fontOpacity": 100,
-                "backgroundColor": "#000000",
-                "backgroundOpacity": 100,
-                "textAlign": "center",
-                "textAlignVertical": "middle",
-                "windowColor": "white",
-                "windowOpacity": 50
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "closedCaptionsSettings",
-      "summary": "Get the user's preferred closed-captions settings",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:readonly"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:accessibility:closedcaptions"
-          ]
-        }
-      ],
-      "result": {
-        "name": "closedCaptionsSettings",
-        "summary": "the closed captions settings",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/ClosedCaptionsSettings"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the closed captions settings",
-          "params": [],
-          "result": {
-            "name": "settings",
-            "value": {
-              "enabled": true,
-              "styles": {
-                "fontFamily": "Monospace sans-serif",
-                "fontSize": 1,
-                "fontColor": "#ffffff",
-                "fontEdge": "none",
-                "fontEdgeColor": "#7F7F7F",
-                "fontOpacity": 100,
-                "backgroundColor": "#000000",
-                "backgroundOpacity": 100,
-                "textAlign": "center",
-                "textAlignVertical": "middle",
-                "windowColor": "white",
-                "windowOpacity": 50
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "voiceGuidance",
-      "summary": "Get the user's preferred voice guidance settings",
-      "params": [],
-      "tags": [
-        {
-          "name": "deprecated",
-          "x-alternative": "Accessibility.voiceGuidanceSettings()",
-          "x-since": "0.6.0"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:accessibility:voiceguidance"
-          ]
-        }
-      ],
-      "result": {
-        "name": "settings",
-        "summary": "the voice guidance settings",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/VoiceGuidanceSettings"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the voice guidance settings",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "enabled": true,
-              "speed": 2
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "voiceGuidanceSettings",
-      "summary": "Get the user's preferred voice guidance settings",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:readonly"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:accessibility:voiceguidance"
-          ]
-        }
-      ],
-      "result": {
-        "name": "settings",
-        "summary": "the voice guidance settings",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/VoiceGuidanceSettings"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the voice guidance settings",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "enabled": true,
-              "speed": 2
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "audioDescriptionSettings",
-      "summary": "Get the user's preferred audio description settings",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:readonly"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:accessibility:audiodescriptions"
-          ]
-        }
-      ],
-      "result": {
-        "name": "settings",
-        "summary": "the audio description settings",
-        "schema": {
-          "$ref": "#/components/schemas/AudioDescriptionSettings"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the audio description settings",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "enabled": true
-            }
-          }
-        }
-      ]
-    }    
-  ],
-  "components": {
-    "schemas": {
-      "AudioDescriptionSettings": {
-        "title": "AudioDescriptionSettings",
-        "type": "object",
-        "required": ["enabled"],
-        "properties": {
-          "enabled": {
-            "type": "boolean",
-            "description": "Whether or not audio descriptions should be enabled by default"
-          }
-        }
-      }      
-    }
-  }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Accessibility",
+		"version": "0.0.0",
+		"description": "The `Accessibility` module provides access to the user/device settings for closed captioning and voice guidance.\n\nApps **SHOULD** attempt o respect these settings, rather than manage and persist seprate settings, which would be different per-app."
+	},
+	"methods": [
+		{
+			"name": "closedCaptions",
+			"summary": "Get the user's preferred closed-captions settings",
+			"params": [],
+			"tags": [
+				{
+					"name": "deprecated",
+					"x-alternative": "Accessibility.closedCaptionsSettings()",
+					"x-since": "0.6.0"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"result": {
+				"name": "closedCaptionsSettings",
+				"summary": "the closed captions settings",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/ClosedCaptionsSettings"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the closed captions settings",
+					"params": [],
+					"result": {
+						"name": "settings",
+						"value": {
+							"enabled": true,
+							"styles": {
+								"fontFamily": "monospace_serif",
+								"fontSize": 1,
+								"fontColor": "#ffffff",
+								"fontEdge": "none",
+								"fontEdgeColor": "#7F7F7F",
+								"fontOpacity": 100,
+								"backgroundColor": "#000000",
+								"backgroundOpacity": 100,
+								"textAlign": "center",
+								"textAlignVertical": "middle",
+								"windowColor": "white",
+								"windowOpacity": 50
+							},
+							"preferredLanguages": [
+							  "eng",
+							  "spa"
+							]							
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "closedCaptionsSettings",
+			"summary": "Get the user's preferred closed-captions settings",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:readonly"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"result": {
+				"name": "closedCaptionsSettings",
+				"summary": "the closed captions settings",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/ClosedCaptionsSettings"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the closed captions settings",
+					"params": [],
+					"result": {
+						"name": "settings",
+						"value": {
+							"enabled": true,
+							"styles": {
+								"fontFamily": "monospace_serif",
+								"fontSize": 1,
+								"fontColor": "#ffffff",
+								"fontEdge": "none",
+								"fontEdgeColor": "#7F7F7F",
+								"fontOpacity": 100,
+								"backgroundColor": "#000000",
+								"backgroundOpacity": 100,
+								"textAlign": "center",
+								"textAlignVertical": "middle",
+								"windowColor": "white",
+								"windowOpacity": 50
+							},
+							"preferredLanguages": [
+							  "eng",
+							  "spa"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "voiceGuidance",
+			"summary": "Get the user's preferred voice guidance settings",
+			"params": [],
+			"tags": [
+				{
+					"name": "deprecated",
+					"x-alternative": "Accessibility.voiceGuidanceSettings()",
+					"x-since": "0.6.0"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:voiceguidance"
+					]
+				}
+			],
+			"result": {
+				"name": "settings",
+				"summary": "the voice guidance settings",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/VoiceGuidanceSettings"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the voice guidance settings",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"enabled": true,
+							"speed": 2
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "voiceGuidanceSettings",
+			"summary": "Get the user's preferred voice guidance settings",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:readonly"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:voiceguidance"
+					]
+				}
+			],
+			"result": {
+				"name": "settings",
+				"summary": "the voice guidance settings",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/VoiceGuidanceSettings"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the voice guidance settings",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"enabled": true,
+							"speed": 2
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "audioDescriptionSettings",
+			"summary": "Get the user's preferred audio description settings",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:readonly"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:audiodescriptions"
+					]
+				}
+			],
+			"result": {
+				"name": "settings",
+				"summary": "the audio description settings",
+				"schema": {
+					"$ref": "#/components/schemas/AudioDescriptionSettings"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the audio description settings",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"enabled": true
+						}
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"AudioDescriptionSettings": {
+				"title": "AudioDescriptionSettings",
+				"type": "object",
+				"required": [
+					"enabled"
+				],
+				"properties": {
+					"enabled": {
+						"type": "boolean",
+						"description": "Whether or not audio descriptions should be enabled by default"
+					}
+				}
+			}
+		}
+	}
 }

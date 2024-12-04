@@ -1,0 +1,456 @@
+{
+    "$id": "https://meta.rdkcentral.com/firebolt/schemas/entity",
+    "title": "Entity",
+    "oneOf": [
+        {
+            "$ref": "#/definitions/Entity"
+        },
+        {
+            "$ref": "#/definitions/PlayableEntity"
+        },
+        {
+            "$ref": "#/definitions/EntityDetails"
+        }
+    ],
+    "definitions": {
+        "Entity": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/ProgramEntity"
+                },
+                {
+                    "$ref": "#/definitions/MusicEntity"
+                },
+                {
+                    "$ref": "#/definitions/ChannelEntity"
+                },
+                {
+                    "$ref": "#/definitions/UntypedEntity"
+                },
+                {
+                    "$ref": "#/definitions/PlaylistEntity"
+                }
+            ]            
+        },
+        "EntityDetails": {
+            "title": "EntityDetails",
+            "type": "object",
+            "required": [
+                "identifiers"
+            ],
+            "properties": {
+                "identifiers": {
+                    "$ref": "#/definitions/Entity"
+                },
+                "info": {
+                    "$ref": "#/definitions/Metadata"
+                },
+                "waysToWatch": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/entertainment#/definitions/WayToWatch"
+                    },
+                    "description": "An array of ways a user is might watch this entity, regardless of entitlements."
+                }
+            }
+        },
+        "ChannelEntity": {
+            "title": "ChannelEntity",
+            "type": "object",
+            "properties": {
+                "entityType": {
+                    "const": "channel"
+                },
+                "channelType": {
+                    "type": "string",
+                    "enum": [
+                        "streaming",
+                        "overTheAir"
+                    ]
+                },
+                "entityId": {
+                    "type": "string",
+                    "description": "ID of the channel, in the target App's scope."
+                },
+                "appContentData": {
+                    "type": "string",
+                    "maxLength": 256
+                }
+            },
+            "required": [
+                "entityType",
+                "channelType",
+                "entityId"
+            ],
+            "additionalProperties": false
+        },
+        "ProgramEntity": {
+            "title": "ProgramEntity",
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/MovieEntity"
+                },
+                {
+                    "$ref": "#/definitions/TVEpisodeEntity"
+                },
+                {
+                    "$ref": "#/definitions/TVSeasonEntity"
+                },
+                {
+                    "$ref": "#/definitions/TVSeriesEntity"
+                },
+                {
+                    "$ref": "#/definitions/AdditionalEntity"
+                }
+            ]
+        },
+        "MusicEntity": {
+            "title": "MusicEntity",
+            "type": "object",
+            "properties": {
+                "entityType": {
+                    "const": "music"
+                },
+                "musicType": {
+                    "$ref": "https://meta.rdkcentral.com/firebolt/schemas/entertainment#/definitions/MusicType"
+                },
+                "entityId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "entityType",
+                "musicType",
+                "entityId"
+            ]
+        },        
+        "MovieEntity": {
+            "title": "MovieEntity",
+            "description": "A Firebolt compliant representation of a Movie entity.",
+            "type": "object",
+            "required": [
+                "entityType",
+                "programType",
+                "entityId"
+            ],
+            "properties": {
+                "entityType": {
+                    "const": "program"
+                },
+                "programType": {
+                    "const": "movie"
+                },
+                "entityId": {
+                    "type": "string"
+                },
+                "assetId": {
+                    "type": "string"
+                },
+                "appContentData": {
+                    "type": "string",
+                    "maxLength": 256
+                }
+            },
+            "additionalProperties": false,
+            "examples": [
+                {
+                    "entityType": "program",
+                    "programType": "movie",
+                    "entityId": "el-camino"
+                }
+            ]
+        },
+        "TVEpisodeEntity": {
+            "title": "TVEpisodeEntity",
+            "description": "A Firebolt compliant representation of a TV Episode entity.",
+            "type": "object",
+            "required": [
+                "entityType",
+                "programType",
+                "entityId",
+                "seriesId",
+                "seasonId"
+            ],
+            "properties": {
+                "entityType": {
+                    "const": "program"
+                },
+                "programType": {
+                    "const": "episode"
+                },
+                "entityId": {
+                    "type": "string"
+                },
+                "seriesId": {
+                    "type": "string"
+                },
+                "seasonId": {
+                    "type": "string"
+                },
+                "assetId": {
+                    "type": "string"
+                },
+                "appContentData": {
+                    "type": "string",
+                    "maxLength": 256
+                }
+            },
+            "additionalProperties": false,
+            "examples": [
+                {
+                    "entityType": "program",
+                    "programType": "episode",
+                    "entityId": "breaking-bad-pilot",
+                    "seriesId": "breaking-bad",
+                    "seasonId": "breaking-bad-season-1"
+                }
+            ]
+        },
+        "TVSeasonEntity": {
+            "title": "TVSeasonEntity",
+            "description": "A Firebolt compliant representation of a TV Season entity.",
+            "type": "object",
+            "required": [
+                "entityType",
+                "programType",
+                "entityId",
+                "seriesId"
+            ],
+            "properties": {
+                "entityType": {
+                    "const": "program"
+                },
+                "programType": {
+                    "const": "season"
+                },
+                "entityId": {
+                    "type": "string"
+                },
+                "seriesId": {
+                    "type": "string"
+                },
+                "assetId": {
+                    "type": "string"
+                },
+                "appContentData": {
+                    "type": "string",
+                    "maxLength": 256
+                }
+            },
+            "additionalProperties": false,
+            "examples": [
+                {
+                    "entityType": "program",
+                    "programType": "season",
+                    "entityId": "breaking-bad-season-1",
+                    "seriesId": "breaking-bad"
+                }
+            ]
+        },
+        "TVSeriesEntity": {
+            "title": "TVSeriesEntity",
+            "description": "A Firebolt compliant representation of a TV Series entity.",
+            "type": "object",
+            "required": [
+                "entityType",
+                "programType",
+                "entityId"
+            ],
+            "properties": {
+                "entityType": {
+                    "const": "program"
+                },
+                "programType": {
+                    "const": "series"
+                },
+                "entityId": {
+                    "type": "string"
+                },
+                "assetId": {
+                    "type": "string"
+                },
+                "appContentData": {
+                    "type": "string",
+                    "maxLength": 256
+                }
+            },
+            "additionalProperties": false,
+            "examples": [
+                {
+                    "entityType": "program",
+                    "programType": "series",
+                    "entityId": "breaking-bad"
+                }
+            ]
+        },
+        "PlaylistEntity": {
+            "title": "PlaylistEntity",
+            "description": "A Firebolt compliant representation of a Playlist entity.",
+            "type": "object",
+            "required": [
+                "entityType",
+                "entityId"
+            ],
+            "properties": {
+                "entityType": {
+                    "const": "playlist"
+                },
+                "entityId": {
+                    "type": "string"
+                },
+                "assetId": {
+                    "type": "string"
+                },
+                "appContentData": {
+                    "type": "string",
+                    "maxLength": 256
+                }
+            },
+            "additionalProperties": false,
+            "examples": [
+                {
+                    "entityType": "playlist",
+                    "entityId": "playlist/xyz"
+                }
+            ]
+        },
+        "PlayableEntity": {
+            "title": "PlayableEntity",
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/MovieEntity"
+                },
+                {
+                    "$ref": "#/definitions/TVEpisodeEntity"
+                },
+                {
+                    "$ref": "#/definitions/PlaylistEntity"
+                },
+                {
+                    "$ref": "#/definitions/MusicEntity"
+                },
+                {
+                    "$ref": "#/definitions/AdditionalEntity"
+                }
+            ]
+        },
+        "AdditionalEntity": {
+            "title": "AdditionalEntity",
+            "description": "A Firebolt compliant representation of the remaining program entity types.",
+            "type": "object",
+            "required": [
+                "entityType",
+                "programType",
+                "entityId"
+            ],
+            "properties": {
+                "entityType": {
+                    "const": "program"
+                },
+                "programType": {
+                    "type": "string",
+                    "enum": [
+                        "concert",
+                        "sportingEvent",
+                        "preview",
+                        "other",
+                        "advertisement",
+                        "musicVideo",
+                        "minisode",
+                        "extra"
+                    ]
+                },
+                "entityId": {
+                    "type": "string"
+                },
+                "assetId": {
+                    "type": "string"
+                },
+                "appContentData": {
+                    "type": "string",
+                    "maxLength": 256
+                }
+            },
+            "additionalProperties": false,
+            "examples": [
+                {
+                    "entityType": "program",
+                    "programType": "concert",
+                    "entityId": "live-aid"
+                }
+            ]
+        },
+        "UntypedEntity": {
+            "title": "UntypedEntity",
+            "allOf": [
+                {
+                    "description": "A Firebolt compliant representation of the remaining entity types.",
+                    "type": "object",
+                    "required": [
+                        "entityId"
+                    ],
+                    "properties": {
+                        "entityId": {
+                            "type": "string"
+                        },
+                        "assetId": {
+                            "type": "string"
+                        },
+                        "appContentData": {
+                            "type": "string",
+                            "maxLength": 256
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ],
+            "examples": [
+                {
+                    "entityId": "an-entity"
+                }
+            ]
+        },
+        "Metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Title of the entity."
+                },
+                "synopsis": {
+                    "type": "string",
+                    "description": "Short description of the entity."
+                },
+                "seasonNumber": {
+                    "type": "number",
+                    "description": "For TV seasons, the season number. For TV episodes, the season that the episode belongs to."
+                },
+                "seasonCount": {
+                    "type": "number",
+                    "description": "For TV series, seasons, and episodes, the total number of seasons."
+                },
+                "episodeNumber": {
+                    "type": "number",
+                    "description": "For TV episodes, the episode number."
+                },
+                "episodeCount": {
+                    "type": "number",
+                    "description": "For TV seasons and episodes, the total number of episodes in the current season."
+                },
+                "releaseDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The date that the program or entity was released or first aired."
+                },
+                "contentRatings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/entertainment#/definitions/ContentRating"
+                    },
+                    "description": "A list of ContentRating objects, describing the entity's ratings in various rating schemes."
+                }
+            }
+        }
+    }
+}

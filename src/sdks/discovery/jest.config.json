@@ -1,0 +1,8 @@
+{
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|js?)$",
+    "transform": {},
+    "testPathIgnorePatterns": ["<rootDir>/node_modules/", "<rootDir>/../../../test"],
+    "moduleFileExtensions": ["js", "jsx", "mjs"],
+    "verbose": true,
+    "testEnvironment": "jest-environment-jsdom"
+  }

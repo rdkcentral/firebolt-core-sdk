@@ -1,0 +1,576 @@
+{
+    "openrpc": "1.2.4",
+    "info": {
+        "title": "HDMIInput",
+        "description": "Methods for managing HDMI inputs on an HDMI sink device.",
+        "version": "0.0.0"
+    },
+    "methods": [
+        {
+            "name": "ports",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:inputs:hdmi"
+                    ]
+                }
+            ],
+            "summary": "Retrieve a list of HDMI input ports.",
+            "params": [],
+            "result": {
+                "name": "ports",
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/components/schemas/HDMIInputPort"
+                    }
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "ports",
+                        "value": [
+                            {
+                                "port": "HDMI1",
+                                "connected": true,
+                                "signal": "stable",
+                                "arcCapable": true,
+                                "arcConnected": true,
+                                "edidVersion": "2.0",
+                                "autoLowLatencyModeCapable": true,
+                                "autoLowLatencyModeSignalled": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "port",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:inputs:hdmi"
+                    ]
+                }
+            ],
+            "summary": "Retrieve a specific HDMI input port.",
+            "params": [
+                {
+                    "name": "portId",
+                    "schema": {
+                        "$ref": "#/components/schemas/HDMIPortId"
+                    },
+                    "required": true
+                }
+            ],
+            "result": {
+                "name": "port",
+                "schema": {
+                    "$ref": "#/components/schemas/HDMIInputPort"
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [
+                        {
+                            "name": "portId",
+                            "value": "HDMI1"
+                        }
+                    ],
+                    "result": {
+                        "name": "ports",
+                        "value": {
+                            "port": "HDMI1",
+                            "connected": true,
+                            "signal": "stable",
+                            "arcCapable": true,
+                            "arcConnected": true,
+                            "edidVersion": "2.0",
+                            "autoLowLatencyModeCapable": true,
+                            "autoLowLatencyModeSignalled": true
+                    }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "open",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-manages": [
+                        "xrn:firebolt:capability:inputs:hdmi"
+                    ]
+                }
+            ],
+            "summary": "Opens the HDMI Port allowing it to be the active source device. Incase there is a different HDMI portId already set as the active source, this call would stop the older portId before opening the given portId.",
+            "params": [
+                {
+                    "name": "portId",
+                    "schema": {
+                        "$ref": "#/components/schemas/HDMIPortId"
+                    },
+                    "required": true
+                }
+            ],
+            "result": {
+                "name": "port",
+                "schema": {
+                    "const": null
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default Example for open",
+                    "params": [
+                        {
+                            "name": "portId",
+                            "value": "HDMI1"
+                        }
+                    ],
+                    "result": {
+                        "name": "port",
+                        "value": null
+                    }
+                }
+            ]
+        },
+        {
+            "name": "close",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-manages": [
+                        "xrn:firebolt:capability:inputs:hdmi"
+                    ]
+                }
+            ],
+            "summary": "Closes the given HDMI Port if it is the current active source for HDMI Input. If there was no active source, then there would no action taken on the device.",
+            "params": [],
+            "result": {
+                "name": "port",
+                "schema": {
+                    "const": null
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default Example for stop",
+                    "params": [
+                    ],
+                    "result": {
+                        "name": "port",
+                        "value": null
+                    }
+                }
+            ]
+        },
+        {
+            "name": "connectionChanged",
+            "tags": [
+                {
+                    "name": "notifier"
+                },
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:inputs:hdmi"                        
+                    ]
+                }
+            ],
+            "summary": "Notification for when any HDMI port has a connection physically engaged or disengaged.",
+            "params": [
+                {
+                    "name": "info",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/ConnectionChangedInfo"
+                    }
+                }
+            ],
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [
+                        {
+                            "name": "info",
+                            "value": {
+                                "port": "HDMI1",
+                                "connected": true
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "signalChanged",
+            "tags": [
+                {
+                    "name": "notifier"
+                },
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:inputs:hdmi"                        
+                    ]
+                }
+            ],
+            "summary": "Notification for when any HDMI port has it's signal status changed.",
+            "params": [
+                {
+                    "name": "info",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/SignalChangedInfo"
+                    }
+                }                
+            ],
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [
+                        {
+                            "name": "info",
+                            "value": {
+                                "port": "HDMI1",
+                                "signal": "stable"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "lowLatencyMode",
+            "summary": "Property for the low latency mode setting.",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:inputs:hdmi"
+                    ]
+                },
+                {
+                    "name": "property"
+                }
+            ],
+            "params": [
+            ],
+            "result": {
+                "name": "enabled",
+                "schema": {
+                    "type": "boolean"
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "enabled",
+                        "value": true
+                    }
+                },
+                {
+                    "name": "Default Example #2",
+                    "params": [],
+                    "result": {
+                        "name": "enabled",
+                        "value": false
+                    }
+                }                
+            ]
+        },
+        {
+            "name": "autoLowLatencyModeSignalChanged",
+            "summary": "Notification for changes to ALLM status of any input device.",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:inputs:hdmi"
+                    ]
+                },
+                {
+                    "name": "notifier"
+                } 
+            ],
+            "params": [
+                {
+                    "name": "info",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/AutoLowLatencyModeSignalChangedInfo"
+                    }
+                }                
+            ],
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [
+                        {
+                            "name": "info",
+                            "value": {
+                                "port": "HDMI1",
+                                "autoLowLatencyModeSignalled": true
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "autoLowLatencyModeCapable",
+            "summary": "Property for each port auto low latency mode setting.",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:inputs:hdmi"
+                    ]
+                },
+                {
+                    "name": "property",
+                    "x-subscriber-type": "global"
+                }
+            ],
+            "params": [
+                {
+                    "name": "port",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/HDMIPortId"
+                    }
+                }
+            ],
+            "result": {
+                "name": "enabled",
+                "schema": {
+                    "type": "boolean"
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [
+                        {
+                            "name": "port",
+                            "value": "HDMI1"
+                        }
+                    ],
+                    "result": {
+                        "name": "enabled",
+                        "value": true
+                    }
+                },
+                {
+                    "name": "Default Example #2",
+                    "params": [
+                        {
+                            "name": "port",
+                            "value": "HDMI1"
+                        }                        
+                    ],
+                    "result": {
+                        "name": "enabled",
+                        "value": false
+                    }
+                }                
+            ]            
+        },
+        {
+            "name": "edidVersion",
+            "summary": "Property for each port's active EDID version.",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:inputs:hdmi"
+                    ]
+                },
+                {
+                    "name": "property"
+                }
+            ],
+            "params": [
+                {
+                    "name": "port",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/HDMIPortId"
+                    }
+                }
+            ],
+            "result": {
+                "name": "edidVersion",
+                "schema": {
+                    "$ref": "#/components/schemas/EDIDVersion"
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [
+                        {
+                            "name": "port",
+                            "value": "HDMI1"
+                        }
+                    ],
+                    "result": {
+                        "name": "edidVersion",
+                        "value": "2.0"
+                    }
+                },
+                {
+                    "name": "Default Example #2",
+                    "params": [
+                        {
+                            "name": "port",
+                            "value": "HDMI1"
+                        }                        
+                    ],
+                    "result": {
+                        "name": "edidVersion",
+                        "value": "1.4"
+                    }
+                }                
+            ]            
+        }             
+    ],
+    "components": {
+        "schemas": {
+            "HDMIPortId": {
+                "type": "string",
+                "pattern": "^HDMI[0-9]+$"
+            },
+            "EDIDVersion": {
+                "title": "EDIDVersion",
+                "type": "string",
+                "enum": [
+                    "1.4",
+                    "2.0",
+                    "unknown"
+                ]
+            },
+            "HDMIInputPort": {
+                "title": "HDMIInputPort",
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "port": {
+                        "$ref": "#/components/schemas/HDMIPortId"
+                    },
+                    "connected": {
+                        "type": "boolean"
+                    },
+                    "signal": {
+                        "$ref": "#/components/schemas/HDMISignalStatus"
+                    },
+                    "arcCapable": {
+                        "type": "boolean"
+                    },
+                    "arcConnected": {
+                        "type": "boolean"
+                    },
+                    "edidVersion": {
+                        "$ref": "#/components/schemas/EDIDVersion"
+                    },
+                    "autoLowLatencyModeCapable": {
+                        "type": "boolean"
+                    },
+                    "autoLowLatencyModeSignalled": {
+                        "type": "boolean"
+                    }
+                },
+                "if": {
+                    "properties": {
+                        "edidVersion": {
+                            "type": "string",
+                            "enum": [
+                                "1.4", "unknown"
+                            ]
+                        }
+                    }
+                },
+                "then": {
+                    "properties": {
+                        "autoLowLatencyModeCapable": {
+                            "const": false
+                        },
+                        "autoLowLatencyModeSignalled": {
+                            "const": false
+                        }
+                    }
+                },
+                "required": [
+                    "port",
+                    "connected",
+                    "signal",
+                    "arcCapable",
+                    "arcConnected",
+                    "edidVersion",
+                    "autoLowLatencyModeCapable",
+                    "autoLowLatencyModeSignalled"
+                ]
+            },
+            "HDMISignalStatus": {
+                "type": "string",
+                "enum": [
+                    "none",
+                    "stable",
+                    "unstable",
+                    "unsupported",
+                    "unknown"
+                ]
+            },
+            "SignalChangedInfo": {
+                "title": "SignalChangedInfo",
+                "type": "object",
+                "properties": {
+                    "port": {
+                        "$ref": "#/components/schemas/HDMIPortId"
+                    },
+                    "signal": {
+                        "$ref": "#/components/schemas/HDMISignalStatus"
+                    }
+                },
+                "required": [
+                    "port",
+                    "signal"
+                ]
+            },
+            "ConnectionChangedInfo": {
+                "title": "ConnectionChangedInfo",
+                "type": "object",
+                "properties": {
+                    "port": {
+                        "$ref": "#/components/schemas/HDMIPortId"
+                    },
+                    "connected": {
+                        "type": "boolean"
+                    }
+                }                
+            },
+            "AutoLowLatencyModeSignalChangedInfo": {
+                "title": "AutoLowLatencyModeSignalChangedInfo",
+                "type": "object",
+                "properties": {
+                    "port": {
+                        "$ref": "#/components/schemas/HDMIPortId"
+                    },
+                    "autoLowLatencyModeSignalled": {
+                        "type": "boolean"
+                    }
+                }
+            }
+        }
+    }
+}

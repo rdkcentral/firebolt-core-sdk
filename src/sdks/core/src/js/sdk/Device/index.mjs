@@ -22,7 +22,7 @@
 
 function version() {
   return new Promise( (resolve, reject) => {
-      Transport.send('device', 'version').then( v => {
+    Gateway.request('Device.version').then( v => {
           v = v || {}
           v.sdk = v.sdk || {}
           v.sdk.major = parseInt('${major}')
@@ -41,7 +41,7 @@ function version() {
 export default {
 
   /* ${EVENTS_ENUM} */
-  /* ${ENUMS} */
+  /* ${ENUM_IMPLEMENTATIONS} */
 
   version,
   /* ${METHOD_LIST} */

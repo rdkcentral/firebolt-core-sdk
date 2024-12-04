@@ -1,189 +1,220 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "Advertising",
-    "version": "0.0.0",
-    "description": "A module for platform provided advertising settings and functionality."
-  },
-  "methods": [
-    {
-      "name": "config",
-      "summary": "Build configuration object for Ad Framework initialization",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:advertising:configuration"
-          ]
-        }
-      ],
-      "params": [
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Advertising",
+		"version": "0.0.0",
+		"description": "A module for platform provided advertising settings and functionality."
+	},
+	"methods": [
+		{
+			"name": "config",
+			"summary": "Build configuration object for Ad Framework initialization",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:advertising:configuration"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "options",
+					"summary": "Configuration options",
+					"required": true,
+					"schema": {
+						"$ref": "#/components/schemas/AdConfigurationOptions"
+					}
+				}
+			],
+			"result": {
+				"name": "adFrameworkConfig",
+				"summary": "the ad framework config",
+				"schema": {
+					"type": "object",
+					"description": "An opaque object represneting the AdConfiguration"
+				}
+			},
+			"examples": [
+				{
+					"name": "Initializing the Ad Framework",
+					"params": [
+						{
+							"name": "options",
+							"value": {
+								"environment": "prod",
+								"authenticationEntity": "MVPD"
+							}
+						}
+					],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"adServerUrl": "https://demo.v.fwmrm.net/ad/p/1",
+							"adServerUrlTemplate": "https://demo.v.fwmrm.net/ad/p/1?flag=+sltp+exvt+slcb+emcr+amcb+aeti&prof=12345:caf_allinone_profile &nw=12345&mode=live&vdur=123&caid=a110523018&asnw=372464&csid=gmott_ios_tablet_watch_live_ESPNU&ssnw=372464&vip=198.205.92.1&resp=vmap1&metr=1031&pvrn=12345&vprn=12345&vcid=1X0Ce7L3xRWlTeNhc7br8Q%3D%3D",
+							"adNetworkId": "519178",
+							"adProfileId": "12345:caf_allinone_profile",
+							"adSiteSectionId": "caf_allinone_profile_section",
+							"adOptOut": true,
+							"privacyData": "ew0KICAicGR0IjogImdkcDp2MSIsDQogICJ1c19wcml2YWN5IjogIjEtTi0iLA0KICAibG10IjogIjEiIA0KfQ0K",
+							"ifaValue": "01234567-89AB-CDEF-GH01-23456789ABCD",
+							"ifa": "ewogICJ2YWx1ZSI6ICIwMTIzNDU2Ny04OUFCLUNERUYtR0gwMS0yMzQ1Njc4OUFCQ0QiLAogICJpZmFfdHlwZSI6ICJzc3BpZCIsCiAgImxtdCI6ICIwIgp9Cg==",
+							"appName": "FutureToday",
+							"appBundleId": "FutureToday.comcast",
+							"distributorAppId": "1001",
+							"deviceAdAttributes": "ewogICJib0F0dHJpYnV0ZXNGb3JSZXZTaGFyZUlkIjogIjEyMzQiCn0=",
+							"coppa": 0,
+							"authenticationEntity": "60f72475281cfba3852413bd53e957f6"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "policy",
+			"summary": "Get the advertising privacy and playback policy",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:readonly"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:advertising",
+						"xrn:firebolt:capability:advertising:configuration"
+					]
+				}
+			],
+			"result": {
+				"name": "adPolicy",
+				"summary": "the ad policy",
+				"schema": {
+					"$ref": "#/components/schemas/AdPolicy"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the advertising policy settings",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"skipRestriction": "adsUnwatched",
+							"limitAdTracking": false
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "skipRestriction",
+			"summary": "Set the value for AdPolicy.skipRestriction",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-manages": [
+						"xrn:firebolt:capability:advertising:configuration"
+					]
+				}
+			],
+			"params": [],
+			"result": {
+				"name": "result",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/advertising#/definitions/SkipRestriction"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "result",
+						"value": "none"
+					}
+				},
+				{
+					"name": "Additional Example",
+					"params": [],
+					"result": {
+						"name": "result",
+						"value": "all"
+					}
+				}
+			]
+		},
+		{
+			"name": "advertisingId",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:advertising:identifier"
+					]
+				}
+			],
+			"summary": "Get the advertising ID",
+			"params": [
         {
           "name": "options",
-          "summary": "Configuration options",
-          "required": true,
+          "summary": "AdvertisingId options",
+          "required": false,
           "schema": {
-            "$ref": "#/components/schemas/AdConfigurationOptions"
+            "$ref": "#/components/schemas/AdvertisingIdOptions"
           }
         }
       ],
-      "result": {
-        "name": "adFrameworkConfig",
-        "summary": "the ad framework config",
-        "schema": {
-          "type": "object",
-          "description": "An opaque object represneting the AdConfiguration"
-        }
-      },
-      "examples": [
+			"result": {
+				"name": "advertisingId",
+				"summary": "the advertising ID",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"ifa": {
+							"type": "string"
+						},
+						"ifa_type": {
+							"type": "string"
+						},
+						"lmt": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"ifa"
+					]
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the advertising ID",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"ifa": "01234567-89AB-CDEF-GH01-23456789ABCD",
+							"ifa_type": "idfa",
+							"lmt": "0"
+						}
+					}
+				},
         {
-          "name": "Initializing the Ad Framework",
+          "name": "Getting the advertising ID with scope browse",
           "params": [
             {
               "name": "options",
               "value": {
-                "environment": "prod",
-                "authenticationEntity": "MVPD"
+                "scope": {
+                  "type": "browse",
+                  "id": "paidPlacement"
+                }
               }
             }
           ],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "adServerUrl": "https://demo.v.fwmrm.net/ad/p/1",
-              "adServerUrlTemplate": "https://demo.v.fwmrm.net/ad/p/1?flag=+sltp+exvt+slcb+emcr+amcb+aeti&prof=12345:caf_allinone_profile &nw=12345&mode=live&vdur=123&caid=a110523018&asnw=372464&csid=gmott_ios_tablet_watch_live_ESPNU&ssnw=372464&vip=198.205.92.1&resp=vmap1&metr=1031&pvrn=12345&vprn=12345&vcid=1X0Ce7L3xRWlTeNhc7br8Q%3D%3D",
-              "adNetworkId": "519178",
-              "adProfileId": "12345:caf_allinone_profile",
-              "adSiteSectionId": "caf_allinone_profile_section",
-              "adOptOut": true,
-              "privacyData": "ew0KICAicGR0IjogImdkcDp2MSIsDQogICJ1c19wcml2YWN5IjogIjEtTi0iLA0KICAibG10IjogIjEiIA0KfQ0K",
-              "ifaValue": "01234567-89AB-CDEF-GH01-23456789ABCD",
-              "ifa": "ewogICJ2YWx1ZSI6ICIwMTIzNDU2Ny04OUFCLUNERUYtR0gwMS0yMzQ1Njc4OUFCQ0QiLAogICJpZmFfdHlwZSI6ICJzc3BpZCIsCiAgImxtdCI6ICIwIgp9Cg==",
-              "appName": "FutureToday",
-              "appBundleId": "FutureToday.comcast",
-              "distributorAppId": "1001",
-              "deviceAdAttributes": "ewogICJib0F0dHJpYnV0ZXNGb3JSZXZTaGFyZUlkIjogIjEyMzQiCn0=",
-              "coppa": 0,
-              "authenticationEntity": "60f72475281cfba3852413bd53e957f6"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "policy",
-      "summary": "Get the advertising privacy and playback policy",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:readonly"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:privacy:advertising",
-            "xrn:firebolt:capability:advertising:configuration"
-          ]
-        }
-      ],
-      "result": {
-        "name": "adPolicy",
-        "summary": "the ad policy",
-        "schema": {
-          "$ref": "#/components/schemas/AdPolicy"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the advertising policy settings",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "skipRestriction": "adsUnwatched",
-              "limitAdTracking": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "skipRestriction",
-      "summary": "Set the value for AdPolicy.skipRestriction",
-      "tags": [
-        {
-          "name": "property"
-        },
-        {
-          "name": "capabilities",
-          "x-manages": [
-            "xrn:firebolt:capability:advertising:configuration"
-          ]
-        }
-      ],
-      "params": [],
-      "result": {
-        "name": "result",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/advertising#/definitions/SkipRestriction"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "result",
-            "value": "none"
-          }
-        },
-        {
-          "name": "Additional Example",
-          "params": [],
-          "result": {
-            "name": "result",
-            "value": "all"
-          }
-        }        
-      ]
-    },
-    {
-      "name": "advertisingId",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:advertising:identifier"
-          ]
-        }
-      ],
-      "summary": "Get the advertising ID",
-      "params": [],
-      "result": {
-        "name": "advertisingId",
-        "summary": "the advertising ID",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "ifa": {
-              "type": "string"
-            },
-            "ifa_type": {
-              "type": "string"
-            },
-            "lmt": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "ifa"
-          ]
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the advertising ID",
-          "params": [],
           "result": {
             "name": "Default Result",
             "value": {
@@ -192,137 +223,188 @@
               "lmt": "0"
             }
           }
-        }
-      ]
-    },
-    {
-      "name": "deviceAttributes",
-      "tags": [
+        },
         {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:advertising:configuration"
-          ]
-        }
-      ],
-      "summary": "Get the device advertising device attributes",
-      "params": [],
-      "result": {
-        "name": "deviceAttributes",
-        "summary": "the device attributes",
-        "schema": {
-          "type": "object"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the device attributes",
-          "params": [],
+          "name": "Getting the advertising ID with scope content",
+          "params": [
+            {
+              "name": "options",
+              "value": {
+                "scope": {
+                  "type": "content",
+                  "id": "metadata:linear:station:123"
+                }
+              }
+            }
+          ],
           "result": {
             "name": "Default Result",
-            "value": {}
+            "value": {
+              "ifa": "01234567-89AB-CDEF-GH01-23456789ABCD",
+              "ifa_type": "idfa",
+              "lmt": "0"
+            }
           }
-        }
-      ]
-    },
-    {
-      "name": "appBundleId",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:advertising:configuration"
-          ]
-        }
-      ],
-      "summary": "Get the App's Bundle ID",
-      "params": [],
-      "result": {
-        "name": "appBundleId",
-        "summary": "the app bundle ID",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "operator.app"
-          }
-        }
-      ]
-    },
-    {
-      "name": "resetIdentifier",
-      "summary": "Resets a user's identifier in the ad platform so that the advertising id that apps get will be a new value",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-manages": [
-            "xrn:firebolt:capability:advertising:identifier"
-          ]
-        }
-      ],
-      "params": [],
-      "result": {
-        "name": "result",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "defaultResult",
-            "value": null
-          }
-        }
-      ]
-    }
-  ],
-  "components": {
-    "schemas": {
-      "AdPolicy": {
-        "title": "AdPolicy",
-        "description": "Describes various ad playback enforcement rules that the app should follow.",
+        }        
+			]
+		},
+		{
+			"name": "deviceAttributes",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:advertising:configuration"
+					]
+				}
+			],
+			"summary": "Get the device advertising device attributes",
+			"params": [],
+			"result": {
+				"name": "deviceAttributes",
+				"summary": "the device attributes",
+				"schema": {
+					"type": "object"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the device attributes",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {}
+					}
+				}
+			]
+		},
+		{
+			"name": "appBundleId",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:advertising:configuration"
+					]
+				}
+			],
+			"summary": "Get the App's Bundle ID",
+			"params": [],
+			"result": {
+				"name": "appBundleId",
+				"summary": "the app bundle ID",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "operator.app"
+					}
+				}
+			]
+		},
+		{
+			"name": "resetIdentifier",
+			"summary": "Resets a user's identifier in the ad platform so that the advertising id that apps get will be a new value",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-manages": [
+						"xrn:firebolt:capability:advertising:identifier"
+					]
+				}
+			],
+			"params": [],
+			"result": {
+				"name": "result",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"AdPolicy": {
+				"title": "AdPolicy",
+				"description": "Describes various ad playback enforcement rules that the app should follow.",
+				"type": "object",
+				"properties": {
+					"skipRestriction": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/advertising#/definitions/SkipRestriction"
+					},
+					"limitAdTracking": {
+						"type": "boolean"
+					}
+				}
+			},
+			"AdConfigurationOptions": {
+				"title": "AdConfigurationOptions",
+				"type": "object",
+				"properties": {
+					"coppa": {
+						"type": "boolean",
+						"description": "Whether or not the app requires US COPPA compliance."
+					},
+					"environment": {
+						"type": "string",
+						"enum": [
+							"prod",
+							"test"
+						],
+						"default": "prod",
+						"description": "Whether the app is running in a production or test mode."
+					},
+					"authenticationEntity": {
+						"type": "string",
+						"description": "The authentication provider, when it is separate entity than the app provider, e.g. an MVPD."
+					}
+				}
+			},
+      "AdvertisingIdOptions": {
+        "title": "AdvertisingIdOptions",
         "type": "object",
         "properties": {
-          "skipRestriction": {
-            "$ref": "https://meta.comcast.com/firebolt/advertising#/definitions/SkipRestriction"
-          },
-          "limitAdTracking": {
-            "type": "boolean"
-          }
-        }
-      },
-      "AdConfigurationOptions": {
-        "title": "AdConfigurationOptions",
-        "type": "object",
-        "properties": {
-          "coppa": {
-            "type": "boolean",
-            "description": "Whether or not the app requires US COPPA compliance."
-          },
-          "environment": {
-            "type": "string",
-            "enum": [
-              "prod",
-              "test"
+          "scope": {
+            "type": "object",
+            "description": "Provides the options to send scope type and id to select desired advertising id",
+            "required": [
+              "type",
+              "id"
             ],
-            "default": "prod",
-            "description": "Whether the app is running in a production or test mode."
-          },
-          "authenticationEntity": {
-            "type": "string",
-            "description": "The authentication provider, when it is separate entity than the app provider, e.g. an MVPD."
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "browse",
+                  "content"
+                ],
+                "default": "browse",
+                "description": "The scope type, which will determine where to show advertisement"
+              },
+              "id": {
+                "type": "string",
+                "description": "A value that identifies a specific scope within the scope type"
+              }
+            }
           }
         }
-      }
-    }
-  }
+      }      
+		}
+	}
 }

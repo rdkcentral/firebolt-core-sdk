@@ -1,13 +1,631 @@
 {
-    "openrpc": "1.2.4",
-    "info": {
-        "title": "ClosedCaptions",
-        "description": "A module for managing closed-captions Settings.",
-        "version": "0.0.0"
-    },
-    "methods": [
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "ClosedCaptions",
+		"description": "A module for managing closed-captions Settings.",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "enabled",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "Whether or not closed-captions are enabled.",
+			"params": [],
+			"result": {
+				"name": "enabled",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "enabled",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "enabled",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "fontFamily",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred font family for displaying closed-captions.",
+			"params": [],
+			"result": {
+				"name": "family",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/FontFamily"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "family",
+						"value": "monospace_serif"
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "family",
+						"value": "cursive"
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "family",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "fontSize",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred font size for displaying closed-captions.",
+			"params": [],
+			"result": {
+				"name": "size",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/FontSize"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "size",
+						"value": 1
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "size",
+						"value": 1
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "size",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "fontColor",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred font color for displaying closed-captions.",
+			"params": [],
+			"result": {
+				"name": "color",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/Color"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": "#ffffff"
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": "#000000"
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "fontEdge",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred font edge style for displaying closed-captions.",
+			"params": [],
+			"result": {
+				"name": "edge",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/FontEdge"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "edge",
+						"value": "none"
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "edge",
+						"value": "uniform"
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "edge",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "fontEdgeColor",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred font edge color for displaying closed-captions.",
+			"params": [],
+			"result": {
+				"name": "color",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/Color"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": "#000000"
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": "#ffffff"
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "fontOpacity",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred opacity for displaying closed-captions characters.",
+			"params": [],
+			"result": {
+				"name": "opacity",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/Opacity"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "opacity",
+						"value": 99
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "opacity",
+						"value": 100
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "opacity",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "backgroundColor",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred background color for displaying closed-captions, .",
+			"params": [],
+			"result": {
+				"name": "color",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/Color"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": "#000000"
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": "#ffffff"
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "backgroundOpacity",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred opacity for displaying closed-captions backgrounds.",
+			"params": [],
+			"result": {
+				"name": "opacity",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/Opacity"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "opacity",
+						"value": 99
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "opacity",
+						"value": 100
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "opacity",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "textAlign",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred horizontal alignment for displaying closed-captions characters.",
+			"params": [],
+			"result": {
+				"name": "alignment",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/HorizontalAlignment"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "alignment",
+						"value": "center"
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "alignment",
+						"value": "left"
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "alignment",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "textAlignVertical",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred horizontal alignment for displaying closed-captions characters.",
+			"params": [],
+			"result": {
+				"name": "alignment",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/VerticalAlignment"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "alignment",
+						"value": "middle"
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "alignment",
+						"value": "top"
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "alignment",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "windowColor",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred window color for displaying closed-captions, .",
+			"params": [],
+			"result": {
+				"name": "color",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/Color"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": "#000000"
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": "white"
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "color",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "windowOpacity",
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:accessibility:closedcaptions"
+					]
+				}
+			],
+			"summary": "The preferred window opacity for displaying closed-captions backgrounds.",
+			"params": [],
+			"result": {
+				"name": "opacity",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/Opacity"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "opacity",
+						"value": 99
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "opacity",
+						"value": 100
+					}
+				},
+				{
+					"name": "Default example #3",
+					"params": [],
+					"result": {
+						"name": "opacity",
+						"value": null
+					}
+				}
+			]
+		},
         {
-            "name": "enabled",
+            "name": "preferredLanguages",
+            "summary": "A prioritized list of ISO 639-2/B codes for the preferred closed captions languages on this device.",
+            "params": [],
             "tags": [
                 {
                     "name": "property"
@@ -19,633 +637,65 @@
                     ]
                 }
             ],
-            "summary": "Whether or not closed-captions are enabled.",
-            "params": [],
             "result": {
-                "name": "enabled",
+                "name": "languages",
+                "summary": "the preferred closed captions languages",
                 "schema": {
-                    "type": "boolean"
+                    "type": "array",
+                    "items": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/localization#/definitions/ISO639_2Language"
+                    }
                 }
             },
             "examples": [
                 {
-                    "name": "Default example #1",
+                    "name": "Default Example",
                     "params": [],
                     "result": {
-                        "name": "enabled",
-                        "value": true
+                        "name": "Default Result",
+                        "value": [
+                            "spa",
+                            "eng"
+                        ]
                     }
                 },
                 {
-                    "name": "Default example #2",
+                    "name": "Default Example #2",
                     "params": [],
                     "result": {
-                        "name": "enabled",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "fontFamily",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred font family for displaying closed-captions.",
-            "params": [],
-            "result": {
-                "name": "family",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/FontFamily"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "family",
-                        "value": "monospace"
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "family",
-                        "value": "cursive"
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "family",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "fontSize",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred font size for displaying closed-captions.",
-            "params": [],
-            "result": {
-                "name": "size",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/FontSize"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "size",
-                        "value": 1
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "size",
-                        "value": 1
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "size",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "fontColor",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred font color for displaying closed-captions.",
-            "params": [],
-            "result": {
-                "name": "color",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/Color"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": "#ffffff"
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": "#000000"
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "fontEdge",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred font edge style for displaying closed-captions.",
-            "params": [],
-            "result": {
-                "name": "edge",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/FontEdge"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "edge",
-                        "value": "none"
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "edge",
-                        "value": "solid"
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "edge",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "fontEdgeColor",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred font edge color for displaying closed-captions.",
-            "params": [],
-            "result": {
-                "name": "color",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/Color"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": "#000000"
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": "#ffffff"
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "fontOpacity",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred opacity for displaying closed-captions characters.",
-            "params": [],
-            "result": {
-                "name": "opacity",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/Opacity"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "opacity",
-                        "value": 99
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "opacity",
-                        "value": 100
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "opacity",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "backgroundColor",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred background color for displaying closed-captions, .",
-            "params": [],
-            "result": {
-                "name": "color",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/Color"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": "#000000"
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": "#ffffff"
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "backgroundOpacity",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred opacity for displaying closed-captions backgrounds.",
-            "params": [],
-            "result": {
-                "name": "opacity",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/Opacity"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "opacity",
-                        "value": 99
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "opacity",
-                        "value": 100
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "opacity",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "textAlign",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred horizontal alignment for displaying closed-captions characters.",
-            "params": [],
-            "result": {
-                "name": "alignment",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/HorizontalAlignment"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "alignment",
-                        "value": "center"
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "alignment",
-                        "value": "left"
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "alignment",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "textAlignVertical",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred horizontal alignment for displaying closed-captions characters.",
-            "params": [],
-            "result": {
-                "name": "alignment",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/VerticalAlignment"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "alignment",
-                        "value": "middle"
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "alignment",
-                        "value": "top"
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "alignment",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "windowColor",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred window color for displaying closed-captions, .",
-            "params": [],
-            "result": {
-                "name": "color",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/Color"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": "#000000"
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": "white"
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "color",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "windowOpacity",
-            "tags": [
-                {
-                    "name": "property"
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:accessibility:closedcaptions"
-                    ]
-                }
-            ],
-            "summary": "The preferred window opacity for displaying closed-captions backgrounds.",
-            "params": [],
-            "result": {
-                "name": "opacity",
-                "schema": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/Opacity"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "opacity",
-                        "value": 99
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "opacity",
-                        "value": 100
-                    }
-                },
-                {
-                    "name": "Default example #3",
-                    "params": [],
-                    "result": {
-                        "name": "opacity",
-                        "value": null
+                        "name": "Default Result",
+                        "value": [
+                            "eng",
+                            "spa"
+                        ]
                     }
                 }
             ]
         }
-    ],
-    "components": {
-        "schemas": {
-            "ClosedCaptionsSettingsProviderRequest": {
-                "title": "ClosedCaptionsSettingsProviderRequest",
-                "allOf": [
-                    {
-                        "$ref": "https://meta.comcast.com/firebolt/types#/definitions/ProviderRequest"
-                    },
-                    {
-                        "type": "object",
-                        "properties": {
-                            "parameters": {
-                                "const": null
-                            }
-                        }
-                    }
-                ],
-                "examples": [
-                    {
-                        "correlationId": "abc"
-                    }
-                ]
-            }
-        }
-    }
+	],
+	"components": {
+		"schemas": {
+			"ClosedCaptionsSettingsProviderRequest": {
+				"title": "ClosedCaptionsSettingsProviderRequest",
+				"allOf": [
+					{
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/ProviderRequest"
+					},
+					{
+						"type": "object",
+						"properties": {
+							"parameters": {
+								"const": null
+							}
+						}
+					}
+				],
+				"examples": [
+					{
+						"correlationId": "abc"
+					}
+				]
+			}
+		}
+	}
 }

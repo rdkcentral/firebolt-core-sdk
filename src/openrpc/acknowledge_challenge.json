@@ -1,145 +1,151 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "AcknowledgeChallenge",
-    "description": "A module for registering as a provider for a user grant in which the user confirms access to a capability",
-    "version": "0.0.0"
-  },
-  "methods": [
-    {
-      "name": "onRequestChallenge",
-      "summary": "Registers as a provider for when the user should be challenged in order to confirm access to a capability",
-      "params": [],
-      "tags": [
-        {
-          "name": "event",
-          "x-response": {
-            "$ref": "#/components/schemas/GrantResult"
-          }
-        },
-        {
-          "name": "capabilities",
-          "x-provides": "xrn:firebolt:capability:usergrant:acknowledgechallenge",
-          "x-allow-focus": true
-        }
-      ],
-      "result": {
-        "name": "challenge",
-        "summary": "The request to challenge the user",
-        "schema": {
-          "$ref": "#/components/schemas/ChallengeProviderRequest"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "correlationId": "abc",
-              "parameters": {
-                "capability": "xrn:firebolt:capability:localization::postal-code",
-                "requestor": {
-                  "id": "ReferenceApp",
-                  "name": "Firebolt Reference App"
-                }
-              }
-            }
-          }
-        }
-      ]
-    }
-  ],
-  "components": {
-    "schemas": {
-      "ChallengeRequestor": {
-        "title": "ChallengeRequestor",
-        "type": "object",
-        "required": [
-          "id",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The id of the app that requested the challenge"
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the app that requested the challenge"
-          }
-        }
-      },
-      "Challenge": {
-        "title": "Challenge",
-        "type": "object",
-        "required": [
-          "capability",
-          "requestor"
-        ],
-        "properties": {
-          "capability": {
-            "type": "string",
-            "description": "The capability that is being requested by the user to approve"
-          },
-          "requestor": {
-            "description": "The identity of which app is requesting access to this capability",
-            "$ref": "#/components/schemas/ChallengeRequestor"
-          }
-        }
-      },
-      "ChallengeProviderRequest": {
-        "title": "ChallengeProviderRequest",
-        "allOf": [
-          {
-            "$ref": "https://meta.comcast.com/firebolt/types#/definitions/ProviderRequest"
-          },
-          {
-            "type": "object",
-            "required": [
-              "parameters"
-            ],
-            "properties": {
-              "parameters": {
-                "description": "The request to challenge the user",
-                "$ref": "#/components/schemas/Challenge"
-              }
-            }
-          }
-        ]
-      },
-      "GrantResult": {
-        "title": "GrantResult",
-        "type": "object",
-        "required": [
-          "granted"
-        ],
-        "properties": {
-          "granted": {
-            "oneOf": [
-              {
-                "type": "boolean",
-                "description": "Whether the user approved or denied the challenge"
-              },
-              {
-                "const": null
-              }
-            ]
-          }
-        },
-        "examples": [
-          {
-            "granted": true
-          },
-          {
-            "granted": false
-          },
-          {
-            "granted": null
-          }
-        ]
-      }
-    }
-  }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "AcknowledgeChallenge",
+		"description": "A module for registering as a provider for a user grant in which the user confirms access to a capability",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "challenge",
+			"summary": "Registers as a provider for when the user should be challenged in order to confirm access to a capability",
+			"params": [
+				{
+					"name": "capability",
+					"required": true,
+					"schema": {
+						"type": "string",
+						"description": "The capability that is being requested by the user to approve"
+					}
+				},
+				{
+					"name": "requestor",
+					"required": true,
+					"schema": {
+						"description": "The identity of which app is requesting access to this capability",
+						"$ref": "#/components/schemas/ChallengeRequestor"
+					}
+				}
+			],
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-provides": "xrn:firebolt:capability:usergrant:acknowledgechallenge",
+					"x-allow-focus": true
+				}
+			],
+			"result": {
+				"name": "result",
+				"schema": {
+					"$ref": "#/components/schemas/GrantResult"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "capability",
+							"value": "xrn:firebolt:capability:localization::postal-code"
+						},
+						{
+							"name": "requestor",
+							"value": {
+								"id": "ReferenceApp",
+								"name": "Firebolt Reference App"
+							}
+						}
+					],
+					"result": {
+						"name": "result",
+						"value": {
+							"granted": true
+						}
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"ChallengeRequestor": {
+				"title": "ChallengeRequestor",
+				"type": "object",
+				"required": [
+					"id",
+					"name"
+				],
+				"properties": {
+					"id": {
+						"type": "string",
+						"description": "The id of the app that requested the challenge"
+					},
+					"name": {
+						"type": "string",
+						"description": "The name of the app that requested the challenge"
+					}
+				}
+			},
+			"Challenge": {
+				"title": "Challenge",
+				"type": "object",
+				"required": [
+					"capability",
+					"requestor"
+				],
+				"properties": {}
+			},
+			"ChallengeProviderRequest": {
+				"title": "ChallengeProviderRequest",
+				"allOf": [
+					{
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/ProviderRequest"
+					},
+					{
+						"type": "object",
+						"required": [
+							"parameters"
+						],
+						"properties": {
+							"parameters": {
+								"description": "The request to challenge the user",
+								"$ref": "#/components/schemas/Challenge"
+							}
+						}
+					}
+				]
+			},
+			"GrantResult": {
+				"title": "GrantResult",
+				"type": "object",
+				"required": [
+					"granted"
+				],
+				"properties": {
+					"granted": {
+						"oneOf": [
+							{
+								"type": "boolean",
+								"description": "Whether the user approved or denied the challenge"
+							},
+							{
+								"const": null
+							}
+						]
+					}
+				},
+				"examples": [
+					{
+						"granted": true
+					},
+					{
+						"granted": false
+					},
+					{
+						"granted": null
+					}
+				]
+			}
+		}
+	}
 }

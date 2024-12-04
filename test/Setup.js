@@ -49,4 +49,19 @@ export const testHarness = {
 
 window.__firebolt.testHarness = testHarness
 
+export class DefaultApplication {
+    create(params) {
+        return Promise.resolve(null)
+    }
+    resume() {
+        return Promise.resolve(null)
+    }
+    suspend() {
+        return Promise.resolve(null)
+    }
+    destroy() {
+        return Promise.resolve(null)
+    }
+}
+
 export default testHarness

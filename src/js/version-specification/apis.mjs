@@ -155,7 +155,7 @@ const run = async (version, parsedArgs) => {
 
     return new Promise( async (resolve, reject) => {
         let legacy = major-1
-        while (legacy>major-parsedArgs['legacy-versions']-1 && legacy>=0) {
+        while (legacy>major-parsedArgs['legacy-versions']-1 && legacy>0) {
             const v = `${legacy}.x`
 
             // create a temporary npm package and install the version of Firebolt we want to grab

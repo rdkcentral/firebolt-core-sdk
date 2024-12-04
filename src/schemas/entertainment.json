@@ -1,0 +1,335 @@
+{
+    "title": "Entertainment",
+    "$id": "https://meta.rdkcentral.com/firebolt/schemas/entertainment",
+    "anyOf": [
+        {
+            "$ref": "#/definitions/ProgramType"
+        },
+        {
+            "$ref": "#/definitions/Entitlement"
+        },
+        {
+            "$ref": "#/definitions/EntityInfo"
+        },
+        {
+            "$ref": "#/definitions/OfferingType"
+        },
+        {
+            "$ref": "#/definitions/WayToWatch"
+        },
+        {
+            "$ref": "#/definitions/ContentRating"
+        },
+        {
+            "$ref": "#/definitions/ContentIdentifiers"
+        }
+    ],
+    "definitions": {
+        "ProgramType": {
+            "title": "ProgramType",
+            "type": "string",
+            "description": "In the case of a program `entityType`, specifies the program type.",
+            "enum": [
+                "movie",
+                "episode",
+                "season",
+                "series",
+                "other",
+                "preview",
+                "extra",
+                "concert",
+                "sportingEvent",
+                "advertisement",
+                "musicVideo",
+                "minisode"
+            ]
+        },
+        "MusicType": {
+            "title": "MusicType",
+            "type": "string",
+            "description": "In the case of a music `entityType`, specifies the type of music entity.",
+            "enum": [
+                "song",
+                "album"
+            ]
+        },
+        "Entitlement": {
+            "title": "Entitlement",
+            "type": "object",
+            "properties": {
+                "entitlementId": {
+                    "type": "string"
+                },
+                "startTime": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "endTime": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "entitlementId"
+            ]
+        },
+        "EntityInfo": {
+            "title": "EntityInfo",
+            "description": "An EntityInfo object represents an \"entity\" on the platform. Currently, only entities of type `program` are supported. `programType` must be supplied to identify the program type.\n\nAdditionally, EntityInfo objects must specify a properly formed\nContentIdentifiers object, `entityType`, and `title`.  The app should provide\nthe `synopsis` property for a good user experience if the content\nmetadata is not available another way.\n\nThe ContentIdentifiers must be sufficient for navigating the user to the\nappropriate entity or detail screen via a `detail` intent or deep link.\n\nEntityInfo objects must provide at least one WayToWatch object when returned as\npart of an `entityInfo` method and a streamable asset is available to the user.\nIt is optional for the `purchasedContent` method, but recommended because the UI\nmay use those data.",
+            "type": "object",
+            "required": [
+                "identifiers",
+                "entityType",
+                "title"
+            ],
+            "properties": {
+                "identifiers": {
+                    "$ref": "#/definitions/ContentIdentifiers"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Title of the entity."
+                },
+                "entityType": {
+                    "type": "string",
+                    "enum": [
+                        "program",
+                        "music"
+                    ],
+                    "description": "The type of the entity, e.g. `program` or `music`."
+                },
+                "programType": {
+                    "$ref": "https://meta.rdkcentral.com/firebolt/schemas/entertainment#/definitions/ProgramType"
+                },
+                "musicType": {
+                    "$ref": "https://meta.rdkcentral.com/firebolt/schemas/entertainment#/definitions/MusicType"
+                },
+                "synopsis": {
+                    "type": "string",
+                    "description": "Short description of the entity."
+                },
+                "seasonNumber": {
+                    "type": "number",
+                    "description": "For TV seasons, the season number. For TV episodes, the season that the episode belongs to."
+                },
+                "seasonCount": {
+                    "type": "number",
+                    "description": "For TV series, seasons, and episodes, the total number of seasons."
+                },
+                "episodeNumber": {
+                    "type": "number",
+                    "description": "For TV episodes, the episode number."
+                },
+                "episodeCount": {
+                    "type": "number",
+                    "description": "For TV seasons and episodes, the total number of episodes in the current season."
+                },
+                "releaseDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The date that the program or entity was released or first aired."
+                },
+                "contentRatings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ContentRating"
+                    },
+                    "description": "A list of ContentRating objects, describing the entity's ratings in various rating schemes."
+                },
+                "waysToWatch": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/WayToWatch"
+                    },
+                    "description": "An array of ways a user is might watch this entity, regardless of entitlements."
+                }
+            },
+            "if": {
+                "properties": {
+                    "entityType": {
+                        "const": "program"
+                    }
+                }
+            },
+            "then": {
+                "required": [
+                    "programType"
+                ],
+                "not": {
+                    "required": [
+                        "musicType"
+                    ]
+                }
+            },
+            "else": {
+                "required": [
+                    "musicType"
+                ],
+                "not": {
+                    "required": [
+                        "programType"
+                    ]
+                }
+            }
+        },
+        "OfferingType": {
+            "title": "OfferingType",
+            "type": "string",
+            "enum": [
+                "free",
+                "subscribe",
+                "buy",
+                "rent"
+            ],
+            "description": "The offering type of the WayToWatch."
+        },
+        "WayToWatch": {
+            "title": "WayToWatch",
+            "type": "object",
+            "required": [
+                "identifiers",
+                "audioProfile"
+            ],
+            "properties": {
+                "identifiers": {
+                    "$ref": "#/definitions/ContentIdentifiers"
+                },
+                "expires": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Time when the WayToWatch is no longer available."
+                },
+                "entitled": {
+                    "type": "boolean",
+                    "description": "Specify if the user is entitled to watch the entity."
+                },
+                "entitledExpires": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Time when the entity is no longer entitled."
+                },
+                "offeringType": {
+                    "$ref": "https://meta.rdkcentral.com/firebolt/schemas/entertainment#/definitions/OfferingType"
+                },
+                "hasAds": {
+                    "type": "boolean",
+                    "description": "True if the streamable asset contains ads."
+                },
+                "price": {
+                    "type": "number",
+                    "description": "For \"buy\" and \"rent\" WayToWatch, the price to buy or rent in the user's preferred currency."
+                },
+                "videoQuality": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "SD",
+                            "HD",
+                            "UHD"
+                        ]
+                    },
+                    "description": "List of the video qualities available via the WayToWatch."
+                },
+                "audioProfile": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/AudioProfile"
+                    },
+                    "description": "List of the audio types available via the WayToWatch."
+                },
+                "audioLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of audio track languages available on the WayToWatch. The first is considered the primary language. Languages are expressed as ISO 639 1/2 codes."
+                },
+                "closedCaptions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of languages for which closed captions are available on the WayToWatch. Languages are expressed as ISO 639 1/2 codes."
+                },
+                "subtitles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of languages for which subtitles are available on the WayToWatch. Languages are expressed as ISO 639 1/2 codes."
+                },
+                "audioDescriptions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of languages for which audio descriptions (DVD) as available on the WayToWatch. Languages are expressed as ISO 639 1/2 codes."
+                }
+            },
+            "description": "A WayToWatch describes a way to watch a video program. It may describe a single\nstreamable asset or a set of streamable assets. For example, an app provider may\ndescribe HD, SD, and UHD assets as individual WayToWatch objects or rolled into\na single WayToWatch.\n\nIf the WayToWatch represents a single streamable asset, the provided\nContentIdentifiers must be sufficient to play back the specific asset when sent\nvia a playback intent or deep link. If the WayToWatch represents multiple\nstreamable assets, the provided ContentIdentifiers must be sufficient to\nplayback one of the assets represented with no user action. In this scenario,\nthe app SHOULD choose the best asset for the user based on their device and\nsettings. The ContentIdentifiers MUST also be sufficient for navigating the user\nto the appropriate entity or detail screen via an entity intent.\n\nThe app should set the `entitled` property to indicate if the user can watch, or\nnot watch, the asset without making a purchase. If the entitlement is known to\nexpire at a certain time (e.g., a rental), the app should also provide the\n`entitledExpires` property. If the entitlement is not expired, the UI will use\nthe `entitled` property to display watchable assets to the user, adjust how\nassets are presented to the user, and how intents into the app are generated.\nFor example, the the Aggregated Experience could render a \"Watch\" button for an\nentitled asset versus a \"Subscribe\" button for an non-entitled asset.\n\nThe app should set the `offeringType` to define how the content may be\nauthorized. The UI will use this to adjust how content is presented to the user.\n\nA single WayToWatch cannot represent streamable assets available via multiple\npurchase paths. If, for example, an asset has both Buy, Rent and Subscription\navailability, the three different entitlement paths MUST be represented as\nmultiple WayToWatch objects.\n\n`price` should be populated for WayToWatch objects with `buy` or `rent`\n`offeringType`. If the WayToWatch represents a set of assets with various price\npoints, the `price` provided must be the lowest available price."
+        },
+        "ContentRating": {
+            "title": "ContentRating",
+            "type": "object",
+            "required": [
+                "scheme",
+                "rating"
+            ],
+            "properties": {
+                "scheme": {
+                    "type": "string",
+                    "enum": [
+                        "CA-Movie",
+                        "CA-TV",
+                        "CA-Movie-Fr",
+                        "CA-TV-Fr",
+                        "US-Movie",
+                        "US-TV"
+                    ],
+                    "description": "The rating scheme."
+                },
+                "rating": {
+                    "type": "string",
+                    "description": "The content rating."
+                },
+                "advisories": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional list of subratings or content advisories."
+                }
+            },
+            "description": "A ContentRating represents an age or content based of an entity. Supported rating schemes and associated types are below.\n\n## United States\n\n`US-Movie` (MPAA):\n\nRatings: `NR`, `G`, `PG`, `PG13`, `R`, `NC17`\n\nAdvisories: `AT`, `BN`, `SL`, `SS`, `N`, `V`\n\n`US-TV` (Vchip):\n\nRatings: `TVY`, `TVY7`, `TVG`, `TVPG`, `TV14`, `TVMA`\n\nAdvisories: `FV`, `D`, `L`, `S`, `V`\n\n## Canada\n\n`CA-Movie` (OFRB):\n\nRatings: `G`, `PG`, `14A`, `18A`, `R`, `E`\n\n`CA-TV` (AGVOT)\n\nRatings: `E`, `C`, `C8`, `G`, `PG`, `14+`, `18+`\n\nAdvisories: `C`, `C8`, `G`, `PG`, `14+`, `18+`\n\n`CA-Movie-Fr` (Canadian French language movies):\n\nRatings: `G`, `8+`, `13+`, `16+`, `18+`\n\n`CA-TV-Fr` (Canadian French language TV):\n\nRatings: `G`, `8+`, `13+`, `16+`, `18+`\n"
+        },
+        "ContentIdentifiers": {
+            "title": "ContentIdentifiers",
+            "type": "object",
+            "properties": {
+                "assetId": {
+                    "type": "string",
+                    "description": "Identifies a particular playable asset. For example, the HD version of a particular movie separate from the UHD version."
+                },
+                "entityId": {
+                    "type": "string",
+                    "description": "Identifies an entity, such as a Movie, TV Series or TV Episode."
+                },
+                "seasonId": {
+                    "type": "string",
+                    "description": "The TV Season for a TV Episode."
+                },
+                "seriesId": {
+                    "type": "string",
+                    "description": "The TV Series for a TV Episode or TV Season."
+                },
+                "appContentData": {
+                    "type": "string",
+                    "description": "App-specific content identifiers.",
+                    "maxLength": 1024
+                }
+            },
+            "description": "The ContentIdentifiers object is how the app identifies an entity or asset to\nthe Firebolt platform. These ids are used to look up metadata and deep link into\nthe app.\n\nApps do not need to provide all ids. They only need to provide the minimum\nrequired to target a playable stream or an entity detail screen via a deep link.\nIf an id isn't needed to get to those pages, it doesn't need to be included."
+        }
+    }
+}

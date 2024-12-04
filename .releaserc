@@ -13,6 +13,11 @@
       "name": "next-major",
       "channel": "next-major",
       "prerelease": true
+    },
+    {
+      "name": "proposed",
+      "channel": "proposed",
+      "prerelease": true
     }
   ],
   "dryRun": false,
@@ -48,6 +53,16 @@
       {
         "assets": "./*.tgz"
       }
-    ]
+    ],
+    [
+      "@saithodev/semantic-release-backmerge",
+      {
+        "backmergeStrategy": "merge",
+        "mergeMode": "theirs",
+        "backmergeBranches": [
+          { "from": "main", "to": "next" }
+        ]
+      }
+    ]    
   ]
 } 

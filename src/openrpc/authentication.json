@@ -1,239 +1,233 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "Authentication",
-    "description": "A module for acquiring authentication tokens.",
-    "version": "0.0.0"
-  },
-  "methods": [
-    {
-      "name": "token",
-      "summary": "Get a specific `type` of authentication token",
-      "tags": [
-        {
-          "name": "deprecated",
-          "x-alternative": "Authentication module has individual methods for each token type.",
-          "x-since": "0.9.0"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:token:platform"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "type",
-          "summary": "What type of token to get",
-          "schema": {
-            "$ref": "#/components/schemas/TokenType"
-          },
-          "required": true
-        },
-        {
-          "name": "options",
-          "summary": "Additional options for acquiring the token.",
-          "schema": {
-            "type": "object"
-          },
-          "required": false
-        }
-      ],
-      "result": {
-        "name": "token",
-        "summary": "the token value, type, and expiration",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "value": {
-              "type": "string"
-            },
-            "expires": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "type": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "value"
-          ]
-        }
-      },
-      "examples": [
-        {
-          "name": "Acquire a Firebolt platform token",
-          "params": [
-            {
-              "name": "type",
-              "value": "platform"
-            }
-          ],
-          "result": {
-            "name": "token",
-            "value": {
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-              "expires": "2022-04-23T18:25:43.511Z",
-              "type": "platform"
-            }
-          }
-        },
-        {
-          "name": "Acquire a Firebolt device identity token",
-          "params": [
-            {
-              "name": "type",
-              "value": "device"
-            }
-          ],
-          "result": {
-            "name": "token",
-            "value": {
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-              "expires": "2022-04-23T18:25:43.511Z",
-              "type": "device"
-            }
-          }
-        },
-        {
-          "name": "Acquire a Firebolt distributor token",
-          "params": [
-            {
-              "name": "type",
-              "value": "distributor"
-            },
-            {
-              "name": "options",
-              "value": {
-                "clientId": "xyz"
-              }
-            }
-          ],
-          "result": {
-            "name": "token",
-            "value": {
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-              "expires": "2022-04-23T18:25:43.511Z",
-              "type": "distributor",
-              "data": {
-                "tid": "EB00E9230AB2A35F57DB4EFDDC4908F6446D38F08F4FF0BD57FE6A61E21EEFD9",
-                "scope": "scope"
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "device",
-      "summary": "Get a device token scoped to the current app.",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:token:device"
-          ]
-        }
-      ],
-      "params": [
-      ],
-      "result": {
-        "name": "token",
-        "summary": "the token value and expiration",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Acquire a Firebolt device identity token",
-          "params": [
-          ],
-          "result": {
-            "name": "token",
-            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-          }
-        }
-      ]
-    },
-    {
-      "name": "session",
-      "summary": "Get a destributor session token.",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:token:session"
-          ]
-        }
-      ],
-      "params": [
-      ],
-      "result": {
-        "name": "token",
-        "summary": "the token value",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Acquire a distributor session token",
-          "params": [
-          ],
-          "result": {
-            "name": "token",
-            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-          }
-        }
-      ]
-    },
-    {
-      "name": "root",
-      "summary": "Get a root device token.",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:token:root"
-          ]
-        }
-      ],
-      "params": [
-      ],
-      "result": {
-        "name": "token",
-        "summary": "the token value",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Acquire a Firebolt root device identity token",
-          "params": [
-          ],
-          "result": {
-            "name": "token",
-            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-          }
-        }
-      ]
-    }
-  ],
-  "components": {
-    "schemas": {
-      "TokenType": {
-        "title": "TokenType",
-        "type": "string",
-        "enum": [
-          "platform",
-          "device",
-          "distributor"
-        ]
-      }
-    }
-  }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Authentication",
+		"description": "A module for acquiring authentication tokens.",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "token",
+			"summary": "Get a specific `type` of authentication token",
+			"tags": [
+				{
+					"name": "deprecated",
+					"x-alternative": "Authentication module has individual methods for each token type.",
+					"x-since": "0.9.0"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:token:platform"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "type",
+					"summary": "What type of token to get",
+					"schema": {
+						"$ref": "#/components/schemas/TokenType"
+					},
+					"required": true
+				},
+				{
+					"name": "options",
+					"summary": "Additional options for acquiring the token.",
+					"schema": {
+						"type": "object"
+					},
+					"required": false
+				}
+			],
+			"result": {
+				"name": "token",
+				"summary": "the token value, type, and expiration",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "string"
+						},
+						"expires": {
+							"type": "string",
+							"format": "date-time"
+						},
+						"type": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"value"
+					]
+				}
+			},
+			"examples": [
+				{
+					"name": "Acquire a Firebolt platform token",
+					"params": [
+						{
+							"name": "type",
+							"value": "platform"
+						}
+					],
+					"result": {
+						"name": "token",
+						"value": {
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+							"expires": "2022-04-23T18:25:43.511Z",
+							"type": "platform"
+						}
+					}
+				},
+				{
+					"name": "Acquire a Firebolt device identity token",
+					"params": [
+						{
+							"name": "type",
+							"value": "device"
+						}
+					],
+					"result": {
+						"name": "token",
+						"value": {
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+							"expires": "2022-04-23T18:25:43.511Z",
+							"type": "device"
+						}
+					}
+				},
+				{
+					"name": "Acquire a Firebolt distributor token",
+					"params": [
+						{
+							"name": "type",
+							"value": "distributor"
+						},
+						{
+							"name": "options",
+							"value": {
+								"clientId": "xyz"
+							}
+						}
+					],
+					"result": {
+						"name": "token",
+						"value": {
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+							"expires": "2022-04-23T18:25:43.511Z",
+							"type": "distributor",
+							"data": {
+								"tid": "EB00E9230AB2A35F57DB4EFDDC4908F6446D38F08F4FF0BD57FE6A61E21EEFD9",
+								"scope": "scope"
+							}
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "device",
+			"summary": "Get a device token scoped to the current app.",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:token:device"
+					]
+				}
+			],
+			"params": [],
+			"result": {
+				"name": "token",
+				"summary": "the token value and expiration",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Acquire a Firebolt device identity token",
+					"params": [],
+					"result": {
+						"name": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+					}
+				}
+			]
+		},
+		{
+			"name": "session",
+			"summary": "Get a destributor session token.",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:token:session"
+					]
+				}
+			],
+			"params": [],
+			"result": {
+				"name": "token",
+				"summary": "the token value",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Acquire a distributor session token",
+					"params": [],
+					"result": {
+						"name": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+					}
+				}
+			]
+		},
+		{
+			"name": "root",
+			"summary": "Get a root device token.",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:token:root"
+					]
+				}
+			],
+			"params": [],
+			"result": {
+				"name": "token",
+				"summary": "the token value",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Acquire a Firebolt root device identity token",
+					"params": [],
+					"result": {
+						"name": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"TokenType": {
+				"title": "TokenType",
+				"type": "string",
+				"enum": [
+					"platform",
+					"device",
+					"distributor"
+				]
+			}
+		}
+	}
 }

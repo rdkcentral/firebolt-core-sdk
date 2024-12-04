@@ -27,7 +27,7 @@ test("ClosedCaptions.enabled()", () => {
 
 test("ClosedCaptions.fontFamily()", () => {
   return ClosedCaptions.fontFamily().then((res: string) => {
-    expect(res).toEqual("monospace");
+    expect(res).toEqual("monospace_serif");
   });
 });
 

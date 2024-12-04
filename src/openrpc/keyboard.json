@@ -1,382 +1,245 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "Keyboard",
-    "description": "Methods for prompting users to enter text with task-oriented UX",
-    "version": "0.0.0"
-  },
-  "methods": [
-    {
-      "name": "email",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:input:keyboard"
-          ]
-        }
-      ],
-      "summary": "Prompt the user for their email address with a simplified list of choices.",
-      "params": [
-        {
-          "name": "type",
-          "summary": "Why the email is being requested, e.g. sign on or sign up",
-          "required": true,
-          "schema": {
-            "$ref": "#/components/schemas/EmailUsage"
-          }
-        },
-        {
-          "name": "message",
-          "summary": "The message to display while prompting",
-          "required": false,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ],
-      "result": {
-        "name": "email",
-        "summary": "the selected or entered email",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Prompt the user to select or type an email address",
-          "params": [
-            {
-              "name": "type",
-              "value": "signIn"
-            },
-            {
-              "name": "message",
-              "value": "Enter your email to sign into this app"
-            }
-          ],
-          "result": {
-            "name": "Default Result",
-            "value": "user@domain.com"
-          }
-        },
-        {
-          "name": "Prompt the user to type an email address to sign up",
-          "params": [
-            {
-              "name": "type",
-              "value": "signUp"
-            },
-            {
-              "name": "message",
-              "value": "Enter your email to sign up for this app"
-            }
-          ],
-          "result": {
-            "name": "Default Result",
-            "value": "user@domain.com"
-          }
-        }
-      ]
-    },
-    {
-      "name": "password",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:input:keyboard"
-          ]
-        }
-      ],
-      "summary": "Show the password entry keyboard, with typing obfuscated from visibility",
-      "params": [
-        {
-          "name": "message",
-          "summary": "The message to display while prompting",
-          "required": false,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ],
-      "result": {
-        "name": "value",
-        "summary": "the selected or entered password",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Prompt the user to enter their password",
-          "params": [
-            {
-              "name": "message",
-              "value": "Enter your password"
-            }
-          ],
-          "result": {
-            "name": "Default Result",
-            "value": "abc123"
-          }
-        }
-      ]
-    },
-    {
-      "name": "standard",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:input:keyboard"
-          ]
-        }
-      ],
-      "summary": "Show the standard platform keyboard, and return the submitted value",
-      "params": [
-        {
-          "name": "message",
-          "summary": "The message to display while prompting",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ],
-      "result": {
-        "name": "value",
-        "summary": "the selected or entered text",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Prompt the user for an arbitrary string",
-          "params": [
-            {
-              "name": "message",
-              "value": "Enter the name you'd like to associate with this device"
-            }
-          ],
-          "result": {
-            "name": "Default Result",
-            "value": "Living Room"
-          }
-        }
-      ]
-    },
-    {
-      "name": "onRequestStandard",
-      "summary": "Registers as a provider for when the user should be shown a standard keyboard.",
-      "params": [],
-      "tags": [
-        {
-          "name": "event",
-          "x-response": {
-            "$ref": "#/components/schemas/KeyboardResult",
-            "examples": [
-              {
-                "text": "username"
-              }
-            ]
-          }
-        },
-        {
-          "name": "capabilities",
-          "x-provides": "xrn:firebolt:capability:input:keyboard",
-          "x-allow-focus": true
-        }
-      ],
-      "result": {
-        "name": "sessionRequest",
-        "summary": "The request to start a keyboard session",
-        "schema": {
-          "$ref": "#/components/schemas/KeyboardProviderRequest"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "correlationId": "abc",
-              "parameters": {
-                "message": "Enter your user name."
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "onRequestPassword",
-      "summary": "Registers as a provider for when the user should be shown a password keyboard, with dots for each character entered.",
-      "params": [],
-      "tags": [
-        {
-          "name": "event",
-          "x-response": {
-            "$ref": "#/components/schemas/KeyboardResult",
-            "examples": [
-              {
-                "text": "password"
-              }
-            ]
-          }
-        },
-        {
-          "name": "capabilities",
-          "x-provides": "xrn:firebolt:capability:input:keyboard",
-          "x-allow-focus": true
-        }
-      ],
-      "result": {
-        "name": "sessionRequest",
-        "summary": "The request to start a keyboard session",
-        "schema": {
-          "$ref": "#/components/schemas/KeyboardProviderRequest"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "correlationId": "abc",
-              "parameters": {
-                "message": "Enter your user name."
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "onRequestEmail",
-      "summary": "Registers as a provider for when the user should be shown a keyboard optimized for email address entry.",
-      "params": [],
-      "tags": [
-        {
-          "name": "event",
-          "x-response": {
-            "$ref": "#/components/schemas/KeyboardResult",
-            "examples": [
-              {
-                "text": "email@address.com"
-              }
-            ]
-          }
-        },
-        {
-          "name": "capabilities",
-          "x-provides": "xrn:firebolt:capability:input:keyboard",
-          "x-allow-focus": true
-        }
-      ],
-      "result": {
-        "name": "sessionRequest",
-        "summary": "The request to start a keyboard session",
-        "schema": {
-          "$ref": "#/components/schemas/KeyboardProviderRequest"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "correlationId": "abc",
-              "parameters": {
-                "message": "Enter your user name."
-              }
-            }
-          }
-        }
-      ]
-    }
-  ],
-  "components": {
-    "schemas": {
-      "EmailUsage": {
-        "title": "EmailUsage",
-        "type": "string",
-        "enum": [
-          "signIn",
-          "signUp"
-        ]
-      },
-      "KeyboardType": {
-        "title": "KeyboardType",
-        "type": "string",
-        "description": "The type of keyboard to show to the user",
-        "enum": [
-          "standard",
-          "email",
-          "password"
-        ]
-      },
-      "KeyboardParameters": {
-        "title": "KeyboardParameters",
-        "type": "object",
-        "required": [
-          "message"
-        ],
-        "properties": {
-          "message": {
-            "description": "The message to display to the user so the user knows what they are entering",
-            "type": "string"
-          }
-        },
-        "examples": [
-          {
-            "type": "standard",
-            "message": "Enter your user name."
-          }
-        ]
-      },
-      "KeyboardProviderRequest": {
-        "title": "KeyboardProviderRequest",
-        "type": "object",
-        "required": [
-          "correlationId",
-          "parameters"
-        ],
-        "properties": {
-          "correlationId": {
-            "type": "string",
-            "description": "An id to correlate the provider response with this request"
-          },
-          "parameters": {
-            "description": "The request to start a keyboard session",
-            "$ref": "#/components/schemas/KeyboardParameters"
-          }
-        }
-      },
-      "KeyboardResult": {
-        "title": "KeyboardResult",
-        "type": "object",
-        "required": [
-          "text"
-        ],
-        "properties": {
-          "text": {
-            "type": "string",
-            "description": "The text the user entered into the keyboard"
-          },
-          "canceled": {
-            "type": "boolean",
-            "description": "Whether the user canceled entering text before they were finished typing on the keyboard"
-          }
-        }
-      }
-    }
-  }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Keyboard",
+		"description": "Methods for prompting users to enter text with task-oriented UX",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "email",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:input:keyboard"
+					],
+					"x-provided-by": "Keyboard.email"
+				}
+			],
+			"summary": "Prompt the user for their email address with a simplified list of choices.",
+			"params": [
+				{
+					"name": "type",
+					"summary": "Why the email is being requested, e.g. sign on or sign up",
+					"required": true,
+					"schema": {
+						"$ref": "#/components/schemas/EmailUsage"
+					}
+				},
+				{
+					"name": "message",
+					"summary": "The message to display while prompting",
+					"required": false,
+					"schema": {
+						"type": "string"
+					}
+				}
+			],
+			"result": {
+				"name": "email",
+				"summary": "the selected or entered email",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Prompt the user to select or type an email address",
+					"params": [
+						{
+							"name": "type",
+							"value": "signIn"
+						},
+						{
+							"name": "message",
+							"value": "Enter your email to sign into this app"
+						}
+					],
+					"result": {
+						"name": "Default Result",
+						"value": "user@domain.com"
+					}
+				},
+				{
+					"name": "Prompt the user to type an email address to sign up",
+					"params": [
+						{
+							"name": "type",
+							"value": "signUp"
+						},
+						{
+							"name": "message",
+							"value": "Enter your email to sign up for this app"
+						}
+					],
+					"result": {
+						"name": "Default Result",
+						"value": "user@domain.com"
+					}
+				}
+			]
+		},
+		{
+			"name": "password",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:input:keyboard"
+					],
+					"x-provided-by": "Keyboard.password"
+				}
+			],
+			"summary": "Show the password entry keyboard, with typing obfuscated from visibility",
+			"params": [
+				{
+					"name": "message",
+					"summary": "The message to display while prompting",
+					"required": false,
+					"schema": {
+						"type": "string"
+					}
+				}
+			],
+			"result": {
+				"name": "value",
+				"summary": "the selected or entered password",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Prompt the user to enter their password",
+					"params": [
+						{
+							"name": "message",
+							"value": "Enter your password"
+						}
+					],
+					"result": {
+						"name": "Default Result",
+						"value": "abc123"
+					}
+				}
+			]
+		},
+		{
+			"name": "standard",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:input:keyboard"
+					],
+					"x-provided-by": "Keyboard.standard"
+				}
+			],
+			"summary": "Show the standard platform keyboard, and return the submitted value",
+			"params": [
+				{
+					"name": "message",
+					"summary": "The message to display while prompting",
+					"required": true,
+					"schema": {
+						"type": "string"
+					}
+				}
+			],
+			"result": {
+				"name": "value",
+				"summary": "the selected or entered text",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Prompt the user for an arbitrary string",
+					"params": [
+						{
+							"name": "message",
+							"value": "Enter the name you'd like to associate with this device"
+						}
+					],
+					"result": {
+						"name": "Default Result",
+						"value": "Living Room"
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"EmailUsage": {
+				"title": "EmailUsage",
+				"type": "string",
+				"enum": [
+					"signIn",
+					"signUp"
+				]
+			},
+			"KeyboardType": {
+				"title": "KeyboardType",
+				"type": "string",
+				"description": "The type of keyboard to show to the user",
+				"enum": [
+					"standard",
+					"email",
+					"password"
+				]
+			},
+			"KeyboardParameters": {
+				"title": "KeyboardParameters",
+				"type": "object",
+				"required": [
+					"message"
+				],
+				"properties": {},
+				"examples": [
+					{
+						"type": "standard",
+						"message": "Enter your user name."
+					}
+				]
+			},
+			"KeyboardProviderRequest": {
+				"title": "KeyboardProviderRequest",
+				"type": "object",
+				"required": [
+					"correlationId",
+					"parameters"
+				],
+				"properties": {
+					"correlationId": {
+						"type": "string",
+						"description": "An id to correlate the provider response with this request"
+					},
+					"parameters": {
+						"description": "The request to start a keyboard session",
+						"$ref": "#/components/schemas/KeyboardParameters"
+					}
+				}
+			},
+			"KeyboardResult": {
+				"title": "KeyboardResult",
+				"type": "object",
+				"required": [
+					"text"
+				],
+				"properties": {
+					"text": {
+						"type": "string",
+						"description": "The text the user entered into the keyboard"
+					},
+					"canceled": {
+						"type": "boolean",
+						"description": "Whether the user canceled entering text before they were finished typing on the keyboard"
+					}
+				}
+			}
+		}
+	}
 }

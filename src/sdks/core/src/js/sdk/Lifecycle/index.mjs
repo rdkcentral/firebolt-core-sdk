@@ -60,7 +60,7 @@ export default {
 
   /* ${EVENTS_ENUM} */
 
-  /* ${ENUMS} */
+  /* ${ENUM_IMPLEMENTATIONS} */
 
   ready,
   state,

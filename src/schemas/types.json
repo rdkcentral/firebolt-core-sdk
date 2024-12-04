@@ -1,0 +1,194 @@
+{
+    "title": "Types",
+    "$id": "https://meta.rdkcentral.com/firebolt/schemas/types",
+    "definitions": {
+        "SemanticVersion": {
+            "title": "SemanticVersion",
+            "type": "object",
+            "properties": {
+                "major": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "minor": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "patch": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "readable": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "major",
+                "minor",
+                "patch",
+                "readable"
+            ],
+            "additionalProperties": false
+        },
+        "AudioProfile": {
+            "title": "AudioProfile",
+            "type": "string",
+            "enum": [
+                "stereo",
+                "dolbyDigital5.1",
+                "dolbyDigital7.1",
+                "dolbyDigital5.1+",
+                "dolbyDigital7.1+",
+                "dolbyAtmos"
+            ]
+        },
+        "BooleanMap": {
+            "title": "BooleanMap",
+            "type": "object",
+            "additionalProperties": {
+                "type": "boolean"
+            }
+        },
+        "FlatMap": {
+            "type": "object",
+            "additionalProperties": {
+                "oneOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "number"
+                    },
+                    {
+                        "type": "boolean"
+                    }
+                ]
+            }
+        },
+        "LocalizedString": {
+            "title": "LocalizedString",
+            "description": "Localized string supports either a simple `string` or a Map<string, string> of language codes to strings. When using a simple `string`, the current preferred langauge from `Localization.langauge()` is assumed.",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "examples": [
+                "A simple string, with no language code",
+                {
+                    "en": "This is english",
+                    "es": "esto es español"
+                }
+            ]
+        },
+        "ListenResponse": {
+            "title": "ListenResponse",
+            "type": "object",
+            "required": [
+                "event",
+                "listening"
+            ],
+            "properties": {
+                "event": {
+                    "type": "string",
+                    "pattern": "[a-zA-Z]+\\.on[A-Z][a-zA-Z]+"
+                },
+                "listening": {
+                    "type": "boolean"
+                }
+            },
+            "additionalProperties": false
+        },
+        "ProviderRequest": {
+            "title": "ProviderRequest",
+            "type": "object",
+            "required": [
+                "correlationId"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "correlationId": {
+                    "type": "string",
+                    "description": "The id that was passed in to the event that triggered a provider method to be called"
+                },
+                "parameters": {
+                    "description": "The result of the provider response.",
+                    "type": ["object", "null"]
+                }
+            }
+        },
+        "ProviderResponse": {
+            "title": "ProviderResponse",
+            "type": "object",
+            "required": [
+                "correlationId"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "correlationId": {
+                    "type": "string",
+                    "description": "The id that was passed in to the event that triggered a provider method to be called"
+                },
+                "result": {
+                    "description": "The result of the provider response."
+                }
+            }
+        },
+        "Timeout": {
+            "title": "Timeout",
+            "description": "Defines the timeout in seconds. If the threshold for timeout is passed for any operation without a result it will throw an error.",
+            "type": "integer",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 9999
+        },
+        "Dimensions": {
+            "type": "object",
+            "properties": {
+                "width": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "height": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            },
+            "required": [ "width", "height" ]
+        },
+        "Image": {
+            "type": "object",
+            "properties": {
+                "uri": {
+                    "description": "URI for the image. May be a relative path (e.g. ./foo/image.png) or absolute (e.g. https://foo.com/bar.png) depending on usage.",
+                    "type": "string"
+                },
+                "aspectRatio": {
+                    "description": "The aspect ratio of the image",
+                    "type": "string",
+                    "pattern": "^\\d+x\\d+"
+                },
+                "description": {
+                    "description": "Description of the image.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "The type of the image.",
+                    "type": "string",
+                    "enum": [
+                        "icon", "poster", "banner", "splash", "hero"
+                    ]
+                }
+            },
+            "required": [
+                "uri", "aspectRatio", "type"
+            ]
+        }
+    }
+}

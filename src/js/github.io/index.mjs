@@ -19,7 +19,7 @@ const parsedArgs = Object.assign(defaultOpts, nopt(knownOpts, shortHands, proces
 const signOff = () => console.log('\nThis has been a presentation of \x1b[38;5;202mFirebolt\x1b[0m \u{1F525} \u{1F529}\n')
 
 const packageJson = await readJson(process.env.npm_package_json)
-const version = channel(packageJson.version)
+const version = parsedArgs.argv.remain && parsedArgs.argv.remain[0] || channel(packageJson.version)
 const requirements = await readFiles(await readDir(path.join('.', 'requirements'), { recursive: true }), path.join('.', 'requirements'))
 
 const processFiles = (docs, base, dir, subdir, category, setType) => {
@@ -38,18 +38,23 @@ const processFiles = (docs, base, dir, subdir, category, setType) => {
 
         if (ref.endsWith('.md')) {
             const filename = ref.split(path.sep).pop()
-            if (filename !== 'index.md') {
+            // if this is a generated file, leave it alone
+            if ( !base.startsWith('src')) { //filename !== 'index.md') {
+                console.log(`UPDATING LINKS: ${ref}`)
                 const dirname = filename.split('.').shift()
-                const parts = ['index.md']
+                const parts = filename === 'index' ? ['..'] : ['index.md']
                 // if the dirname is the same as parent dir, don't insert it
-                if (dirname != ref.split(path.sep).slice(-2, -1)[0]) {
+                if (dirname !== ref.split(path.sep).slice(-2, -1)[0] && dirname !== 'index') {
                     parts.unshift(dirname)
                     data = data.replace(/\]\(\.\.\//g, '](../../')
                     data = data.replace(/\]\(\.\//g, '](../')
                 }
                 data = data.replace(/\]\((.*?)\.md([\)#])/g, ']($1$2')
                 data = data.replace(/\]\((.*?)\/(.*?)\/\2([\)#])/g, ']($1/$2$3')
-            ref = ref.split(path.sep).slice(0, -1).concat(parts).join(path.sep)
+                ref = ref.split(path.sep).slice(0, -1).concat(parts).join(path.sep)
+            }
+            else {
+                console.log(`NOT UPDATING LINKS: ${ref}`)
             }
 
             docs[path.join(parsedArgs.output, dir, version, subdir, ref)] = frontmatter(data, version, subdir, category, type)
@@ -58,7 +63,7 @@ const processFiles = (docs, base, dir, subdir, category, setType) => {
             docs[path.join(parsedArgs.output, dir, version, subdir, ref)] = data
         }
     
-        console.log(`Will copy ${path.join(base, source)} to ${path.join(parsedArgs.output, dir, version, subdir, ref)}`)
+//        console.log(`Will copy ${path.join(base, source)} to ${path.join(parsedArgs.output, dir, version, subdir, ref)}`)
     
         if (version === 'latest') {
             if (ref.endsWith('.md')) {
@@ -115,7 +120,7 @@ const capabilities = () => {
     
     const linkify = (method) => `[${method}](./${corerpc.methods.find(m => m.name === method) ? 'core' : 'manage'}/${method.split('.').shift()}/#${method.match(/\.on[A-Z]/) ? method.split('.').pop().charAt(2).toLowerCase() + method.split('.').pop().substring(3).toLowerCase() : method.split('.').pop().toLowerCase()})`
     Object.keys(capabilities).sort().forEach(c => {
-        manifest += `## \`${c}\`\n`
+        manifest += `### \`${c}\`\n`
 
         if (capabilities[c].uses.length) {
             manifest += '\n| Uses |\n'
@@ -171,13 +176,7 @@ function channel(version) {
     if (parts.length > 1) {
         parts.shift()
         const chnl = parts.join("-").split(".").shift()
-
-        if (['next', 'next-major', 'test'].includes(chnl)) {
-            return chnl
-        }
-        else {
-            return 'test'
-        }
+        return chnl
     }
     else {
         return 'latest'

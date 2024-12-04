@@ -1,0 +1,85 @@
+{
+    "openrpc": "1.2.4",
+    "info": {
+        "title": "Activatable",
+        "description": "Methods and events for responding to lifecycle changes in your app",
+        "version": "0.0.0"
+    },
+    "methods": [
+        {
+            "name": "activate",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-provides": "xrn:firebolt:capability:lifecycle:activatable"
+                }
+            ],
+            "summary": "Called when the platform is ready to create the lifecycle session for the app. Only called only once, during the `INITIALIZING` state.",
+            "params": [
+                {
+                    "name": "intent",
+                    "required": true,
+                    "schema": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/intents#/definitions/NavigationIntent"
+                    }
+                }
+            ],
+            "result": {
+                "name": "result",
+                "schema": {
+                    "const": null
+                }
+            },
+            "examples": [
+                {
+                    "name": "App creation.",
+                    "params": [
+                        {
+                            "name": "intent",
+                            "value": {
+                                "action": "search",
+                                "data": {
+                                    "query": "cats"
+                                },
+                                "context": {
+                                    "source": "voice"
+                                }
+                            }
+                        }
+                    ],
+                    "result": {
+                        "name": "result",
+                        "value": null
+                    }
+                }
+            ]
+        },
+        {
+            "name": "deactivate",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-provides": "xrn:firebolt:capability:lifecycle:activatable"
+                }
+            ],
+            "summary": "Called when the platform wants the app to reallocate its graphics surface and prepare to be potentially used.",
+            "params": [],
+            "result": {
+                "name": "result",
+                "schema": {
+                    "const": null
+                }
+            },
+            "examples": [
+                {
+                    "name": "App resuming.",
+                    "params": [],
+                    "result": {
+                        "name": "result",
+                        "value": null
+                    }
+                }
+            ]
+        }
+    ]
+}

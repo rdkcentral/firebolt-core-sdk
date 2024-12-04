@@ -1,6 +1,6 @@
 {
-    "$id": "https://meta.comcast.com/firebolt/secondscreen",
     "title": "SecondScreen",
+    "$id": "https://meta.rdkcentral.com/firebolt/schemas/secondscreen",
     "anyOf": [
       { "$ref": "#/definitions/SecondScreenEvent" }
     ],

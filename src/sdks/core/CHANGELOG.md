@@ -1,3 +1,35 @@
+# [1.1.0](https://github.com/rdkcentral/firebolt-apis/compare/v1.0.0...v1.1.0) (2024-02-09)
+
+### Bug Fixes
+
+    * Add Music to Playable entities (#225 (https://github.com/rdkcentral/firebolt-apis/issues/225)) (22c9b71 (https://github.com/rdkcentral/firebolt-apis/commit/22c9b71d3c0ee98d32585d1b365afabf8e64d6ed))
+    * Modified account:uid to SHOULD (#224 (https://github.com/rdkcentral/firebolt-apis/issues/224)) (70c8b24 (https://github.com/rdkcentral/firebolt-apis/commit/70c8b24decfcbff2c32fb1b0d21290afc00a8432))
+
+# [1.0.0](https://github.com/rdkcentral/firebolt-apis/compare/v0.17.1...v1.0.0) (2023-11-03)
+
+Upgraded to 1.0 at part of RDK6 release. This API is still compatibile with 0.x versions.
+
+### Bug Fixes
+
+    * Updated Discovery.launch example with xrn:firebolt: application-type (#187 (https://github.com/rdkcentral/firebolt-apis/issues/187)) (4dbbab3 (https://github.com/rdkcentral/firebolt-apis/commit/4dbbab3d9fa68c0e5185ca72fd0170bae8a30139))
+
+### Features
+  
+    * Added scope parameter for advertisingId (#188 (https://github.com/rdkcentral/firebolt-apis/issues/188))
+    * Play Intent (#151 (https://github.com/rdkcentral/firebolt-apis/issues/151)) (d1ddf3f (https://github.com/rdkcentral/firebolt-apis/commit/d1ddf3fb3b1f758315686ad2f6dc57c2b270f33a))
+
+# [0.17.1](https://github.com/rdkcentral/firebolt-apis/compare/v0.17.0...v0.17.1) (2023-09-15)
+
+### Bug Fixes
+
+fix: Add enumerated values for fontFamily/fontEdge (#181)
+
+# [0.17.0](https://github.com/rdkcentral/firebolt-apis/compare/v0.16.0...v0.17.0) (2023-09-07)
+
+### Bug Fixes
+
+* fix: Using 3 letter ISO639 language codes ([#173](https://github.com/rdkcentral/firebolt-apis/issues/173))
+
 # [0.15.0](https://github.com/rdkcentral/firebolt-apis/compare/v0.14.0...v0.15.0) (2023-07-31)
 
 ### Bug Fixes

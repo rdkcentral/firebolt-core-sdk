@@ -1,186 +1,192 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "SecondScreen",
-    "version": "0.0.0",
-    "description": "Methods for communicating with second screen devices"
-  },
-  "methods": [
-    {
-      "name": "protocols",
-      "summary": "Get the supported second screen discovery protocols",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:info"
-          ]
-        }
-      ],
-      "params": [],
-      "result": {
-        "name": "protocols",
-        "summary": "the supported protocols",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/types#/definitions/BooleanMap"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "dial1.7": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "device",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:protocol:dial"
-          ]
-        }
-      ],
-      "summary": "Get the broadcasted id for the device",
-      "params": [
-        {
-          "name": "type",
-          "summary": "The type of second screen protocol, e.g. \"dial\"",
-          "required": false,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ],
-      "result": {
-        "name": "deviceId",
-        "summary": "the device id",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "device-id"
-          }
-        }
-      ]
-    },
-    {
-      "name": "friendlyName",
-      "summary": "Get the broadcasted friendly name for the device",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:readonly"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:protocol:dial"
-          ]
-        }
-      ],
-      "result": {
-        "name": "friendlyName",
-        "summary": "the device friendly-name",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "friendlyName",
-            "value": "Living Room"
-          }
-        }
-      ]
-    },
-    {
-      "name": "onLaunchRequest",
-      "tags": [
-        {
-          "name": "event"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:protocol:dial"
-          ]
-        }
-      ],
-      "summary": "Listen to the launchRequest event",
-      "params": [],
-      "result": {
-        "name": "launchRequestEvent",
-        "summary": "Dispatched when a second screen device on the local network has requested this app to be launched",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/secondscreen#/definitions/SecondScreenEvent"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "type": "dial",
-              "version": "1.7",
-              "data": "{\"code\":\"AQDPQZiQcb3KQ7gY7yy5tHTMbbkGHR9Zjp-KL53H3eKBZIeAt7O9UKYPu6B21l2UZVmIqkFXDXBmXvK4g2e3EgZtjMNmKPsTltgnRl95DImtOXjSpWtTjSaOkW4w1kZKUTwLKdwVWTzBVH8ERHorvLU6vCGOVHxXt65LNwdl5HKRweShVC1V9QsyvRnQS61ov0UclmrH_xZML2Bt-Q-rZFjey5MjwupIb4x4f53XUJMhjHpDHoIUKrjpdPDQvK2a\",\"friendlyName\":\"Operator_TX061AEI\",\"UDN\":\"608fef11-2800-482a-962b-23a6690c93c1\"}"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "onCloseRequest",
-      "tags": [
-        {
-          "name": "event"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:protocol:dial"
-          ]
-        }
-      ],
-      "summary": "Listen to the closeRequest event",
-      "params": [],
-      "result": {
-        "name": "closeRequestEvent",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/secondscreen#/definitions/SecondScreenEvent"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "type": "dial",
-              "version": "1.7"
-            }
-          }
-        }
-      ]
-    }
-  ]
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "SecondScreen",
+		"version": "0.0.0",
+		"description": "Methods for communicating with second screen devices"
+	},
+	"methods": [
+		{
+			"name": "protocols",
+			"summary": "Get the supported second screen discovery protocols",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:info"
+					]
+				}
+			],
+			"params": [],
+			"result": {
+				"name": "protocols",
+				"summary": "the supported protocols",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/BooleanMap"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"dial1.7": true
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "device",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:protocol:dial"
+					]
+				}
+			],
+			"summary": "Get the broadcasted id for the device",
+			"params": [
+				{
+					"name": "type",
+					"summary": "The type of second screen protocol, e.g. \"dial\"",
+					"required": false,
+					"schema": {
+						"type": "string"
+					}
+				}
+			],
+			"result": {
+				"name": "deviceId",
+				"summary": "the device id",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "device-id"
+					}
+				}
+			]
+		},
+		{
+			"name": "friendlyName",
+			"summary": "Get the broadcasted friendly name for the device",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:readonly"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:protocol:dial"
+					]
+				}
+			],
+			"result": {
+				"name": "friendlyName",
+				"summary": "the device friendly-name",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "friendlyName",
+						"value": "Living Room"
+					}
+				}
+			]
+		},
+		{
+			"name": "launchRequest",
+			"tags": [
+				{
+					"name": "notifier",
+					"x-event": "SecondScreen.onLaunchRequest"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:protocol:dial"
+					]
+				}
+			],
+			"summary": "Listen to the launchRequest event",
+			"params": [
+				{
+					"name": "launchRequestEvent",
+					"summary": "Dispatched when a second screen device on the local network has requested this app to be launched",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/secondscreen#/definitions/SecondScreenEvent"
+					}
+				}
+			],
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "Default Result",
+							"value": {
+								"type": "dial",
+								"version": "1.7",
+								"data": "{\"code\":\"AQDPQZiQcb3KQ7gY7yy5tHTMbbkGHR9Zjp-KL53H3eKBZIeAt7O9UKYPu6B21l2UZVmIqkFXDXBmXvK4g2e3EgZtjMNmKPsTltgnRl95DImtOXjSpWtTjSaOkW4w1kZKUTwLKdwVWTzBVH8ERHorvLU6vCGOVHxXt65LNwdl5HKRweShVC1V9QsyvRnQS61ov0UclmrH_xZML2Bt-Q-rZFjey5MjwupIb4x4f53XUJMhjHpDHoIUKrjpdPDQvK2a\",\"friendlyName\":\"Operator_TX061AEI\",\"UDN\":\"608fef11-2800-482a-962b-23a6690c93c1\"}"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "closeRequest",
+			"tags": [
+				{
+					"name": "notifier",
+					"x-event": "SecondScreen.onCloseRequest"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:protocol:dial"
+					]
+				}
+			],
+			"summary": "Listen to the closeRequest event",
+			"params": [
+				{
+					"name": "closeRequestEvent",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/secondscreen#/definitions/SecondScreenEvent"
+					}
+				}
+			],
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "Default Result",
+							"value": {
+								"type": "dial",
+								"version": "1.7"
+							}
+						}
+					]
+				}
+			]
+		}
+	]
 }

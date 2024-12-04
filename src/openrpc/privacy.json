@@ -1,632 +1,632 @@
 {
-    "openrpc": "1.2.4",
-    "info": {
-        "title": "Privacy",
-        "description": "A module for managing device settings.",
-        "version": "0.0.0"
-    },
-    "methods": [
-        {
-            "name": "allowResumePoints",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows resume points for content to show in the main experience",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "allowUnentitledResumePoints",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows resume points for content from unentitled providers to show in the main experience",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "allowWatchHistory",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows their watch history from all sources to show in the main experience",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "allowProductAnalytics",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows their usage data can be used for analytics about the product",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "allowPersonalization",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows their usage data to be used for personalization and recommendations",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "allowUnentitledPersonalization",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows their usage data to be used for personalization and recommendations for unentitled content",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "allowRemoteDiagnostics",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows their personal data to be included in diagnostic telemetry. This also allows whether device logs can be remotely accessed from the client device",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "allowPrimaryContentAdTargeting",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows ads to be targeted to the user while watching content in the primary experience",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "allowPrimaryBrowseAdTargeting",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows ads to be targeted to the user while browsing in the primary experience",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "allowAppContentAdTargeting",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows ads to be targeted to the user while watching content in apps",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "allowACRCollection",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows their automatic content recognition data to be collected",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "allowCameraAnalytics",
-            "tags": [
-                {
-                    "name": "property",
-                    "x-allow-value": true
-                },
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Whether the user allows data from their camera to be used for Product Analytics",
-            "params": [],
-            "result": {
-                "name": "allow",
-                "schema": {
-                    "type": "boolean"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default example #1",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": true
-                    }
-                },
-                {
-                    "name": "Default example #2",
-                    "params": [],
-                    "result": {
-                        "name": "allow",
-                        "value": false
-                    }
-                }
-            ]
-        },
-        {
-            "name": "settings",
-            "tags": [
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:privacy:settings"
-                    ]
-                }
-            ],
-            "summary": "Gets the allowed value for all privacy settings",
-            "params": [],
-            "result": {
-                "name": "settings",
-                "schema": {
-                    "$ref": "#/components/schemas/PrivacySettings"
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default Example",
-                    "params": [],
-                    "result": {
-                        "name": "settings",
-                        "value": {
-                            "allowACRCollection": true,
-                            "allowResumePoints": false,
-                            "allowAppContentAdTargeting": false,
-                            "allowCameraAnalytics": true,
-                            "allowPersonalization": true,
-                            "allowPrimaryBrowseAdTargeting": false,
-                            "allowPrimaryContentAdTargeting": false,
-                            "allowProductAnalytics": true,
-                            "allowRemoteDiagnostics": true,
-                            "allowUnentitledPersonalization": true,
-                            "allowUnentitledResumePoints": false,
-                            "allowWatchHistory": true
-                        }
-                    }
-                }
-            ]
-        }
-    ],
-    "components": {
-        "schemas": {
-            "PrivacySettings": {
-                "title": "PrivacySettings",
-                "type": "object",
-                "required": [
-                    "allowACRCollection",
-                    "allowResumePoints",
-                    "allowAppContentAdTargeting",
-                    "allowCameraAnalytics",
-                    "allowPersonalization",
-                    "allowPrimaryBrowseAdTargeting",
-                    "allowPrimaryContentAdTargeting",
-                    "allowProductAnalytics",
-                    "allowRemoteDiagnostics",
-                    "allowUnentitledPersonalization",
-                    "allowUnentitledResumePoints",
-                    "allowWatchHistory"
-                ],
-                "properties": {
-                    "allowACRCollection": {
-                        "description": "",
-                        "type": "boolean"
-                    },
-                    "allowResumePoints": {
-                        "description": "",
-                        "type": "boolean"
-                    },
-                    "allowAppContentAdTargeting": {
-                        "description": "",
-                        "type": "boolean"
-                    },
-                    "allowCameraAnalytics": {
-                        "description": "",
-                        "type": "boolean"
-                    },
-                    "allowPersonalization": {
-                        "description": "",
-                        "type": "boolean"
-                    },
-                    "allowPrimaryBrowseAdTargeting": {
-                        "description": "",
-                        "type": "boolean"
-                    },
-                    "allowPrimaryContentAdTargeting": {
-                        "description": "",
-                        "type": "boolean"
-                    },
-                    "allowProductAnalytics": {
-                        "description": "",
-                        "type": "boolean"
-                    },
-                    "allowRemoteDiagnostics": {
-                        "description": "",
-                        "type": "boolean"
-                    },
-                    "allowUnentitledPersonalization": {
-                        "description": "",
-                        "type": "boolean"
-                    },
-                    "allowUnentitledResumePoints": {
-                        "description": "",
-                        "type": "boolean"
-                    },
-                    "allowWatchHistory": {
-                        "description": "",
-                        "type": "boolean"
-                    }
-                },
-                "examples": [
-                    {
-                        "allowACRCollection": true,
-                        "allowResumePoints": false,
-                        "allowAppContentAdTargeting": false,
-                        "allowCameraAnalytics": true,
-                        "allowPersonalization": true,
-                        "allowPrimaryBrowseAdTargeting": false,
-                        "allowPrimaryContentAdTargeting": false,
-                        "allowProductAnalytics": true,
-                        "allowRemoteDiagnostics": true,
-                        "allowUnentitledPersonalization": true,
-                        "allowUnentitledResumePoints": false,
-                        "allowWatchHistory": true
-                    }
-                ]
-            }
-        }
-    }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Privacy",
+		"description": "A module for managing device settings.",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "allowResumePoints",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows resume points for content to show in the main experience",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "allowUnentitledResumePoints",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows resume points for content from unentitled providers to show in the main experience",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "allowWatchHistory",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows their watch history from all sources to show in the main experience",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "allowProductAnalytics",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows their usage data can be used for analytics about the product",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "allowPersonalization",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows their usage data to be used for personalization and recommendations",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "allowUnentitledPersonalization",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows their usage data to be used for personalization and recommendations for unentitled content",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "allowRemoteDiagnostics",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows their personal data to be included in diagnostic telemetry. This also allows whether device logs can be remotely accessed from the client device",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "allowPrimaryContentAdTargeting",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows ads to be targeted to the user while watching content in the primary experience",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "allowPrimaryBrowseAdTargeting",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows ads to be targeted to the user while browsing in the primary experience",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "allowAppContentAdTargeting",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows ads to be targeted to the user while watching content in apps",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "allowACRCollection",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows their automatic content recognition data to be collected",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "allowCameraAnalytics",
+			"tags": [
+				{
+					"name": "property",
+					"x-allow-value": true
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Whether the user allows data from their camera to be used for Product Analytics",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": true
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "settings",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:privacy:settings"
+					]
+				}
+			],
+			"summary": "Gets the allowed value for all privacy settings",
+			"params": [],
+			"result": {
+				"name": "settings",
+				"schema": {
+					"$ref": "#/components/schemas/PrivacySettings"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "settings",
+						"value": {
+							"allowACRCollection": true,
+							"allowResumePoints": false,
+							"allowAppContentAdTargeting": false,
+							"allowCameraAnalytics": true,
+							"allowPersonalization": true,
+							"allowPrimaryBrowseAdTargeting": false,
+							"allowPrimaryContentAdTargeting": false,
+							"allowProductAnalytics": true,
+							"allowRemoteDiagnostics": true,
+							"allowUnentitledPersonalization": true,
+							"allowUnentitledResumePoints": false,
+							"allowWatchHistory": true
+						}
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"PrivacySettings": {
+				"title": "PrivacySettings",
+				"type": "object",
+				"required": [
+					"allowACRCollection",
+					"allowResumePoints",
+					"allowAppContentAdTargeting",
+					"allowCameraAnalytics",
+					"allowPersonalization",
+					"allowPrimaryBrowseAdTargeting",
+					"allowPrimaryContentAdTargeting",
+					"allowProductAnalytics",
+					"allowRemoteDiagnostics",
+					"allowUnentitledPersonalization",
+					"allowUnentitledResumePoints",
+					"allowWatchHistory"
+				],
+				"properties": {
+					"allowACRCollection": {
+						"description": "",
+						"type": "boolean"
+					},
+					"allowResumePoints": {
+						"description": "",
+						"type": "boolean"
+					},
+					"allowAppContentAdTargeting": {
+						"description": "",
+						"type": "boolean"
+					},
+					"allowCameraAnalytics": {
+						"description": "",
+						"type": "boolean"
+					},
+					"allowPersonalization": {
+						"description": "",
+						"type": "boolean"
+					},
+					"allowPrimaryBrowseAdTargeting": {
+						"description": "",
+						"type": "boolean"
+					},
+					"allowPrimaryContentAdTargeting": {
+						"description": "",
+						"type": "boolean"
+					},
+					"allowProductAnalytics": {
+						"description": "",
+						"type": "boolean"
+					},
+					"allowRemoteDiagnostics": {
+						"description": "",
+						"type": "boolean"
+					},
+					"allowUnentitledPersonalization": {
+						"description": "",
+						"type": "boolean"
+					},
+					"allowUnentitledResumePoints": {
+						"description": "",
+						"type": "boolean"
+					},
+					"allowWatchHistory": {
+						"description": "",
+						"type": "boolean"
+					}
+				},
+				"examples": [
+					{
+						"allowACRCollection": true,
+						"allowResumePoints": false,
+						"allowAppContentAdTargeting": false,
+						"allowCameraAnalytics": true,
+						"allowPersonalization": true,
+						"allowPrimaryBrowseAdTargeting": false,
+						"allowPrimaryContentAdTargeting": false,
+						"allowProductAnalytics": true,
+						"allowRemoteDiagnostics": true,
+						"allowUnentitledPersonalization": true,
+						"allowUnentitledResumePoints": false,
+						"allowWatchHistory": true
+					}
+				]
+			}
+		}
+	}
 }

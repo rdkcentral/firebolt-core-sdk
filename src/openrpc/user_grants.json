@@ -1,411 +1,452 @@
 {
-    "openrpc": "1.2.4",
-    "info": {
-        "title": "UserGrants",
-        "description": "A module for managing grants given by the user",
-        "version": "0.0.0"
-    },
-    "methods": [
-        {
-            "name": "app",
-            "summary": "Get all granted and denied user grants for the given app",
-            "tags": [
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:grants:state"
-                    ]
-                }
-            ],
-            "params": [
-                {
-                    "name": "appId",
-                    "schema": {
-                        "type": "string"
-                    },
-                    "required": true
-                }
-            ],
-            "result": {
-                "name": "info",
-                "summary": "The list of grants for this app",
-                "schema": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/components/schemas/GrantInfo"
-                    }
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default Example",
-                    "params": [
-                        {
-                            "name": "appId",
-                            "value": "certapp"
-                        }
-                    ],
-                    "result": {
-                        "name": "defaultResult",
-                        "value": [
-                            {
-                                "app": {
-                                    "id": "certapp",
-                                    "title": "Firebolt Certification"
-                                },
-                                "state": "granted",
-                                "capability": "xrn:firebolt:capability:data:app-usage",
-                                "role": "use",
-                                "lifespan": "seconds",
-                                "expires": "2022-12-14T20:20:39+00:00"
-                            },
-                            {
-                                "app": {
-                                    "id": "certapp",
-                                    "title": "Firebolt Certification"
-                                },
-                                "state": "denied",
-                                "capability": "xrn:firebolt:capability:localization:postal-code",
-                                "role": "use",
-                                "lifespan": "appActive"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "name": "device",
-            "summary": "Get all granted and denied user grants for the device",
-            "tags": [
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:grants:state"
-                    ]
-                }
-            ],
-            "params": [],
-            "result": {
-                "name": "info",
-                "summary": "The list of grants for the device",
-                "schema": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/components/schemas/GrantInfo"
-                    }
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default Example",
-                    "params": [],
-                    "result": {
-                        "name": "defaultResult",
-                        "value": [
-                            {
-                                "state": "granted",
-                                "capability": "xrn:firebolt:capability:localization:postal-code",
-                                "role": "use",
-                                "lifespan": "powerActive"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "name": "capability",
-            "summary": "Get all granted and denied user grants for the given capability",
-            "tags": [
-                {
-                    "name": "capabilities",
-                    "x-uses": [
-                        "xrn:firebolt:capability:grants:state"
-                    ]
-                }
-            ],
-            "params": [
-                {
-                    "name": "capability",
-                    "schema": {
-                        "$ref": "https://meta.comcast.com/firebolt/capabilities#/definitions/Capability"
-                    },
-                    "required": true
-                }
-            ],
-            "result": {
-                "name": "info",
-                "summary": "The list of grants associated with the given capability",
-                "schema": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/components/schemas/GrantInfo"
-                    }
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default Example",
-                    "params": [
-                        {
-                            "name": "capability",
-                            "value": "xrn:firebolt:capability:localization:postal-code"
-                        }
-                    ],
-                    "result": {
-                        "name": "defaultResult",
-                        "value": [
-                            {
-                                "state": "granted",
-                                "capability": "xrn:firebolt:capability:localization:postal-code",
-                                "role": "use",
-                                "lifespan": "powerActive"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "name": "grant",
-            "summary": "Grants a given capability to a specific app, if appropriate. Calling this results in a persisted active grant that lasts for the duration of the grant policy lifespan. ",
-            "tags": [
-                {
-                    "name": "capabilities",
-                    "x-manages": [
-                        "xrn:firebolt:capability:grants:state"
-                    ]
-                }
-            ],
-            "params": [
-                {
-                    "name": "role",
-                    "schema": {
-                        "$ref": "https://meta.comcast.com/firebolt/capabilities#/definitions/Role"
-                    },
-                    "required": true
-                },
-                {
-                    "name": "capability",
-                    "schema": {
-                        "$ref": "https://meta.comcast.com/firebolt/capabilities#/definitions/Capability"
-                    },
-                    "required": true
-                },
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "UserGrants",
+		"description": "A module for managing grants given by the user",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "app",
+			"summary": "Get all granted and denied user grants for the given app",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:grants:state"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "appId",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "info",
+				"summary": "The list of grants for this app",
+				"schema": {
+					"type": "array",
+					"items": {
+						"$ref": "#/components/schemas/GrantInfo"
+					}
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "appId",
+							"value": "certapp"
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": [
+							{
+								"app": {
+									"id": "certapp",
+									"title": "Firebolt Certification"
+								},
+								"state": "granted",
+								"capability": "xrn:firebolt:capability:data:app-usage",
+								"role": "use",
+								"lifespan": "seconds",
+								"expires": "2022-12-14T20:20:39+00:00"
+							},
+							{
+								"app": {
+									"id": "certapp",
+									"title": "Firebolt Certification"
+								},
+								"state": "denied",
+								"capability": "xrn:firebolt:capability:localization:postal-code",
+								"role": "use",
+								"lifespan": "appActive"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "device",
+			"summary": "Get all granted and denied user grants for the device",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:grants:state"
+					]
+				}
+			],
+			"params": [],
+			"result": {
+				"name": "info",
+				"summary": "The list of grants for the device",
+				"schema": {
+					"type": "array",
+					"items": {
+						"$ref": "#/components/schemas/GrantInfo"
+					}
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "defaultResult",
+						"value": [
+							{
+								"state": "granted",
+								"capability": "xrn:firebolt:capability:localization:postal-code",
+								"role": "use",
+								"lifespan": "powerActive"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "capability",
+			"summary": "Get all granted and denied user grants for the given capability",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:grants:state"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "capability",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/capabilities#/definitions/Capability"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "info",
+				"summary": "The list of grants associated with the given capability",
+				"schema": {
+					"type": "array",
+					"items": {
+						"$ref": "#/components/schemas/GrantInfo"
+					}
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "capability",
+							"value": "xrn:firebolt:capability:localization:postal-code"
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": [
+							{
+								"state": "granted",
+								"capability": "xrn:firebolt:capability:localization:postal-code",
+								"role": "use",
+								"lifespan": "powerActive"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "grant",
+			"summary": "Grants a given capability to a specific app, if appropriate. Calling this results in a persisted active grant that lasts for the duration of the grant policy lifespan. ",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-manages": [
+						"xrn:firebolt:capability:grants:state"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "role",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/capabilities#/definitions/Role"
+					},
+					"required": true
+				},
+				{
+					"name": "capability",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/capabilities#/definitions/Capability"
+					},
+					"required": true
+				},
+				{
+					"name": "options",
+					"schema": {
+						"$ref": "#/components/schemas/GrantModificationOptions"
+					}
+				}
+			],
+			"result": {
+				"name": "result",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "role",
+							"value": "use"
+						},
+						{
+							"name": "capability",
+							"value": "xrn:firebolt:capability:localization:postal-code"
+						},
+						{
+							"name": "options",
+							"value": {
+								"appId": "certapp"
+							}
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "deny",
+			"summary": "Denies a given capability, to a specific app if appropriate. Calling this results in a persisted Denied Grant that lasts for the duration of the Grant Policy lifespan. ",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-manages": [
+						"xrn:firebolt:capability:grants:state"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "role",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/capabilities#/definitions/Role"
+					},
+					"required": true
+				},
+				{
+					"name": "capability",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/capabilities#/definitions/Capability"
+					},
+					"required": true
+				},
+				{
+					"name": "options",
+					"schema": {
+						"$ref": "#/components/schemas/GrantModificationOptions"
+					}
+				}
+			],
+			"result": {
+				"name": "result",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "role",
+							"value": "use"
+						},
+						{
+							"name": "capability",
+							"value": "xrn:firebolt:capability:localization:postal-code"
+						},
+						{
+							"name": "options",
+							"value": {
+								"appId": "certapp"
+							}
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "clear",
+			"summary": "Clears the grant for a given capability, to a specific app if appropriate. Calling this results in a persisted Denied Grant that lasts for the duration of the Grant Policy lifespan. ",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-manages": [
+						"xrn:firebolt:capability:grants:state"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "role",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/capabilities#/definitions/Role"
+					},
+					"required": true
+				},
+				{
+					"name": "capability",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/capabilities#/definitions/Capability"
+					},
+					"required": true
+				},
+				{
+					"name": "options",
+					"schema": {
+						"$ref": "#/components/schemas/GrantModificationOptions"
+					}
+				}
+			],
+			"result": {
+				"name": "result",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "role",
+							"value": "use"
+						},
+						{
+							"name": "capability",
+							"value": "xrn:firebolt:capability:localization:postal-code"
+						},
+						{
+							"name": "options",
+							"value": {
+								"appId": "certapp"
+							}
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "request",
+			"summary": "Requests Firebolt to carry out a set of user grants for a given application such that the user grant provider is notified or an existing user grant is reused.",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-manages": [
+						"xrn:firebolt:capability:grants:state"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "appId",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "permissions",
+					"schema": {
+						"type": "array",
+						"items": {
+							"$ref": "https://meta.rdkcentral.com/firebolt/schemas/capabilities#/definitions/Permission"
+						},
+						"minItems": 1
+					},
+					"required": true
+				},
                 {
                     "name": "options",
+                    "summary": "Request options",
                     "schema": {
-                        "$ref": "#/components/schemas/GrantModificationOptions"
-                    }
-                }
-            ],
-            "result": {
-                "name": "result",
-                "schema": {
-                    "const": null
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default Example",
-                    "params": [
-                        {
-                            "name": "role",
-                            "value": "use"
-                        },
-                        {
-                            "name": "capability",
-                            "value": "xrn:firebolt:capability:localization:postal-code"
-                        },
-                        {
-                            "name": "options",
-                            "value": {
-                                "appId": "certapp"
-                            }
-                        }
-                    ],
-                    "result": {
-                        "name": "defaultResult",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "deny",
-            "summary": "Denies a given capability, to a specific app if appropriate. Calling this results in a persisted Denied Grant that lasts for the duration of the Grant Policy lifespan. ",
-            "tags": [
-                {
-                    "name": "capabilities",
-                    "x-manages": [
-                        "xrn:firebolt:capability:grants:state"
-                    ]
-                }
-            ],
-            "params": [
-                {
-                    "name": "role",
-                    "schema": {
-                        "$ref": "https://meta.comcast.com/firebolt/capabilities#/definitions/Role"
+                        "$ref": "#/components/schemas/RequestOptions"
                     },
-                    "required": true
-                },
-                {
-                    "name": "capability",
-                    "schema": {
-                        "$ref": "https://meta.comcast.com/firebolt/capabilities#/definitions/Capability"
-                    },
-                    "required": true
-                },
-                {
-                    "name": "options",
-                    "schema": {
-                        "$ref": "#/components/schemas/GrantModificationOptions"
-                    }
+                    "required": false
                 }
-            ],
-            "result": {
-                "name": "result",
-                "schema": {
-                    "const": null
-                }
-            },
-            "examples": [
+			],
+			"result": {
+				"name": "info",
+				"summary": "The result of all grants requested by this",
+				"schema": {
+					"type": "array",
+					"items": {
+						"$ref": "#/components/schemas/GrantInfo"
+					}
+				}
+			},
+			"examples": [
+				{
+					"name": "Example #1",
+					"params": [
+						{
+							"name": "appId",
+							"value": "certapp"
+						},
+						{
+							"name": "permissions",
+							"value": [
+								{
+									"role": "use",
+									"capability": "xrn:firebolt:capability:localization:postal-code"
+								}
+							]
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": [
+							{
+								"app": {
+									"id": "certapp",
+									"title": "Certification App"
+								},
+								"state": "granted",
+								"capability": "xrn:firebolt:capability:localization:postal-code",
+								"role": "use",
+								"lifespan": "powerActive"
+							}
+						]
+					}
+				},
                 {
-                    "name": "Default Example",
-                    "params": [
-                        {
-                            "name": "role",
-                            "value": "use"
-                        },
-                        {
-                            "name": "capability",
-                            "value": "xrn:firebolt:capability:localization:postal-code"
-                        },
-                        {
-                            "name": "options",
-                            "value": {
-                                "appId": "certapp"
-                            }
-                        }
-                    ],
-                    "result": {
-                        "name": "defaultResult",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "clear",
-            "summary": "Clears the grant for a given capability, to a specific app if appropriate. Calling this results in a persisted Denied Grant that lasts for the duration of the Grant Policy lifespan. ",
-            "tags": [
-                {
-                    "name": "capabilities",
-                    "x-manages": [
-                        "xrn:firebolt:capability:grants:state"
-                    ]
-                }
-            ],
-            "params": [
-                {
-                    "name": "role",
-                    "schema": {
-                        "$ref": "https://meta.comcast.com/firebolt/capabilities#/definitions/Role"
-                    },
-                    "required": true
-                },
-                {
-                    "name": "capability",
-                    "schema": {
-                        "$ref": "https://meta.comcast.com/firebolt/capabilities#/definitions/Capability"
-                    },
-                    "required": true
-                },
-                {
-                    "name": "options",
-                    "schema": {
-                        "$ref": "#/components/schemas/GrantModificationOptions"
-                    }
-                }
-            ],
-            "result": {
-                "name": "result",
-                "schema": {
-                    "const": null
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default Example",
-                    "params": [
-                        {
-                            "name": "role",
-                            "value": "use"
-                        },
-                        {
-                            "name": "capability",
-                            "value": "xrn:firebolt:capability:localization:postal-code"
-                        },
-                        {
-                            "name": "options",
-                            "value": {
-                                "appId": "certapp"
-                            }
-                        }
-                    ],
-                    "result": {
-                        "name": "defaultResult",
-                        "value": null
-                    }
-                }
-            ]
-        },
-        {
-            "name": "request",
-            "summary": "Requests Firebolt to carry out a set of user grants for a given application such that the user grant provider is notified or an existing user grant is reused.",
-            "tags": [
-                {
-                    "name": "capabilities",
-                    "x-manages": [
-                        "xrn:firebolt:capability:grants:state"
-                    ]
-                }
-            ],
-            "params": [
-                {
-                    "name": "appId",
-                    "schema": {
-                        "type": "string"
-                    },
-                    "required": true
-                },
-                {
-                    "name": "permissions",
-                    "schema": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "https://meta.comcast.com/firebolt/capabilities#/definitions/Permission"
-                        },
-                        "minItems": 1
-                    },
-                    "required": true
-                }
-            ],
-            "result": {
-                "name": "info",
-                "summary": "The result of all grants requested by this",
-                "schema": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/components/schemas/GrantInfo"
-                    }
-                }
-            },
-            "examples": [
-                {
-                    "name": "Default result",
+                    "name": "Example #2",
                     "params": [
                         {
                             "name": "appId",
@@ -419,6 +460,12 @@
                                     "capability": "xrn:firebolt:capability:localization:postal-code"
                                 }
                             ]
+                        },
+                        {
+                            "name": "options",
+                            "value": {
+                                "force": true
+                            }
                         }
                     ],
                     "result": {
@@ -437,98 +484,108 @@
                         ]
                     }
                 }
-            ]
-        }
-    ],
-    "components": {
-        "schemas": {
-            "GrantInfo": {
-                "description": "Information about a grant given by a user",
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"GrantInfo": {
+				"description": "Information about a grant given by a user",
+				"type": "object",
+				"properties": {
+					"app": {
+						"$ref": "#/components/schemas/AppInfo"
+					},
+					"state": {
+						"$ref": "#/components/schemas/GrantState"
+					},
+					"capability": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/capabilities#/definitions/Capability"
+					},
+					"role": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/capabilities#/definitions/Role"
+					},
+					"lifespan": {
+						"type": "string",
+						"enum": [
+							"once",
+							"forever",
+							"appActive",
+							"powerActive",
+							"seconds"
+						]
+					},
+					"expires": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"additionalProperties": false,
+				"required": [
+					"state",
+					"capability",
+					"role",
+					"lifespan"
+				],
+				"examples": [
+					{
+						"app": {
+							"id": "certapp",
+							"title": "Firebolt Certification"
+						},
+						"state": "granted",
+						"capability": "xrn:firebolt:capability:data:app-usage",
+						"role": "use",
+						"lifespan": "seconds",
+						"expires": "2022-12-14T20:20:39+00:00"
+					}
+				]
+			},
+			"AppInfo": {
+				"description": "Information about an app that a grant was for",
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					}
+				},
+				"additionalProperties": false,
+				"required": [
+					"id"
+				]
+			},
+			"GrantState": {
+				"description": "The state the grant is in",
+				"type": "string",
+				"enum": [
+					"granted",
+					"denied"
+				]
+			},
+			"GrantModificationOptions": {
+				"description": "Options when modifying any grant",
+				"type": "object",
+				"properties": {
+					"appId": {
+						"type": "string"
+					}
+				},
+				"additionalProperties": false,
+				"required": []
+			},
+            "RequestOptions": {
+                "title": "RequestOptions",
                 "type": "object",
                 "properties": {
-                    "app": {
-                        "$ref": "#/components/schemas/AppInfo"
-                    },
-                    "state": {
-                        "$ref": "#/components/schemas/GrantState"
-                    },
-                    "capability": {
-                        "$ref": "https://meta.comcast.com/firebolt/capabilities#/definitions/Capability"
-                    },
-                    "role": {
-                        "$ref": "https://meta.comcast.com/firebolt/capabilities#/definitions/Role"
-                    },
-                    "lifespan": {
-                        "type": "string",
-                        "enum": [
-                            "once",
-                            "forever",
-                            "appActive",
-                            "powerActive",
-                            "seconds"
-                        ]
-                    },
-                    "expires": {
-                        "type": "string",
-                        "format": "date-time"
+                    "force": {
+                        "type": "boolean",
+                        "description": "Whether to force for user grant even if the previous decision stored"
                     }
-                },
-                "additionalProperties": false,
-                "required": [
-                    "state",
-                    "capability",
-                    "role",
-                    "lifespan"
-                ],
-                "examples": [
-                    {
-                        "app": {
-                            "id": "certapp",
-                            "title": "Firebolt Certification"
-                        },
-                        "state": "granted",
-                        "capability": "xrn:firebolt:capability:data:app-usage",
-                        "role": "use",
-                        "lifespan": "seconds",
-                        "expires": "2022-12-14T20:20:39+00:00"
-                    }
-                ]
-            },
-            "AppInfo": {
-                "description": "Information about an app that a grant was for",
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "title": {
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false,
-                "required": [
-                    "id"
-                ]
-            },
-            "GrantState": {
-                "description": "The state the grant is in",
-                "type": "string",
-                "enum": [
-                    "granted",
-                    "denied"
-                ]
-            },
-            "GrantModificationOptions": {
-                "description": "Options when modifying any grant",
-                "type": "object",
-                "properties": {
-                    "appId": {
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false,
-                "required": []
+                }
             }
-        }
-    }
+		}
+	}
 }

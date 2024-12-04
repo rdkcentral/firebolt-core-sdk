@@ -1,102 +1,102 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "Profile",
-    "description": "Methods for getting information about the current user/account profile",
-    "version": "0.0.0"
-  },
-  "methods": [
-    {
-      "name": "approveContentRating",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:approve:content"
-          ]
-        }
-      ],
-      "summary": "Verifies that the current profile should have access to mature/adult content.",
-      "params": [],
-      "result": {
-        "name": "allow",
-        "summary": "Whether or not to allow access",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "allow",
-            "value": false
-          }
-        }            
-      ]    
-    },
-    {
-      "name": "approvePurchase",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:approve:purchase"
-          ]
-        }
-      ],
-      "summary": "Verifies that the current profile should have access to making purchases.",
-      "params": [],
-      "result": {
-        "name": "allow",
-        "summary": "Whether or not to allow access",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "allow",
-            "value": false
-          }
-        }            
-      ]    
-    },
-    {
-      "name": "flags",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:profile:flags"
-          ]
-        }
-      ],
-      "summary": "Get a map of profile flags for the current session.",
-      "params": [],
-      "result": {
-        "name": "flags",
-        "summary": "The profile flags.",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/types#/definitions/FlatMap"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "flags",
-            "value": {
-              "userExperience": "1000"
-            }
-          }
-        }
-      ]
-    }
-  ]
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Profile",
+		"description": "Methods for getting information about the current user/account profile",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "approveContentRating",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:approve:content"
+					]
+				}
+			],
+			"summary": "Verifies that the current profile should have access to mature/adult content.",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"summary": "Whether or not to allow access",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "approvePurchase",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:approve:purchase"
+					]
+				}
+			],
+			"summary": "Verifies that the current profile should have access to making purchases.",
+			"params": [],
+			"result": {
+				"name": "allow",
+				"summary": "Whether or not to allow access",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "allow",
+						"value": false
+					}
+				}
+			]
+		},
+		{
+			"name": "flags",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:profile:flags"
+					]
+				}
+			],
+			"summary": "Get a map of profile flags for the current session.",
+			"params": [],
+			"result": {
+				"name": "flags",
+				"summary": "The profile flags.",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/FlatMap"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "flags",
+						"value": {
+							"userExperience": "1000"
+						}
+					}
+				}
+			]
+		}
+	]
 }

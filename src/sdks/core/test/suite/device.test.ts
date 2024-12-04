@@ -17,33 +17,33 @@
  */
 
 import { test, expect } from "@jest/globals";
-import { Device } from "../../build/javascript/src/firebolt";
+import { Device, Types } from "../../build/javascript/src/firebolt";
 
 test("Device.version()", () => {
   const debug: string = "Non-parsable build info for error logging only."
 
-  const os:Device.SemanticVersion = {
+  const os:Types.SemanticVersion = {
     major: 0,
     minor: 1,
     patch: 0,
     readable: "Firebolt OS v0.1.0"
   }
 
-  const sdk:Device.SemanticVersion = {
+  const sdk:Types.SemanticVersion = {
     major: 0,
     minor: 8,
     patch: 0,
     readable: "The Firebolt JS SDK",
   }
 
-  const firmware:Device.SemanticVersion = {
+  const firmware:Types.SemanticVersion = {
     major: 1,
     minor: 2,
     patch: 3,
     readable: "Device Firmware v1.2.3"
   }
 
-  const api:Device.SemanticVersion = {
+  const api:Types.SemanticVersion = {
     major: 0,
     minor: 8,
     patch: 0,
@@ -112,17 +112,17 @@ test("Device.make()", () => {
 });
 
 test("Device.hdcp()", () => {
-  const expectedOutput: Device.BooleanMap = {
+  const expectedOutput: Types.BooleanMap = {
     "hdcp1.4": true,
     "hdcp2.2": true,
   };
-  return Device.hdcp().then((res: Device.BooleanMap) => {
+  return Device.hdcp().then((res: Types.BooleanMap) => {
     expect(res).toEqual(expectedOutput);
   });
 });
 
 test("Device.hdcp(subscriber)", () => {
-  return Device.hdcp((supportedHdrProfiles: Device.BooleanMap) => {}).then(
+  return Device.hdcp((supportedHdrProfiles: Types.BooleanMap) => {}).then(
     (res: number) => {
       expect(res > 0).toBe(true);
     }

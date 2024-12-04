@@ -1,174 +1,174 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "PinChallenge",
-    "description": "A module for registering as a provider for a user grant in which the user is prompted for a pin for access to a capability",
-    "version": "0.0.0"
-  },
-  "methods": [
-    {
-      "name": "onRequestChallenge",
-      "summary": "Registers as a provider for when the user should be challenged in order to confirm access to a capability through a pin prompt",
-      "params": [],
-      "tags": [
-        {
-          "name": "event",
-          "x-response": {
-            "$ref": "#/components/schemas/PinChallengeResult",
-            "examples": [
-              {
-                "granted": true,
-                "reason": "correctPin"
-              },
-              {
-                "granted": false,
-                "reason": "exceededPinFailures"
-              },
-              {
-                "granted": null,
-                "reason": "cancelled"
-              }
-            ]
-          }
-        },
-        {
-          "name": "capabilities",
-          "x-provides": "xrn:firebolt:capability:usergrant:pinchallenge",
-          "x-allow-focus": true
-        }
-      ],
-      "result": {
-        "name": "challenge",
-        "summary": "The request to challenge the user",
-        "schema": {
-          "$ref": "#/components/schemas/PinChallengeProviderRequest"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "correlationId": "abc",
-              "parameters": {
-                "capability": "xrn:firebolt:capability:commerce::purchase",
-                "requestor": {
-                  "id": "ReferenceApp",
-                  "name": "Firebolt Reference App"
-                },
-                "pinSpace": "purchase"
-              }
-            }
-          }
-        }
-      ]
-    }
-  ],
-  "components": {
-    "schemas": {
-      "PinChallenge": {
-        "title": "PinChallenge",
-        "type": "object",
-        "required": [
-          "requestor",
-          "pinSpace"
-        ],
-        "properties": {
-          "pinSpace": {
-            "type": "string",
-            "description": "The pin space that this challenge is for",
-            "enum": [
-              "purchase",
-              "content"
-            ]
-          },
-          "capability": {
-            "type": "string",
-            "description": "The capability that is gated by a pin challenge"
-          },
-          "requestor": {
-            "description": "The identity of which app is requesting access to this capability",
-            "$ref": "#/components/schemas/ChallengeRequestor"
-          }
-        }
-      },
-      "ChallengeRequestor": {
-        "title": "ChallengeRequestor",
-        "type": "object",
-        "required": [
-          "id",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The id of the app that requested the challenge"
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the app that requested the challenge"
-          }
-        }
-      },
-      "PinChallengeProviderRequest": {
-        "title": "PinChallengeProviderRequest",
-        "allOf": [
-          {
-            "$ref": "https://meta.comcast.com/firebolt/types#/definitions/ProviderRequest"
-          },
-          {
-            "type": "object",
-            "required": [
-              "parameters"
-            ],
-            "properties": {
-              "parameters": {
-                "description": "The request to challenge the user",
-                "$ref": "#/components/schemas/PinChallenge"
-              }
-            }
-          }
-        ]
-      },
-      "ResultReason": {
-        "title": "ResultReason",
-        "type": "string",
-        "description": "The reason for the result of challenging the user",
-        "enum": [
-          "noPinRequired",
-          "noPinRequiredWindow",
-          "exceededPinFailures",
-          "correctPin",
-          "cancelled"
-        ]
-      },
-      "PinChallengeResult": {
-        "title": "PinChallengeResult",
-        "type": "object",
-        "required": [
-          "granted",
-          "reason"
-        ],
-        "properties": {
-          "granted": {
-            "oneOf": [
-              {
-                "type": "boolean",
-                "description": "Whether the user succeeded in the pin challenge"
-              },
-              {
-                "const": null
-              }
-            ]
-          },
-          "reason": {
-            "$ref": "#/components/schemas/ResultReason",
-            "description": "The reason for the result "
-          }
-        }
-      }
-    }
-  }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "PinChallenge",
+		"description": "A module for registering as a provider for a user grant in which the user is prompted for a pin for access to a capability",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "challenge",
+			"summary": "Registers as a provider for when the user should be challenged in order to confirm access to a capability through a pin prompt",
+			"params": [
+				{
+					"name": "requestor",
+					"required": true,
+					"schema": {
+						"description": "The identity of which app is requesting access to this capability",
+						"$ref": "#/components/schemas/ChallengeRequestor"
+					}
+				},
+				{
+					"name": "pinSpace",
+					"required": true,
+					"schema": {
+						"type": "string",
+						"description": "The pin space that this challenge is for",
+						"enum": [
+							"purchase",
+							"content"
+						]
+					}
+				},
+				{
+					"name": "capability",
+					"required": false,
+					"schema": {
+						"type": "string",
+						"description": "The capability that is gated by a pin challenge"
+					}
+				}
+			],
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-provides": "xrn:firebolt:capability:usergrant:pinchallenge",
+					"x-allow-focus": true
+				}
+			],
+			"result": {
+				"name": "result",
+				"schema": {
+					"$ref": "#/components/schemas/PinChallengeResult"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "capability",
+							"value": "xrn:firebolt:capability:commerce::purchase"
+						},
+						{
+							"name": "requestor",
+							"value": {
+								"id": "ReferenceApp",
+								"name": "Firebolt Reference App"
+							}
+						},
+						{
+							"name": "pinSpace",
+							"value": "purchase"
+						}
+					],
+					"result": {
+						"name": "result",
+						"value": {
+							"granted": true,
+							"reason": "correctPin"
+						}
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"PinChallenge": {
+				"title": "PinChallenge",
+				"type": "object",
+				"required": [
+					"requestor",
+					"pinSpace"
+				],
+				"properties": {}
+			},
+			"ChallengeRequestor": {
+				"title": "ChallengeRequestor",
+				"type": "object",
+				"required": [
+					"id",
+					"name"
+				],
+				"properties": {
+					"id": {
+						"type": "string",
+						"description": "The id of the app that requested the challenge"
+					},
+					"name": {
+						"type": "string",
+						"description": "The name of the app that requested the challenge"
+					}
+				}
+			},
+			"PinChallengeProviderRequest": {
+				"title": "PinChallengeProviderRequest",
+				"allOf": [
+					{
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/ProviderRequest"
+					},
+					{
+						"type": "object",
+						"required": [
+							"parameters"
+						],
+						"properties": {
+							"parameters": {
+								"description": "The request to challenge the user",
+								"$ref": "#/components/schemas/PinChallenge"
+							}
+						}
+					}
+				]
+			},
+			"ResultReason": {
+				"title": "ResultReason",
+				"type": "string",
+				"description": "The reason for the result of challenging the user",
+				"enum": [
+					"noPinRequired",
+					"noPinRequiredWindow",
+					"exceededPinFailures",
+					"correctPin",
+					"cancelled"
+				]
+			},
+			"PinChallengeResult": {
+				"title": "PinChallengeResult",
+				"type": "object",
+				"required": [
+					"granted",
+					"reason"
+				],
+				"properties": {
+					"granted": {
+						"oneOf": [
+							{
+								"type": "boolean",
+								"description": "Whether the user succeeded in the pin challenge"
+							},
+							{
+								"const": null
+							}
+						]
+					},
+					"reason": {
+						"$ref": "#/components/schemas/ResultReason",
+						"description": "The reason for the result "
+					}
+				}
+			}
+		}
+	}
 }

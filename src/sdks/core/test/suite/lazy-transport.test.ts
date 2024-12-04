@@ -20,13 +20,45 @@
 // setup for Firebolt SDK/TL handshake
 const win = globalThis || window
 
+let _queue = []
+let _callback:Function
+let target
+
+const queue = {
+  
+    send: function(json) {
+        if (target) {
+            target.send(json)
+        }
+        else {
+            _queue.push(json)
+        }
+    },
+  
+    receive: function (callback) {
+      _callback = callback
+    },
+  
+    flush: function (transport:any) {
+        target = transport
+        transport.receive(_callback)
+        _queue.forEach(item => transport.send(item))
+        _queue = null
+    }
+}  
+
+// set up a queue to hold all Firebolt messages
+win.__firebolt.transport = queue
+
 import Setup from '../../../../../test/Setup'
+import { DefaultApplication } from '../../../../../test/Setup'
+
 import { beforeAll, test, expect } from '@jest/globals';
-import { Lifecycle, Discovery } from "../../build/javascript/src/firebolt";
+import {  Lifecycle, Discovery } from "../../build/javascript/src/firebolt";
 
 // holds test transport layer state, e.g. callback
 type stateType = {
-    callback: (arg0: string) => void | null
+    callback: (arg0: any) => void | null
 }
 
 const state:stateType = {
@@ -39,11 +71,10 @@ let callbackWiredUp = false
 let sendCalled = false
 
 const transport = {
-    send: function(message) {
-        sendCalled = true
+    send: function(message: string) {
         const json = JSON.parse(message)
-        console.log('transport.send: ' + json.method)
-        if (json.method.toLowerCase() === 'lifecycle.ready') {
+        sendCalled = true
+        if (json.method === 'Lifecycle.provideApplication') {
             // we'll assert on this later...
             navigateToListenCount++
             if (state.callback) {
@@ -52,7 +83,7 @@ const transport = {
                 let response = {
                     jsonrpc: '2.0',
                     id: json.id,
-                    result: true
+                    result: null
                 }
                 // catching errors, so all tests don't fail if this breaks
                 try {
@@ -64,12 +95,11 @@ const transport = {
                 }
             }
         }
-        else if (json.method.toLowerCase() === 'discovery.onpullentityinfo') {
+        else if (json.method === 'Discovery.onPullEntityInfo') {
             pullEntityInfoListenCount++
         }
     },
     receive: function(callback) {
-        console.log('transport.receive')
         // store the callback
         state.callback = callback
     }
@@ -90,9 +120,9 @@ beforeAll(()=> {
         }, 4000)
     })
 
-    Lifecycle.ready()
+    Lifecycle.provideApplication(new DefaultApplication())
     
-    win.__firebolt.setTransportLayer(transport)
+    queue.flush(transport)
 
     return p
 })

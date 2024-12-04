@@ -6,6 +6,12 @@ on:
       - 'main'
       - 'next'
       - 'next-major'
+      - 'proposed'
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - 'next'
+      - 'proposed'
 env:
   HUSKY: 0
 jobs:
@@ -13,6 +19,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
+      #  Checkout/install project
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -29,68 +36,88 @@ jobs:
         run: 'echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc'
       - name: Install dependencies
         run: npm ci
-      - name: Set explicit npm dist-tag default
-        if: github.ref_name == 'main'
+
+      # Set NPM_DIST_TAGS and DOCS_TAG if applicable based on branch
+      - name: Set main tags
+        if: github.ref_name == 'main' && github.event_name != 'pull_request'
         run: |
           echo "NPM_DIST_TAG=latest" >> $GITHUB_ENV
-          echo "RELEASE_CHANNEL=latest" >> $GITHUB_ENV
-      - name: Override npm dist-tag for non-main releases
-        if: github.ref_name != 'main'
+          echo "DOCS_TAG=latest" >> $GITHUB_ENV
+      - name: Set next tags
+        if: github.ref_name == 'next' && github.event_name != 'pull_request'
         run: |
-          echo "Setting NPM_DIST_TAG to '${{ github.ref_name }}'"
-          echo "NPM_DIST_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
-      - name: Override release channel for non-main releases
-        if: github.ref_name != 'main'
+          echo "NPM_DIST_TAG=next" >> $GITHUB_ENV
+          echo "DOCS_TAG=next" >> $GITHUB_ENV
+      - name: Set next-major tags
+        if: github.ref_name == 'next-major' && github.event_name != 'pull_request'
         run: |
-          echo "Setting RELEASE_CHANNEL to '$(node ./src/js/version.mjs channel $NPM_DIST_TAG)' using branch name '$NPM_DIST_TAG'"
-          echo "RELEASE_CHANNEL=$(node ./src/js/version.mjs channel $NPM_DIST_TAG)" >> $GITHUB_ENV
+          echo "NPM_DIST_TAG=next-major" >> $GITHUB_ENV
+          echo "DOCS_TAGE=next-major" >> $GITHUB_ENV
+      - name: Set feature branch tags
+        if: github.ref_name != 'main' && github.ref_name != 'next' && github.ref_name != 'next-major' && github.event_name != 'pull_request'
+        run: |
+          echo "NPM_DIST_TAG=test" >> $GITHUB_ENV
+          echo "FEATURE_BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV
+      - name: Set PR tags
+        if: github.ref_name != 'main' && github.ref_name != 'next' && github.ref_name != 'next-major' && github.event_name == 'pull_request'
+        run: |
+          echo "NPM_DIST_TAG=test" >> $GITHUB_ENV
+          echo "DOCS_TAG=pr-$(node ./src/js/version.mjs branch-to-prerelease ${{ github.head_ref }})" >> $GITHUB_ENV
+          echo "FEATURE_BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV
+
+      # Perform real (When not a PR) or dry-run (When PR) semantic-release
       - name: Release mono-artifact to GitHub
-        if: github.ref_name != 'main' || github.event_name == 'workflow_dispatch'
+        if: (github.ref_name != 'main' && github.event_name != 'pull_request') || github.event_name == 'workflow_dispatch'
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_BOT_PAT }} # <-- Allows semantic-release-bot to push changes to protected branches
-          npm_config_tag: ${{ env.NPM_DIST_TAG }} # <-- For main, this is `latest.` Otherwise, `next`, `next-major`, etc. See ./.releaserc for release branch config.
         run: npx semantic-release
       - name: Dry-run mono-artifact
-        if: github.ref_name == 'main' && github.event_name != 'workflow_dispatch'
+        if: (github.ref_name == 'main' && github.event_name != 'workflow_dispatch') || github.event_name == 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_BOT_PAT }} # <-- Allows semantic-release-bot to push changes to protected branches
-          npm_config_tag: ${{ env.NPM_DIST_TAG }} # <-- For main, this is `latest.` Otherwise, `next`, `next-major`, etc. See ./.releaserc for release branch config.
         run: npx semantic-release --dry-run
+      - name: Build artifacts for feature branches
+        if: github.ref_name != 'main' && github.ref_name != 'next' && github.ref_name != 'next-major'
+        run: |
+          PRERELEASE=$(node ./src/js/version.mjs branch-to-prerelease $FEATURE_BRANCH)
+          node ./src/js/version.mjs latest-prerelease $PRERELEASE
+          npm version prerelease --preid $PRERELEASE --git-tag-version false
+          npm version prerelease --preid $PRERELEASE --workspaces --git-tag-version false
+          npm run dist
       - name: Check if semantic-release created a build
         id: check_build
         uses: andstor/file-existence-action@v2
         with:
-          files: "./src/sdks/core/dist/lib/firebolt.mjs"
+          files: './src/sdks/core/dist/lib/firebolt.mjs'
       - name: Release Firebolt SDKs to NPM
-        if: steps.check_build.outputs.files_exists == 'true' && (github.ref_name != 'main' || github.event_name == 'workflow_dispatch')
+        if: steps.check_build.outputs.files_exists == 'true' && github.event_name != 'pull_request' && (github.ref_name != 'main' || github.event_name == 'workflow_dispatch')
         env:
           NPM_TOKEN: ${{ secrets.SEMANTIC_RELEASE_NPM_TOKEN  }} # <-- Allows semantic-release to publish to npm without 2 factor auth.
-          npm_config_tag: ${{ env.NPM_DIST_TAG }} # <-- For main, this is `latest.` Otherwise, `next`, `next-major`, etc. See ./.releaserc for release branch config.
-        run: npm publish --tag $RELEASE_CHANNEL --workspaces
+        run: |
+          npm --version
+          echo "NPM DIST TAG :: " $NPM_DIST_TAG
+          npm publish --tag $NPM_DIST_TAG --workspaces
       - name: Dry-run Firebolt SDKs to NPM
         if: steps.check_build.outputs.files_exists == 'true' && (github.ref_name == 'main' && github.event_name != 'workflow_dispatch')
         env:
           NPM_TOKEN: ${{ secrets.SEMANTIC_RELEASE_NPM_TOKEN  }} # <-- Allows semantic-release to publish to npm without 2 factor auth.
-          npm_config_tag: ${{ env.NPM_DIST_TAG }} # <-- For main, this is `latest.` Otherwise, `next`, `next-major`, etc. See ./.releaserc for release branch config.
-        run: npm publish --tag $RELEASE_CHANNEL --workspaces --dry-run
+        run: npm publish --tag $NPM_DIST_TAG --workspaces --dry-run
       - name: Checkout firebolt GitHub.io repository
         if: steps.check_build.outputs.files_exists == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_BOT_PAT }} # <-- Allows semantic-release-bot to push changes to protected branches
-          npm_config_tag: ${{ env.NPM_DIST_TAG }} # <-- For main, this is `latest.` Otherwise, `next`, `next-major`, etc. See ./.releaserc for release branch config.
         run: |
           cd /tmp
           git clone https://rdkcentral:$GITHUB_TOKEN@github.com/rdkcentral/firebolt.git ./firebolt-docs
       - name: Release docs to GitHub.io
-        if: steps.check_build.outputs.files_exists == 'true'
+        if: steps.check_build.outputs.files_exists == 'true' && (github.ref_name == 'main' || github.ref_name == 'next' || github.ref_name == 'next-major' || github.event_name == 'pull_request')
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_BOT_PAT }} # <-- Allows semantic-release-bot to push changes to protected branches
-          npm_config_tag: ${{ env.NPM_DIST_TAG }} # <-- For main, this is `latest.` Otherwise, `next`, `next-major`, etc. See ./.releaserc for release branch config.
         run: |
-          npm run publish:docs /tmp/firebolt-docs
+          npm run publish:docs /tmp/firebolt-docs $DOCS_TAG
           cd /tmp/firebolt-docs
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
           git add --all
-          git commit -m "chore: Publish $RELEASE_CHANNEL"
+          git diff-index --quiet HEAD || git commit -m "chore: Publish $DOCS_TAG"
           git push

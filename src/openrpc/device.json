@@ -1,811 +1,814 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "Device",
-    "description": "A module for querying about the device and it's capabilities.",
-    "version": "0.0.0"
-  },
-  "methods": [
-    {
-      "name": "id",
-      "summary": "Get the platform back-office device identifier",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:immutable"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:id"
-          ]
-        }
-      ],
-      "result": {
-        "name": "id",
-        "summary": "the id",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "123"
-          }
-        }
-      ]
-    },
-    {
-      "name": "distributor",
-      "summary": "Get the distributor ID for this device",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:immutable"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:distributor"
-          ]
-        }
-      ],
-      "result": {
-        "name": "distributorId",
-        "summary": "the distributor ID",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the distributor ID",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "Company"
-          }
-        }
-      ]
-    },
-    {
-      "name": "platform",
-      "summary": "Get the platform ID for this device",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:immutable"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:info"
-          ]
-        }
-      ],
-      "result": {
-        "name": "platformId",
-        "summary": "the platform ID",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the platform ID",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "WPE"
-          }
-        }
-      ]
-    },
-    {
-      "name": "uid",
-      "summary": "Gets a unique id for the current app & device",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:immutable"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:uid"
-          ]
-        }
-      ],
-      "result": {
-        "name": "uniqueId",
-        "summary": "a unique ID",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the unique ID",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "ee6723b8-7ab3-462c-8d93-dbf61227998e"
-          }
-        }
-      ]
-    },
-    {
-      "name": "type",
-      "summary": "Get the device type",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:immutable"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:info"
-          ]
-        }
-      ],
-      "result": {
-        "name": "deviceType",
-        "summary": "the device type",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the device type",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "STB"
-          }
-        }
-      ]
-    },
-    {
-      "name": "model",
-      "summary": "Get the device model",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:immutable"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:model"
-          ]
-        }
-      ],
-      "result": {
-        "name": "model",
-        "summary": "the device model",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the device model",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "xi6"
-          }
-        }
-      ]
-    },
-    {
-      "name": "sku",
-      "summary": "Get the device sku",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:immutable"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:sku"
-          ]
-        }
-      ],
-      "result": {
-        "name": "sku",
-        "summary": "the device sku",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the device sku",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "AX061AEI"
-          }
-        }
-      ]
-    },
-    {
-      "name": "make",
-      "summary": "Get the device make",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:immutable"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:make"
-          ]
-        }
-      ],
-      "result": {
-        "name": "make",
-        "summary": "the device make",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the device make",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "Arris"
-          }
-        }
-      ]
-    },
-    {
-      "name": "version",
-      "summary": "Get the SDK, OS and other version info",
-      "params": [],
-      "tags": [
-        {
-          "name": "exclude-from-sdk"
-        },
-        {
-          "name": "property:immutable"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:info"
-          ]
-        }
-      ],
-      "result": {
-        "name": "versions",
-        "summary": "the versions",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "sdk": {
-              "$ref": "https://meta.comcast.com/firebolt/types#/definitions/SemanticVersion",
-              "description": "The Firebolt SDK version"
-            },
-            "api": {
-              "$ref": "https://meta.comcast.com/firebolt/types#/definitions/SemanticVersion",
-              "description": "The lateset Firebolt API version supported by the curent device."
-            },
-            "firmware": {
-              "$ref": "https://meta.comcast.com/firebolt/types#/definitions/SemanticVersion",
-              "description": "The device firmware version."
-            },
-            "os": {
-              "$ref": "https://meta.comcast.com/firebolt/types#/definitions/SemanticVersion",
-              "description": "**Deprecated** Use `firmware`, instead."
-            },
-            "debug": {
-              "type": "string",
-              "description": "Detail version as a string, for debugging purposes"
-            }
-          },
-          "required": [
-            "sdk",
-            "api",
-            "firmware",
-            "os"
-          ]
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the os and sdk versions",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "sdk": {
-                "major": 0,
-                "minor": 8,
-                "patch": 0,
-                "readable": "Firebolt JS SDK v0.8.0"
-              },
-              "api": {
-                "major": 0,
-                "minor": 8,
-                "patch": 0,
-                "readable": "Firebolt API v0.8.0"
-              },
-              "firmware": {
-                "major": 1,
-                "minor": 2,
-                "patch": 3,
-                "readable": "Device Firmware v1.2.3"
-              },
-              "os": {
-                "major": 0,
-                "minor": 1,
-                "patch": 0,
-                "readable": "Firebolt OS v0.1.0"
-              },
-              "debug": "Non-parsable build info for error logging only."
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "hdcp",
-      "summary": "Get the supported HDCP profiles",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:readonly"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:info"
-          ]
-        }
-      ],
-      "result": {
-        "name": "supportedHdcpProfiles",
-        "summary": "the supported HDCP profiles",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/types#/definitions/BooleanMap"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the supported HDCP profiles",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "hdcp1.4": true,
-              "hdcp2.2": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "hdr",
-      "summary": "Get the supported HDR profiles",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:readonly"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:info"
-          ]
-        }
-      ],
-      "result": {
-        "name": "supportedHdrProfiles",
-        "summary": "the supported HDR profiles",
-        "schema": {
-          "$ref": "https://meta.comcast.com/firebolt/types#/definitions/BooleanMap"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the supported HDR profiles",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "hdr10": true,
-              "hdr10Plus": true,
-              "dolbyVision": true,
-              "hlg": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "audio",
-      "summary": "Get the supported audio profiles",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:readonly"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:info"
-          ]
-        }
-      ],
-      "result": {
-        "name": "supportedAudioProfiles",
-        "summary": "the supported audio profiles",
-        "schema": {
-          "$ref": "#/components/schemas/AudioProfiles"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the supported audio profiles",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "stereo": true,
-              "dolbyDigital5.1": true,
-              "dolbyDigital5.1+": true,
-              "dolbyAtmos": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "screenResolution",
-      "summary": "Get the current screen resolution",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:readonly"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:info"
-          ]
-        }
-      ],
-      "result": {
-        "name": "screenResolution",
-        "summary": "the resolution",
-        "schema": {
-          "$ref": "#/components/schemas/Resolution"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the screen resolution",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": [
-              1920,
-              1080
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "videoResolution",
-      "summary": "Get the current video resolution",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:readonly"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:info"
-          ]
-        }
-      ],
-      "result": {
-        "name": "videoResolution",
-        "summary": "the resolution",
-        "schema": {
-          "$ref": "#/components/schemas/Resolution"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the video resolution",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": [
-              1920,
-              1080
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "name",
-      "summary": "The human readable name of the device",
-      "params": [],
-      "tags": [
-        {
-          "name": "property"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:name"
-          ]
-        }
-      ],
-      "result": {
-        "name": "value",
-        "summary": "the device friendly-name",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Default example #1",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "Living Room"
-          }
-        },
-        {
-          "name": "Default example #2",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "Kitchen"
-          }
-        }
-      ]
-    },
-    {
-      "name": "onDeviceNameChanged",
-      "tags": [
-        {
-          "name": "event"
-        },
-        {
-          "name": "deprecated",
-          "x-since": "0.6.0",
-          "x-alternative": "Device.name()"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:device:name"
-          ]
-        }
-      ],
-      "summary": "Get the human readable name of the device",
-      "params": [],
-      "result": {
-        "name": "value",
-        "summary": "the device friendly-name",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the device name",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": "Living Room"
-          }
-        }
-      ]
-    },
-    {
-      "name": "network",
-      "summary": "Get the current network status and type",
-      "params": [],
-      "tags": [
-        {
-          "name": "property:readonly"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:network:status"
-          ]
-        }
-      ],
-      "result": {
-        "name": "networkInfo",
-        "summary": "the status and type",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "state": {
-              "$ref": "#/components/schemas/NetworkState"
-            },
-            "type": {
-              "$ref": "#/components/schemas/NetworkType"
-            }
-          },
-          "required": [
-            "state",
-            "type"
-          ]
-        }
-      },
-      "examples": [
-        {
-          "name": "Getting the network info",
-          "params": [],
-          "result": {
-            "name": "Default Result",
-            "value": {
-              "state": "connected",
-              "type": "wifi"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "provision",
-      "summary": "Used by a distributor to push provision info to firebolt.",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-manages": [
-            "xrn:firebolt:capability:account:id",
-            "xrn:firebolt:capability:device:id",
-            "xrn:firebolt:capability:device:distributor"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "accountId",
-          "summary": "The id of the account that is device is attached to in the back office.",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        },
-        {
-          "name": "deviceId",
-          "summary": "The id of the device in the back office.",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        },
-        {
-          "name": "distributorId",
-          "summary": "The id of the distributor in the back office.",
-          "schema": {
-            "type": "string"
-          }
-        }
-      ],
-      "result": {
-        "name": "result",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Default Example",
-          "params": [
-            {
-              "name": "accountId",
-              "value": "12345678910"
-            },
-            {
-              "name": "deviceId",
-              "value": "987654321111"
-            }
-          ],
-          "result": {
-            "name": "defaultResult",
-            "value": null
-          }
-        },
-        {
-          "name": "With distributor id",
-          "params": [
-            {
-              "name": "accountId",
-              "value": "12345678910"
-            },
-            {
-              "name": "deviceId",
-              "value": "987654321111"
-            },
-            {
-              "name": "distributorId",
-              "value": "global_partner"
-            }
-          ],
-          "result": {
-            "name": "partnerResult",
-            "value": null
-          }
-        }
-      ]
-    }
-  ],
-  "components": {
-    "schemas": {
-      "Resolution": {
-        "type": "array",
-        "items": [
-          {
-            "type": "integer"
-          },
-          {
-            "type": "integer"
-          }
-        ],
-        "additionalItems": false,
-        "minItems": 2,
-        "maxItems": 2
-      },
-      "NetworkType": {
-        "title": "NetworkType",
-        "type": "string",
-        "enum": [
-          "wifi",
-          "ethernet",
-          "hybrid"
-        ],
-        "description": "The type of network that is currently active"
-      },
-      "NetworkState": {
-        "title": "NetworkState",
-        "type": "string",
-        "enum": [
-          "connected",
-          "disconnected"
-        ],
-        "description": "The type of network that is currently active"
-      },
-      "AudioProfiles": {
-        "title": "AudioProfiles",
-        "allOf": [
-          {
-            "$ref": "https://meta.comcast.com/firebolt/types#/definitions/BooleanMap"
-          },
-          {
-            "type": "object",
-            "propertyNames": {
-              "$ref": "https://meta.comcast.com/firebolt/types#/definitions/AudioProfile"
-            }
-          }
-        ]
-      }
-    }
-  }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Device",
+		"description": "A module for querying about the device and it's capabilities.",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "id",
+			"summary": "Get the platform back-office device identifier",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:immutable"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:id"
+					]
+				}
+			],
+			"result": {
+				"name": "id",
+				"summary": "the id",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "123"
+					}
+				}
+			]
+		},
+		{
+			"name": "distributor",
+			"summary": "Get the distributor ID for this device",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:immutable"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:distributor"
+					]
+				}
+			],
+			"result": {
+				"name": "distributorId",
+				"summary": "the distributor ID",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the distributor ID",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "Company"
+					}
+				}
+			]
+		},
+		{
+			"name": "platform",
+			"summary": "Get the platform ID for this device",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:immutable"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:info"
+					]
+				}
+			],
+			"result": {
+				"name": "platformId",
+				"summary": "the platform ID",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the platform ID",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "WPE"
+					}
+				}
+			]
+		},
+		{
+			"name": "uid",
+			"summary": "Gets a unique id for the current app & device",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:immutable"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:uid"
+					]
+				}
+			],
+			"result": {
+				"name": "uniqueId",
+				"summary": "a unique ID",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the unique ID",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "ee6723b8-7ab3-462c-8d93-dbf61227998e"
+					}
+				}
+			]
+		},
+		{
+			"name": "type",
+			"summary": "Get the device type",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:immutable"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:info"
+					]
+				}
+			],
+			"result": {
+				"name": "deviceType",
+				"summary": "the device type",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the device type",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "STB"
+					}
+				}
+			]
+		},
+		{
+			"name": "model",
+			"summary": "Get the device model",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:immutable"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:model"
+					]
+				}
+			],
+			"result": {
+				"name": "model",
+				"summary": "the device model",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the device model",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "xi6"
+					}
+				}
+			]
+		},
+		{
+			"name": "sku",
+			"summary": "Get the device sku",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:immutable"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:sku"
+					]
+				}
+			],
+			"result": {
+				"name": "sku",
+				"summary": "the device sku",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the device sku",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "AX061AEI"
+					}
+				}
+			]
+		},
+		{
+			"name": "make",
+			"summary": "Get the device make",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:immutable"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:make"
+					]
+				}
+			],
+			"result": {
+				"name": "make",
+				"summary": "the device make",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the device make",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "Arris"
+					}
+				}
+			]
+		},
+		{
+			"name": "version",
+			"summary": "Get the SDK, OS and other version info",
+			"params": [],
+			"tags": [
+				{
+					"name": "exclude-from-sdk"
+				},
+				{
+					"name": "property:immutable"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:info"
+					]
+				}
+			],
+			"result": {
+				"name": "versions",
+				"summary": "the versions",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"sdk": {
+							"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/SemanticVersion",
+							"description": "The Firebolt SDK version"
+						},
+						"api": {
+							"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/SemanticVersion",
+							"description": "The lateset Firebolt API version supported by the curent device."
+						},
+						"firmware": {
+							"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/SemanticVersion",
+							"description": "The device firmware version."
+						},
+						"os": {
+							"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/SemanticVersion",
+							"description": "**Deprecated** Use `firmware`, instead."
+						},
+						"debug": {
+							"type": "string",
+							"description": "Detail version as a string, for debugging purposes"
+						}
+					},
+					"required": [
+						"sdk",
+						"api",
+						"firmware",
+						"os"
+					]
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the os and sdk versions",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"sdk": {
+								"major": 0,
+								"minor": 8,
+								"patch": 0,
+								"readable": "Firebolt JS SDK v0.8.0"
+							},
+							"api": {
+								"major": 0,
+								"minor": 8,
+								"patch": 0,
+								"readable": "Firebolt API v0.8.0"
+							},
+							"firmware": {
+								"major": 1,
+								"minor": 2,
+								"patch": 3,
+								"readable": "Device Firmware v1.2.3"
+							},
+							"os": {
+								"major": 0,
+								"minor": 1,
+								"patch": 0,
+								"readable": "Firebolt OS v0.1.0"
+							},
+							"debug": "Non-parsable build info for error logging only."
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "hdcp",
+			"summary": "Get the supported HDCP profiles",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:readonly"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:info"
+					]
+				}
+			],
+			"result": {
+				"name": "supportedHdcpProfiles",
+				"summary": "the supported HDCP profiles",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/BooleanMap"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the supported HDCP profiles",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"hdcp1.4": true,
+							"hdcp2.2": true
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "hdr",
+			"summary": "Get the supported HDR profiles",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:readonly"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:info"
+					]
+				}
+			],
+			"result": {
+				"name": "supportedHdrProfiles",
+				"summary": "the supported HDR profiles",
+				"schema": {
+					"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/BooleanMap"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the supported HDR profiles",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"hdr10": true,
+							"hdr10Plus": true,
+							"dolbyVision": true,
+							"hlg": true
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "audio",
+			"summary": "Get the supported audio profiles",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:readonly"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:info"
+					]
+				}
+			],
+			"result": {
+				"name": "supportedAudioProfiles",
+				"summary": "the supported audio profiles",
+				"schema": {
+					"$ref": "#/components/schemas/AudioProfiles"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the supported audio profiles",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"stereo": true,
+							"dolbyDigital5.1": true,
+							"dolbyDigital5.1+": true,
+							"dolbyAtmos": true
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "screenResolution",
+			"summary": "Get the current screen resolution",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:readonly"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:info"
+					]
+				}
+			],
+			"result": {
+				"name": "screenResolution",
+				"summary": "the resolution",
+				"schema": {
+					"$ref": "#/components/schemas/Resolution"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the screen resolution",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": [
+							1920,
+							1080
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "videoResolution",
+			"summary": "Get the current video resolution",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:readonly"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:info"
+					]
+				}
+			],
+			"result": {
+				"name": "videoResolution",
+				"summary": "the resolution",
+				"schema": {
+					"$ref": "#/components/schemas/Resolution"
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the video resolution",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": [
+							1920,
+							1080
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "name",
+			"summary": "The human readable name of the device",
+			"params": [],
+			"tags": [
+				{
+					"name": "property"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:name"
+					]
+				}
+			],
+			"result": {
+				"name": "value",
+				"summary": "the device friendly-name",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"examples": [
+				{
+					"name": "Default example #1",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "Living Room"
+					}
+				},
+				{
+					"name": "Default example #2",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": "Kitchen"
+					}
+				}
+			]
+		},
+		{
+			"name": "deviceNameChanged",
+			"tags": [
+				{
+					"name": "notifier",
+					"x-event": "Device.onDeviceNameChanged"
+				},
+				{
+					"name": "deprecated",
+					"x-since": "0.6.0",
+					"x-alternative": "Device.name()"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:device:name"
+					]
+				}
+			],
+			"summary": "Get the human readable name of the device",
+			"params": [
+				{
+					"name": "value",
+					"summary": "the device friendly-name",
+					"schema": {
+						"type": "string"
+					}
+				}
+			],
+			"examples": [
+				{
+					"name": "Getting the device name",
+					"params": [
+						{
+							"name": "Default Result",
+							"value": "Living Room"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "network",
+			"summary": "Get the current network status and type",
+			"params": [],
+			"tags": [
+				{
+					"name": "property:readonly"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:network:status"
+					]
+				}
+			],
+			"result": {
+				"name": "networkInfo",
+				"summary": "the status and type",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"state": {
+							"$ref": "#/components/schemas/NetworkState"
+						},
+						"type": {
+							"$ref": "#/components/schemas/NetworkType"
+						}
+					},
+					"required": [
+						"state",
+						"type"
+					]
+				}
+			},
+			"examples": [
+				{
+					"name": "Getting the network info",
+					"params": [],
+					"result": {
+						"name": "Default Result",
+						"value": {
+							"state": "connected",
+							"type": "wifi"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "provision",
+			"summary": "Used by a distributor to push provision info to firebolt.",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-manages": [
+						"xrn:firebolt:capability:account:id",
+						"xrn:firebolt:capability:device:id",
+						"xrn:firebolt:capability:device:distributor"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "accountId",
+					"summary": "The id of the account that is device is attached to in the back office.",
+					"required": true,
+					"schema": {
+						"type": "string"
+					}
+				},
+				{
+					"name": "deviceId",
+					"summary": "The id of the device in the back office.",
+					"required": true,
+					"schema": {
+						"type": "string"
+					}
+				},
+				{
+					"name": "distributorId",
+					"summary": "The id of the distributor in the back office.",
+					"schema": {
+						"type": "string"
+					}
+				}
+			],
+			"result": {
+				"name": "result",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Default Example",
+					"params": [
+						{
+							"name": "accountId",
+							"value": "12345678910"
+						},
+						{
+							"name": "deviceId",
+							"value": "987654321111"
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				},
+				{
+					"name": "With distributor id",
+					"params": [
+						{
+							"name": "accountId",
+							"value": "12345678910"
+						},
+						{
+							"name": "deviceId",
+							"value": "987654321111"
+						},
+						{
+							"name": "distributorId",
+							"value": "global_partner"
+						}
+					],
+					"result": {
+						"name": "partnerResult",
+						"value": null
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"Resolution": {
+				"type": "array",
+				"items": [
+					{
+						"type": "integer"
+					},
+					{
+						"type": "integer"
+					}
+				],
+				"additionalItems": false,
+				"minItems": 2,
+				"maxItems": 2
+			},
+			"NetworkType": {
+				"title": "NetworkType",
+				"type": "string",
+				"enum": [
+					"wifi",
+					"ethernet",
+					"hybrid"
+				],
+				"description": "The type of network that is currently active"
+			},
+			"NetworkState": {
+				"title": "NetworkState",
+				"type": "string",
+				"enum": [
+					"connected",
+					"disconnected"
+				],
+				"description": "The type of network that is currently active"
+			},
+			"AudioProfiles": {
+				"title": "AudioProfiles",
+				"allOf": [
+					{
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/BooleanMap"
+					},
+					{
+						"type": "object",
+						"propertyNames": {
+							"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/AudioProfile"
+						}
+					}
+				]
+			}
+		}
+	}
 }

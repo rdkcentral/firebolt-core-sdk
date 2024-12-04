@@ -1,0 +1,6 @@
+build/*
+src/*
+test/*
+.DS_Store
+jest.config.*
+tsconfig.*

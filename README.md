@@ -8,3 +8,4 @@ title: Firebolt APIs
 Firebolt APIs are defined by [OpenRPC schemas](https://spec.open-rpc.org).
 
 The schemas are used to generate SDK and Documentation artifacts.
+

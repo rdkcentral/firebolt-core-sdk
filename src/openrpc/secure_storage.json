@@ -1,571 +1,577 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "SecureStorage",
-    "version": "0.0.0",
-    "description": "A module for storing and retrieving secure data owned by the app"
-  },
-  "methods": [
-    {
-      "name": "get",
-      "summary": "Get stored value by key",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:storage:secure"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "scope",
-          "summary": "The scope of the key/value",
-          "schema": {
-            "$ref": "#/components/schemas/StorageScope"
-          },
-          "required": true
-        },
-        {
-          "name": "key",
-          "summary": "Key to get",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "value",
-        "summary": "The retrieved value, if found.",
-        "schema": {
-          "oneOf": [
-            {"type": "string"},
-            {"type": "null"}
-          ]
-        }
-      },
-      "examples": [
-        {
-          "name": "Successfully retrieve a refresh token with key authRefreshToken",
-          "params": [
-            {
-              "name": "scope",
-              "value": "device"
-            },
-            {
-              "name": "key",
-              "value": "authRefreshToken"
-            }
-          ],
-          "result": {
-            "name": "value",
-            "value": "VGhpcyBub3QgYSByZWFsIHRva2VuLgo="
-          }
-        },
-        {
-          "name": "Attempt to retrieve a key with no value set",
-          "params": [
-            {
-              "name": "scope",
-              "value": "account"
-            },
-            {
-              "name": "key",
-              "value": "authRefreshToken"
-            }
-          ],
-          "result": {
-            "name": "value",
-            "value": null
-          }
-        }
-      ]
-    },
-    {
-      "name": "set",
-      "summary": "Set or update a secure data value",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:storage:secure"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "scope",
-          "summary": "The scope of the data key",
-          "schema": {
-            "$ref": "#/components/schemas/StorageScope"
-          },
-          "required": true
-        },
-        {
-          "name": "key",
-          "summary": "Key to set",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "value",
-          "summary": "Value to set",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "options",
-          "summary": "Optional parameters to set",
-          "schema": {
-            "$ref": "#/components/schemas/StorageOptions"
-          },
-          "required": false
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Set a refresh token with name authRefreshToken with optional paramter",
-          "params": [
-            {
-              "name": "scope",
-              "value": "device"
-            },
-            {
-              "name": "key",
-              "value": "authRefreshToken"
-            },
-            {
-              "name": "value",
-              "value": "VGhpcyBub3QgYSByZWFsIHRva2VuLgo="
-            },
-            {
-              "name": "options",
-              "value": { 
-                "ttl": 600
-              }
-            }
-          ],
-          "result": {
-            "name": "defaultResult",
-            "value": null
-          }
-        },
-        {
-          "name": "Set a refresh token with name authRefreshToken without optional parameter",
-          "params": [
-            {
-              "name": "scope",
-              "value": "account"
-            },
-            {
-              "name": "key",
-              "value": "authRefreshToken"
-            },
-            {
-              "name": "value",
-              "value": "VGhpcyBub3QgYSByZWFsIHRva2VuLgo="
-            }
-          ],
-          "result": {
-            "name": "defaultResult",
-            "value": null
-          }
-        }
-      ]
-    },
-    {
-      "name": "remove",
-      "summary": "Remove a secure data value",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:storage:secure"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "scope",
-          "summary": "The scope of the data key",
-          "schema": {
-            "$ref": "#/components/schemas/StorageScope"
-          },
-          "required": true
-        },
-        {
-          "name": "key",
-          "summary": "Key to remove",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "summary": "",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Remove the value with key authRefreshToken for device",
-          "params": [
-            {
-              "name": "scope",
-              "value": "device"
-            },
-            {
-              "name": "key",
-              "value": "authRefreshToken"
-            }
-          ],
-          "result": {
-            "name": "defaultResult",
-             "value": null
-          }
-        },
-        {
-          "name": "Remove the value with key authRefreshToken for account",
-          "params": [
-            {
-              "name": "scope",
-              "value": "account"
-            },
-            {
-              "name": "key",
-              "value": "authRefreshToken"
-            }
-          ],
-          "result": {
-            "name": "defaultResult",
-             "value": null
-          }
-        }
-      ]
-    },
-    {
-      "name": "setForApp",
-      "summary": "Set or update a secure data value for a specific app.",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-manages": [
-            "xrn:firebolt:capability:storage:secure"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "appId",
-          "summary": "appId for which value is being set",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "scope",
-          "summary": "The scope of the data key",
-          "schema": {
-            "$ref": "#/components/schemas/StorageScope"
-          },
-          "required": true
-        },
-        {
-          "name": "key",
-          "summary": "Key to set",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "value",
-          "summary": "Value to set",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "options",
-          "summary": "Optional parameters to set",
-          "schema": {
-            "$ref": "#/components/schemas/StorageOptions"
-          },
-          "required": false
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Set a refresh token with name authRefreshToken with optional parameter for appId foo",
-          "params": [
-            {
-              "name": "appId",
-              "value": "foo"
-            },
-            {
-              "name": "scope",
-              "value": "device"
-            },
-            {
-              "name": "key",
-              "value": "authRefreshToken"
-            },
-            {
-              "name": "value",
-              "value": "VGhpcyBub3QgYSByZWFsIHRva2VuLgo="
-            },
-            {
-              "name": "options",
-              "value": { 
-                "ttl": 600
-              }
-            }
-          ],
-          "result": {
-            "name": "defaultResult",
-            "value": null
-          }
-        },
-        {
-          "name": "Set a refresh token with name authRefreshToken without optional parameter for appId foo",
-          "params": [
-            {
-              "name": "appId",
-              "value": "foo"
-            },
-            {
-              "name": "scope",
-              "value": "account"
-            },
-            {
-              "name": "key",
-              "value": "authRefreshToken"
-            },
-            {
-              "name": "value",
-              "value": "VGhpcyBub3QgYSByZWFsIHRva2VuLgo="
-            }
-          ],
-          "result": {
-            "name": "defaultResult",
-            "value": null
-          }
-        }
-      ]
-    },
-    {
-      "name": "removeForApp",
-      "summary": "Removes single data value for a specific app.",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-manages": [
-            "xrn:firebolt:capability:storage:secure"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "appId",
-          "summary": "appId for which values are removed",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "scope",
-          "summary": "The scope of the key/value",
-          "schema": {
-            "$ref": "#/components/schemas/StorageScope"
-          },
-          "required": true
-        },
-        {
-          "name": "key",
-          "summary": "Key to remove",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "summary": "",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Removes authRefreshToken for appId foo",
-          "params": [
-            {
-              "name": "appId",
-              "value": "foo"
-            },
-            {
-              "name": "scope",
-              "value": "account"
-            },
-            {
-              "name": "key",
-              "value": "authRefreshToken"
-            }
-          ],
-          "result": {
-            "name": "defaultResult",
-             "value": null
-          }
-        }
-      ]
-    },
-    {
-      "name": "clearForApp",
-      "summary": "Clears all the secure data values for a specific app",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-manages": [
-            "xrn:firebolt:capability:storage:secure"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "appId",
-          "summary": "appId for which values are removed",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "scope",
-          "summary": "The scope of the key/value",
-          "schema": {
-            "$ref": "#/components/schemas/StorageScope"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "summary": "",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Clears all the secure data values for appId foo",
-          "params": [
-            {
-              "name": "appId",
-              "value": "foo"
-            },
-            {
-              "name": "scope",
-              "value": "account"
-            }
-          ],
-          "result": {
-            "name": "defaultResult",
-             "value": null
-          }
-        }
-      ]
-    },
-    {
-      "name": "clear",
-      "summary": "Clears all the secure data values",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:storage:secure"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "scope",
-          "summary": "The scope of the key/value",
-          "schema": {
-            "$ref": "#/components/schemas/StorageScope"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "summary": "",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Clears all the data values of storage",
-          "params": [
-            {
-              "name": "scope",
-              "value": "account"
-            }
-          ],
-          "result": {
-            "name": "defaultResult",
-             "value": null
-          }
-        }
-      ]
-    }
-  ],
-  "components": {
-    "schemas": {
-      "StorageScope": {
-        "title": "StorageScope",
-        "type": "string",
-        "enum": [
-          "device",
-          "account"
-        ],
-        "description": "The scope of the data"
-      },
-      "StorageOptions": {
-        "title": "StorageOptions",
-        "type": "object",
-        "required": ["ttl"],
-        "properties": {
-          "ttl": {
-            "type": "number",
-            "description": "Seconds from set time before the data expires and is removed"
-          }
-        }
-      }
-    }
-  }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "SecureStorage",
+		"version": "0.0.0",
+		"description": "A module for storing and retrieving secure data owned by the app"
+	},
+	"methods": [
+		{
+			"name": "get",
+			"summary": "Get stored value by key",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:storage:secure"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "scope",
+					"summary": "The scope of the key/value",
+					"schema": {
+						"$ref": "#/components/schemas/StorageScope"
+					},
+					"required": true
+				},
+				{
+					"name": "key",
+					"summary": "Key to get",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "value",
+				"summary": "The retrieved value, if found.",
+				"schema": {
+					"oneOf": [
+						{
+							"type": "string"
+						},
+						{
+							"type": "null"
+						}
+					]
+				}
+			},
+			"examples": [
+				{
+					"name": "Successfully retrieve a refresh token with key authRefreshToken",
+					"params": [
+						{
+							"name": "scope",
+							"value": "device"
+						},
+						{
+							"name": "key",
+							"value": "authRefreshToken"
+						}
+					],
+					"result": {
+						"name": "value",
+						"value": "VGhpcyBub3QgYSByZWFsIHRva2VuLgo="
+					}
+				},
+				{
+					"name": "Attempt to retrieve a key with no value set",
+					"params": [
+						{
+							"name": "scope",
+							"value": "account"
+						},
+						{
+							"name": "key",
+							"value": "authRefreshToken"
+						}
+					],
+					"result": {
+						"name": "value",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "set",
+			"summary": "Set or update a secure data value",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:storage:secure"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "scope",
+					"summary": "The scope of the data key",
+					"schema": {
+						"$ref": "#/components/schemas/StorageScope"
+					},
+					"required": true
+				},
+				{
+					"name": "key",
+					"summary": "Key to set",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "value",
+					"summary": "Value to set",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "options",
+					"summary": "Optional parameters to set",
+					"schema": {
+						"$ref": "#/components/schemas/StorageOptions"
+					},
+					"required": false
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Set a refresh token with name authRefreshToken with optional paramter",
+					"params": [
+						{
+							"name": "scope",
+							"value": "device"
+						},
+						{
+							"name": "key",
+							"value": "authRefreshToken"
+						},
+						{
+							"name": "value",
+							"value": "VGhpcyBub3QgYSByZWFsIHRva2VuLgo="
+						},
+						{
+							"name": "options",
+							"value": {
+								"ttl": 600
+							}
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				},
+				{
+					"name": "Set a refresh token with name authRefreshToken without optional parameter",
+					"params": [
+						{
+							"name": "scope",
+							"value": "account"
+						},
+						{
+							"name": "key",
+							"value": "authRefreshToken"
+						},
+						{
+							"name": "value",
+							"value": "VGhpcyBub3QgYSByZWFsIHRva2VuLgo="
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "remove",
+			"summary": "Remove a secure data value",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:storage:secure"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "scope",
+					"summary": "The scope of the data key",
+					"schema": {
+						"$ref": "#/components/schemas/StorageScope"
+					},
+					"required": true
+				},
+				{
+					"name": "key",
+					"summary": "Key to remove",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"summary": "",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Remove the value with key authRefreshToken for device",
+					"params": [
+						{
+							"name": "scope",
+							"value": "device"
+						},
+						{
+							"name": "key",
+							"value": "authRefreshToken"
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				},
+				{
+					"name": "Remove the value with key authRefreshToken for account",
+					"params": [
+						{
+							"name": "scope",
+							"value": "account"
+						},
+						{
+							"name": "key",
+							"value": "authRefreshToken"
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "setForApp",
+			"summary": "Set or update a secure data value for a specific app.",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-manages": [
+						"xrn:firebolt:capability:storage:secure"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "appId",
+					"summary": "appId for which value is being set",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "scope",
+					"summary": "The scope of the data key",
+					"schema": {
+						"$ref": "#/components/schemas/StorageScope"
+					},
+					"required": true
+				},
+				{
+					"name": "key",
+					"summary": "Key to set",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "value",
+					"summary": "Value to set",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "options",
+					"summary": "Optional parameters to set",
+					"schema": {
+						"$ref": "#/components/schemas/StorageOptions"
+					},
+					"required": false
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Set a refresh token with name authRefreshToken with optional parameter for appId foo",
+					"params": [
+						{
+							"name": "appId",
+							"value": "foo"
+						},
+						{
+							"name": "scope",
+							"value": "device"
+						},
+						{
+							"name": "key",
+							"value": "authRefreshToken"
+						},
+						{
+							"name": "value",
+							"value": "VGhpcyBub3QgYSByZWFsIHRva2VuLgo="
+						},
+						{
+							"name": "options",
+							"value": {
+								"ttl": 600
+							}
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				},
+				{
+					"name": "Set a refresh token with name authRefreshToken without optional parameter for appId foo",
+					"params": [
+						{
+							"name": "appId",
+							"value": "foo"
+						},
+						{
+							"name": "scope",
+							"value": "account"
+						},
+						{
+							"name": "key",
+							"value": "authRefreshToken"
+						},
+						{
+							"name": "value",
+							"value": "VGhpcyBub3QgYSByZWFsIHRva2VuLgo="
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "removeForApp",
+			"summary": "Removes single data value for a specific app.",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-manages": [
+						"xrn:firebolt:capability:storage:secure"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "appId",
+					"summary": "appId for which values are removed",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "scope",
+					"summary": "The scope of the key/value",
+					"schema": {
+						"$ref": "#/components/schemas/StorageScope"
+					},
+					"required": true
+				},
+				{
+					"name": "key",
+					"summary": "Key to remove",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"summary": "",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Removes authRefreshToken for appId foo",
+					"params": [
+						{
+							"name": "appId",
+							"value": "foo"
+						},
+						{
+							"name": "scope",
+							"value": "account"
+						},
+						{
+							"name": "key",
+							"value": "authRefreshToken"
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "clearForApp",
+			"summary": "Clears all the secure data values for a specific app",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-manages": [
+						"xrn:firebolt:capability:storage:secure"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "appId",
+					"summary": "appId for which values are removed",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "scope",
+					"summary": "The scope of the key/value",
+					"schema": {
+						"$ref": "#/components/schemas/StorageScope"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"summary": "",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Clears all the secure data values for appId foo",
+					"params": [
+						{
+							"name": "appId",
+							"value": "foo"
+						},
+						{
+							"name": "scope",
+							"value": "account"
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "clear",
+			"summary": "Clears all the secure data values",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:storage:secure"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "scope",
+					"summary": "The scope of the key/value",
+					"schema": {
+						"$ref": "#/components/schemas/StorageScope"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"summary": "",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Clears all the data values of storage",
+					"params": [
+						{
+							"name": "scope",
+							"value": "account"
+						}
+					],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"StorageScope": {
+				"title": "StorageScope",
+				"type": "string",
+				"enum": [
+					"device",
+					"account"
+				],
+				"description": "The scope of the data"
+			},
+			"StorageOptions": {
+				"title": "StorageOptions",
+				"type": "object",
+				"required": [
+					"ttl"
+				],
+				"properties": {
+					"ttl": {
+						"type": "number",
+						"description": "Seconds from set time before the data expires and is removed"
+					}
+				}
+			}
+		}
+	}
 }

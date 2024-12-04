@@ -1,1153 +1,1148 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "Metrics",
-    "description": "Methods for sending metrics",
-    "version": "0.0.0"
-  },
-  "methods": [
-    {
-      "name": "ready",
-      "tags": [
-        {
-          "name": "rpc-only"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:general"
-          ]
-        }
-      ],
-      "summary": "Inform the platform that your app is minimally usable. This method is called automatically by `Lifecycle.ready()`",
-      "params": [],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send ready metric",
-          "params": [
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]
-    },
-    {
-      "name": "signIn",
-      "tags": [
-        {
-          "name": "rpc-only"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:general"
-          ]
-        }
-      ],
-      "summary": "Log a sign in event, called by Discovery.signIn().",
-      "params": [],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send signIn metric",
-          "params": [
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        },
-        {
-          "name": "Send signIn metric with entitlements",
-          "params": [
-            {
-              "name": "entitlements",
-              "value": [
-                {
-                  "entitlementId": "123",
-                  "startTime": "2025-01-01T00:00:00.000Z",
-                  "endTime": "2025-01-01T00:00:00.000Z"
-                }
-              ]
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }        
-      ]
-    },
-    {
-      "name": "signOut",
-      "tags": [
-        {
-          "name": "rpc-only"
-        },
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:general"
-          ]
-        }
-      ],
-      "summary": "Log a sign out event, called by Discovery.signOut().",
-      "params": [],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send signOut metric",
-          "params": [
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }        
-      ]
-    },
-    {
-      "name": "startContent",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:general"
-          ]
-        }
-      ],
-      "summary": "Inform the platform that your user has started content.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "Optional entity ID of the content.",
-          "schema": {
-            "type": "string"
-          },
-          "required": false
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send startContent metric",
-          "params": [
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        },  
-        {
-          "name": "Send startContent metric w/ entity",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "abc"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        } 
-      ]
-    },
-    {
-      "name": "stopContent",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:general"
-          ]
-        }
-      ],
-      "summary": "Inform the platform that your user has stopped content.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "Optional entity ID of the content.",
-          "schema": {
-            "type": "string"
-          },
-          "required": false
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send stopContent metric",
-          "params": [
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        },  
-        {
-          "name": "Send stopContent metric w/ entity",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "abc"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }         
-      ]
-    },
-    {
-      "name": "page",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:general"
-          ]
-        }
-      ],
-      "summary": "Inform the platform that your user has navigated to a page or view.",
-      "params": [
-        {
-          "name": "pageId",
-          "summary": "Page ID of the content.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send page metric",
-          "params": [
-            {
-              "name": "pageId",
-              "value": "xyz"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        },  
-        {
-          "name": "Send startContent metric w/ entity",
-          "params": [
-            {
-              "name": "pageId",
-              "value": "home"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }         
-      ]
-    },
-    {
-      "name": "action",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:general"
-          ]
-        }
-      ],
-      "summary": "Inform the platform of something not covered by other Metrics APIs.",
-      "params": [
-        {
-          "name": "category",
-          "summary": "The category of action being logged. Must be 'user' for user-initated actions or 'app' for all other actions",
-          "schema": {
-            "type": "string",
-            "enum": [
-              "user",
-              "app"
-            ]
-          },
-          "required": true
-        },
-        {
-          "name": "type",
-          "summary": "A short, indexible identifier for the action, e.g. 'SignIn Prompt Displayed'",
-          "schema": {
-            "type": "string",
-            "maxLength": 256
-          },
-          "required": true
-        },
-        {
-          "name": "parameters",
-          "schema": {
-            "$ref": "https://meta.comcast.com/firebolt/types#/definitions/FlatMap"
-          },
-          "required": false
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send foo action",
-          "params": [
-            {
-              "name": "category",
-              "value": "user"
-            },
-            {
-              "name": "type",
-              "value": "The user did foo"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }     
-      ]
-    }, 
-    {
-      "name": "error",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:general"
-          ]
-        }
-      ],
-      "summary": "Inform the platform of an error that has occured in your app.",
-      "params": [
-        {
-          "name": "type",
-          "summary": "The type of error",
-          "schema": {
-            "$ref": "#/components/schemas/ErrorType"
-          },
-          "required": true
-        },
-        {
-          "name": "code",
-          "summary": "an app-specific error code",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "description",
-          "summary": "A short description of the error",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "visible",
-          "summary": "Whether or not this error was visible to the user.",
-          "schema": {
-            "type": "boolean"
-          },
-          "required": true
-        },
-        {
-          "name": "parameters",
-          "summary": "Optional additional parameters to be logged with the error",
-          "schema": {
-            "$ref": "https://meta.comcast.com/firebolt/types#/definitions/FlatMap"
-          },
-          "required": false          
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send error metric",
-          "params": [
-            {
-              "name": "type",
-              "value": "media"
-            },
-            {
-              "name": "code",
-              "value": "MEDIA-STALLED"
-            },
-            {
-              "name": "description",
-              "value": "playback stalled"
-            },
-            {
-              "name": "visible",
-              "value": true
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }      
-      ]
-    },
-    {
-      "name": "mediaLoadStart",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:media"
-          ]
-        }
-      ],
-      "summary": "Called when setting the URL of a media asset to play, in order to infer load time.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "The entityId of the media.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send loadstart metric.",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "345"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]      
-    },
-    {
-      "name": "mediaPlay",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:media"
-          ]
-        }
-      ],
-      "summary": "Called when media playback should start due to autoplay, user-initiated play, or unpausing.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "The entityId of the media.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send play metric.",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "345"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]  
-    },
-    {
-      "name": "mediaPlaying",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:media"
-          ]
-        }
-      ],
-      "summary": "Called when media playback actually starts due to autoplay, user-initiated play, unpausing, or recovering from a buffering interuption.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "The entityId of the media.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send playing metric.",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "345"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]  
-    },
-    {
-      "name": "mediaPause",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:media"
-          ]
-        }
-      ],
-      "summary": "Called when media playback will pause due to an intentional pause operation.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "The entityId of the media.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send pause metric.",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "345"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]  
-    },
-    {
-      "name": "mediaWaiting",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:media"
-          ]
-        }
-      ],
-      "summary": "Called when media playback will halt due to a network, buffer, or other unintentional constraint.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "The entityId of the media.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send waiting metric.",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "345"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]  
-    },
-    {
-      "name": "mediaProgress",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:media"
-          ]
-        }
-      ],
-      "summary": "Called every 60 seconds as media playback progresses.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "The entityId of the media.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "progress",
-          "summary": "Progress of playback, as a decimal percentage (0-0.999) for content with a known duration, or an integer number of seconds (0-86400) for content with an unknown duration.",
-          "schema": {
-            "$ref": "#/components/schemas/MediaPosition"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send progress metric.",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "345"
-            },
-            {
-              "name": "progress",
-              "value": 0.75
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]  
-    },
-    {
-      "name": "mediaSeeking",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:media"
-          ]
-        }
-      ],
-      "summary": "Called when a seek is initiated during media playback.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "The entityId of the media.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "target",
-          "summary": "Target destination of the seek, as a decimal percentage (0-0.999) for content with a known duration, or an integer number of seconds (0-86400) for content with an unknown duration.",
-          "schema": {
-            "$ref": "#/components/schemas/MediaPosition"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send seeking metric.",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "345"
-            },
-            {
-              "name": "target",
-              "value": 0.50
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]  
-    },
-    {
-      "name": "mediaSeeked",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:media"
-          ]
-        }
-      ],
-      "summary": "Called when a seek is completed during media playback.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "The entityId of the media.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "position",
-          "summary": "Resulting position of the seek operation, as a decimal percentage (0-0.999) for content with a known duration, or an integer number of seconds (0-86400) for content with an unknown duration.",
-          "schema": {
-            "$ref": "#/components/schemas/MediaPosition"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send seeked metric.",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "345"
-            },
-            {
-              "name": "position",
-              "value": 0.51
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]  
-    },
-    {
-      "name": "mediaRateChange",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:media"
-          ]
-        }
-      ],
-      "summary": "Called when the playback rate of media is changed.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "The entityId of the media.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "rate",
-          "summary": "The new playback rate.",
-          "schema": {
-            "type": "number"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send ratechange metric.",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "345"
-            },
-            {
-              "name": "rate",
-              "value": 2
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]  
-    },
-    {
-      "name": "mediaRenditionChange",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:media"
-          ]
-        }
-      ],
-      "summary": "Called when the playback rendition (e.g. bitrate, dimensions, profile, etc) is changed.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "The entityId of the media.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        },
-        {
-          "name": "bitrate",
-          "summary": "The new bitrate in kbps.",
-          "schema": {
-            "type": "number"
-          },
-          "required": true
-        },
-        {
-          "name": "width",
-          "summary": "The new resolution width.",
-          "schema": {
-            "type": "number"
-          },
-          "required": true
-        },
-        {
-          "name": "height",
-          "summary": "The new resolution height.",
-          "schema": {
-            "type": "number"
-          },
-          "required": true
-        },
-        {
-          "name": "profile",
-          "summary": "A description of the new profile, e.g. 'HDR' etc.",
-          "schema": {
-            "type": "string"
-          },
-          "required": false
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send renditionchange metric.",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "345"
-            },
-            {
-              "name": "bitrate",
-              "value": 5000
-            },
-            {
-              "name": "width",
-              "value": 1920
-            },
-            {
-              "name": "height",
-              "value": 1080
-            },
-            {
-              "name": "profile",
-              "value": "HDR+"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]  
-    },
-    {
-      "name": "mediaEnded",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:media"
-          ]
-        }
-      ],
-      "summary": "Called when playback has stopped because the end of the media was reached.",
-      "params": [
-        {
-          "name": "entityId",
-          "summary": "The entityId of the media.",
-          "schema": {
-            "type": "string"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "success",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send ended metric.",
-          "params": [
-            {
-              "name": "entityId",
-              "value": "345"
-            }
-          ],
-          "result": {
-            "name": "success",
-            "value": true
-          }
-        }
-      ]
-    },
-    {
-      "name": "event",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:metrics:distributor"
-          ]
-        }
-      ],
-      "summary": "Inform the platform of 1st party distributor metrics.",
-      "params": [
-        {
-          "name": "schema",
-          "summary": "The schema URI of the metric type",
-          "schema": {
-            "type": "string",
-            "format": "uri"
-          },
-          "required": true
-        },
-        {
-          "name": "data",
-          "summary": "A JSON payload conforming the the provided schema",
-          "schema": {
-            "$ref": "#/components/schemas/EventObject"
-          },
-          "required": true
-        }
-      ],
-      "result": {
-        "name": "results",
-        "schema": {
-          "type": "null"
-        }
-      },
-      "examples": [
-        {
-          "name": "Send foo event",
-          "params": [
-            {
-              "name": "schema",
-              "value": "http://meta.rdkcentral.com/some/schema"
-            },
-            {
-              "name": "data",
-              "value": {
-                "foo": "foo"
-              }
-            }
-          ],
-          "result": {
-            "name": "result",
-            "value": null
-          }
-        }     
-      ]
-    }    
-  ],
-  "components": {
-    "schemas": {
-      "MediaPosition": {
-        "title": "MediaPosition",
-        "description": "Represents a position inside playback content, as a decimal percentage (0-0.999) for content with a known duration, or an integer number of seconds (0-86400) for content with an unknown duration.",
-        "oneOf": [
-          {
-            "const": 0
-          },
-          {
-            "type": "number",
-            "exclusiveMinimum": 0,
-            "exclusiveMaximum": 1
-          },
-          {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 86400
-          }
-        ]
-      },
-      "ErrorType": {
-        "title": "ErrorType",
-        "type": "string",
-        "enum": [
-          "network",
-          "media",
-          "restriction",
-          "entitlement",
-          "other"
-        ]
-      },
-      "EventObjectPrimitives": {
-        "title": "EventObjectPrimitives",
-        "anyOf": [
-          {
-            "type": "string",
-            "maxLength": 256
-          },
-          {
-            "type": "number"
-          },
-          {
-            "type": "integer"
-          },
-          {
-            "type": "boolean"
-          },
-          {
-            "type": "null"
-          }
-        ]
-      },
-      "EventObject": {
-        "title": "EventObject",
-        "type": "object",
-        "maxProperties": 256,
-        "additionalProperties": {
-          "anyOf": [
-            {
-              "$ref": "#/components/schemas/EventObjectPrimitives"
-            },
-            {
-              "type": "array",
-              "maxItems": 256,
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/EventObjectPrimitives"
-                  },
-                  {
-                    "$ref": "#/components/schemas/EventObject"
-                  }
-                ]
-              }
-            },
-            {
-              "$ref": "#/components/schemas/EventObject"
-            }
-          ]
-        }
-      }
-    }
-  }
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Metrics",
+		"description": "Methods for sending metrics",
+		"version": "0.0.0"
+	},
+	"methods": [
+		{
+			"name": "ready",
+			"tags": [
+				{
+					"name": "rpc-only"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:general"
+					]
+				}
+			],
+			"summary": "Inform the platform that your app is minimally usable. This method is called automatically by `Lifecycle.ready()`",
+			"params": [],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send ready metric",
+					"params": [],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "signIn",
+			"tags": [
+				{
+					"name": "rpc-only"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:general"
+					]
+				}
+			],
+			"summary": "Log a sign in event, called by Discovery.signIn().",
+			"params": [],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send signIn metric",
+					"params": [],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				},
+				{
+					"name": "Send signIn metric with entitlements",
+					"params": [
+						{
+							"name": "entitlements",
+							"value": [
+								{
+									"entitlementId": "123",
+									"startTime": "2025-01-01T00:00:00.000Z",
+									"endTime": "2025-01-01T00:00:00.000Z"
+								}
+							]
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "signOut",
+			"tags": [
+				{
+					"name": "rpc-only"
+				},
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:general"
+					]
+				}
+			],
+			"summary": "Log a sign out event, called by Discovery.signOut().",
+			"params": [],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send signOut metric",
+					"params": [],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "startContent",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:general"
+					]
+				}
+			],
+			"summary": "Inform the platform that your user has started content.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "Optional entity ID of the content.",
+					"schema": {
+						"type": "string"
+					},
+					"required": false
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send startContent metric",
+					"params": [],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				},
+				{
+					"name": "Send startContent metric w/ entity",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "abc"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "stopContent",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:general"
+					]
+				}
+			],
+			"summary": "Inform the platform that your user has stopped content.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "Optional entity ID of the content.",
+					"schema": {
+						"type": "string"
+					},
+					"required": false
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send stopContent metric",
+					"params": [],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				},
+				{
+					"name": "Send stopContent metric w/ entity",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "abc"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "page",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:general"
+					]
+				}
+			],
+			"summary": "Inform the platform that your user has navigated to a page or view.",
+			"params": [
+				{
+					"name": "pageId",
+					"summary": "Page ID of the content.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send page metric",
+					"params": [
+						{
+							"name": "pageId",
+							"value": "xyz"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				},
+				{
+					"name": "Send startContent metric w/ entity",
+					"params": [
+						{
+							"name": "pageId",
+							"value": "home"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "action",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:general"
+					]
+				}
+			],
+			"summary": "Inform the platform of something not covered by other Metrics APIs.",
+			"params": [
+				{
+					"name": "category",
+					"summary": "The category of action being logged. Must be 'user' for user-initated actions or 'app' for all other actions",
+					"schema": {
+						"type": "string",
+						"enum": [
+							"user",
+							"app"
+						]
+					},
+					"required": true
+				},
+				{
+					"name": "type",
+					"summary": "A short, indexible identifier for the action, e.g. 'SignIn Prompt Displayed'",
+					"schema": {
+						"type": "string",
+						"maxLength": 256
+					},
+					"required": true
+				},
+				{
+					"name": "parameters",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/FlatMap"
+					},
+					"required": false
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send foo action",
+					"params": [
+						{
+							"name": "category",
+							"value": "user"
+						},
+						{
+							"name": "type",
+							"value": "The user did foo"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "error",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:general"
+					]
+				}
+			],
+			"summary": "Inform the platform of an error that has occured in your app.",
+			"params": [
+				{
+					"name": "type",
+					"summary": "The type of error",
+					"schema": {
+						"$ref": "#/components/schemas/ErrorType"
+					},
+					"required": true
+				},
+				{
+					"name": "code",
+					"summary": "an app-specific error code",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "description",
+					"summary": "A short description of the error",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "visible",
+					"summary": "Whether or not this error was visible to the user.",
+					"schema": {
+						"type": "boolean"
+					},
+					"required": true
+				},
+				{
+					"name": "parameters",
+					"summary": "Optional additional parameters to be logged with the error",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/FlatMap"
+					},
+					"required": false
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send error metric",
+					"params": [
+						{
+							"name": "type",
+							"value": "media"
+						},
+						{
+							"name": "code",
+							"value": "MEDIA-STALLED"
+						},
+						{
+							"name": "description",
+							"value": "playback stalled"
+						},
+						{
+							"name": "visible",
+							"value": true
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "mediaLoadStart",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:media"
+					]
+				}
+			],
+			"summary": "Called when setting the URL of a media asset to play, in order to infer load time.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "The entityId of the media.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send loadstart metric.",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "345"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "mediaPlay",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:media"
+					]
+				}
+			],
+			"summary": "Called when media playback should start due to autoplay, user-initiated play, or unpausing.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "The entityId of the media.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send play metric.",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "345"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "mediaPlaying",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:media"
+					]
+				}
+			],
+			"summary": "Called when media playback actually starts due to autoplay, user-initiated play, unpausing, or recovering from a buffering interuption.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "The entityId of the media.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send playing metric.",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "345"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "mediaPause",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:media"
+					]
+				}
+			],
+			"summary": "Called when media playback will pause due to an intentional pause operation.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "The entityId of the media.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send pause metric.",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "345"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "mediaWaiting",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:media"
+					]
+				}
+			],
+			"summary": "Called when media playback will halt due to a network, buffer, or other unintentional constraint.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "The entityId of the media.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send waiting metric.",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "345"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "mediaProgress",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:media"
+					]
+				}
+			],
+			"summary": "Called every 60 seconds as media playback progresses.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "The entityId of the media.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "progress",
+					"summary": "Progress of playback, as a decimal percentage (0-0.999) for content with a known duration, or an integer number of seconds (0-86400) for content with an unknown duration.",
+					"schema": {
+						"$ref": "#/components/schemas/MediaPosition"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send progress metric.",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "345"
+						},
+						{
+							"name": "progress",
+							"value": 0.75
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "mediaSeeking",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:media"
+					]
+				}
+			],
+			"summary": "Called when a seek is initiated during media playback.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "The entityId of the media.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "target",
+					"summary": "Target destination of the seek, as a decimal percentage (0-0.999) for content with a known duration, or an integer number of seconds (0-86400) for content with an unknown duration.",
+					"schema": {
+						"$ref": "#/components/schemas/MediaPosition"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send seeking metric.",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "345"
+						},
+						{
+							"name": "target",
+							"value": 0.5
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "mediaSeeked",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:media"
+					]
+				}
+			],
+			"summary": "Called when a seek is completed during media playback.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "The entityId of the media.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "position",
+					"summary": "Resulting position of the seek operation, as a decimal percentage (0-0.999) for content with a known duration, or an integer number of seconds (0-86400) for content with an unknown duration.",
+					"schema": {
+						"$ref": "#/components/schemas/MediaPosition"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send seeked metric.",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "345"
+						},
+						{
+							"name": "position",
+							"value": 0.51
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "mediaRateChange",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:media"
+					]
+				}
+			],
+			"summary": "Called when the playback rate of media is changed.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "The entityId of the media.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "rate",
+					"summary": "The new playback rate.",
+					"schema": {
+						"type": "number"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send ratechange metric.",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "345"
+						},
+						{
+							"name": "rate",
+							"value": 2
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "mediaRenditionChange",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:media"
+					]
+				}
+			],
+			"summary": "Called when the playback rendition (e.g. bitrate, dimensions, profile, etc) is changed.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "The entityId of the media.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				},
+				{
+					"name": "bitrate",
+					"summary": "The new bitrate in kbps.",
+					"schema": {
+						"type": "number"
+					},
+					"required": true
+				},
+				{
+					"name": "width",
+					"summary": "The new resolution width.",
+					"schema": {
+						"type": "number"
+					},
+					"required": true
+				},
+				{
+					"name": "height",
+					"summary": "The new resolution height.",
+					"schema": {
+						"type": "number"
+					},
+					"required": true
+				},
+				{
+					"name": "profile",
+					"summary": "A description of the new profile, e.g. 'HDR' etc.",
+					"schema": {
+						"type": "string"
+					},
+					"required": false
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send renditionchange metric.",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "345"
+						},
+						{
+							"name": "bitrate",
+							"value": 5000
+						},
+						{
+							"name": "width",
+							"value": 1920
+						},
+						{
+							"name": "height",
+							"value": 1080
+						},
+						{
+							"name": "profile",
+							"value": "HDR+"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "mediaEnded",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:media"
+					]
+				}
+			],
+			"summary": "Called when playback has stopped because the end of the media was reached.",
+			"params": [
+				{
+					"name": "entityId",
+					"summary": "The entityId of the media.",
+					"schema": {
+						"type": "string"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "success",
+				"schema": {
+					"type": "boolean"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send ended metric.",
+					"params": [
+						{
+							"name": "entityId",
+							"value": "345"
+						}
+					],
+					"result": {
+						"name": "success",
+						"value": true
+					}
+				}
+			]
+		},
+		{
+			"name": "event",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:metrics:distributor"
+					]
+				}
+			],
+			"summary": "Inform the platform of 1st party distributor metrics.",
+			"params": [
+				{
+					"name": "schema",
+					"summary": "The schema URI of the metric type",
+					"schema": {
+						"type": "string",
+						"format": "uri"
+					},
+					"required": true
+				},
+				{
+					"name": "data",
+					"summary": "A JSON payload conforming the the provided schema",
+					"schema": {
+						"$ref": "#/components/schemas/EventObject"
+					},
+					"required": true
+				}
+			],
+			"result": {
+				"name": "results",
+				"schema": {
+					"type": "null"
+				}
+			},
+			"examples": [
+				{
+					"name": "Send foo event",
+					"params": [
+						{
+							"name": "schema",
+							"value": "http://meta.rdkcentral.com/some/schema"
+						},
+						{
+							"name": "data",
+							"value": {
+								"foo": "foo"
+							}
+						}
+					],
+					"result": {
+						"name": "result",
+						"value": null
+					}
+				}
+			]
+		}
+	],
+	"components": {
+		"schemas": {
+			"MediaPosition": {
+				"title": "MediaPosition",
+				"description": "Represents a position inside playback content, as a decimal percentage (0-0.999) for content with a known duration, or an integer number of seconds (0-86400) for content with an unknown duration.",
+				"oneOf": [
+					{
+						"const": 0
+					},
+					{
+						"type": "number",
+						"exclusiveMinimum": 0,
+						"exclusiveMaximum": 1
+					},
+					{
+						"type": "integer",
+						"minimum": 1,
+						"maximum": 86400
+					}
+				]
+			},
+			"ErrorType": {
+				"title": "ErrorType",
+				"type": "string",
+				"enum": [
+					"network",
+					"media",
+					"restriction",
+					"entitlement",
+					"other"
+				]
+			},
+			"EventObjectPrimitives": {
+				"title": "EventObjectPrimitives",
+				"anyOf": [
+					{
+						"type": "string",
+						"maxLength": 256
+					},
+					{
+						"type": "number"
+					},
+					{
+						"type": "integer"
+					},
+					{
+						"type": "boolean"
+					},
+					{
+						"type": "null"
+					}
+				]
+			},
+			"EventObject": {
+				"title": "EventObject",
+				"type": "object",
+				"maxProperties": 256,
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"$ref": "#/components/schemas/EventObjectPrimitives"
+						},
+						{
+							"type": "array",
+							"maxItems": 256,
+							"items": {
+								"anyOf": [
+									{
+										"$ref": "#/components/schemas/EventObjectPrimitives"
+									},
+									{
+										"$ref": "#/components/schemas/EventObject"
+									}
+								]
+							}
+						},
+						{
+							"$ref": "#/components/schemas/EventObject"
+						}
+					]
+				}
+			}
+		}
+	}
 }

@@ -1,351 +1,355 @@
 {
-  "openrpc": "1.2.4",
-  "info": {
-    "title": "Wifi",
-    "description": "A module for providing support for Wifi.",
-    "version": "0.0.0"
-  },
-  "components": {
-    "schemas": {
-      "AccessPointList": {
-        "title": "AccessPointList",
-        "type": "object",
-        "description": "List of scanned Wifi networks available near the device.",
-        "properties": {
-          "list": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AccessPoint"
-            }
-          }
-        }
-      },
-      "WifiSecurityMode": {
-        "title": "WifiSecurityMode",
-        "description": "Security Mode supported for Wifi",
-        "type": "string",
-        "enum": [
-          "none",
-          "wep64",
-          "wep128",
-          "wpaPskTkip",
-          "wpaPskAes",
-          "wpa2PskTkip",
-          "wpa2PskAes",
-          "wpaEnterpriseTkip",
-          "wpaEnterpriseAes",
-          "wpa2EnterpriseTkip",
-          "wpa2EnterpriseAes",
-          "wpa2Psk",
-          "wpa2Enterprise",
-          "wpa3PskAes",
-          "wpa3Sae"
-        ]
-      },
-      "WifiSignalStrength": {
-        "title": "WifiSignalStrength",
-        "description": "Strength of Wifi signal, value is negative based on RSSI specification.",
-        "type": "integer",
-        "default": -255,
-        "minimum": -255,
-        "maximum": 0
-      },
-      "WifiFrequency": {
-        "title": "WifiFrequency",
-        "description": "Wifi Frequency in Ghz, example 2.4Ghz and 5Ghz.",
-        "type": "number",
-        "default": 0,
-        "minimum": 0
-      },
-      "AccessPoint": {
-        "title": "AccessPoint",
-        "description": "Properties of a scanned wifi list item.",
-        "type": "object",
-        "properties": {
-          "ssid": {
-            "type": "string",
-            "description": "Name of the wifi."
-          },
-          "securityMode": {
-            "$ref": "#/components/schemas/WifiSecurityMode"
-          },
-          "signalStrength": {
-            "$ref": "#/components/schemas/WifiSignalStrength"
-          },
-          "frequency": {
-            "$ref": "#/components/schemas/WifiFrequency"
-          }
-        }
-      },
-      "WPSSecurityPin": {
-        "title": "WPSSecurityPin",
-        "description": "Security pin type for WPS(Wifi Protected Setup).",
-        "type": "string",
-        "enum": ["pushButton", "pin", "manufacturerPin"]
-      },
-      "WifiConnectRequest": {
-        "title": "WifiConnectRequest",
-        "description": "Request object for the wifi connection.",
-        "type": "object",
-        "properties": {
-          "ssid": {
-            "schema": {
-              "type": "string"
-            }
-          },
-          "passphrase": {
-            "schema": {
-              "type": "string"
-            }
-          },
-          "securityMode": {
-            "schema": {
-              "$ref": "#/components/schemas/WifiSecurityMode"
-            }
-          },
-          "timeout": {
-            "schema": {
-              "$ref": "https://meta.comcast.com/firebolt/types#/definitions/Timeout"
-            }
-          }
-        }
-      }
-    }
-  },
-  "methods": [
-    {
-      "name": "scan",
-      "summary": "Scan available wifi networks in the location.",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:protocol:wifi"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "timeout",
-          "schema": {
-            "$ref": "https://meta.comcast.com/firebolt/types#/definitions/Timeout"
-          }
-        }
-      ],
-      "result": {
-        "name": "list",
-        "summary": "Contains a list of wifi networks available near the device.",
-        "schema": {
-          "$ref": "#/components/schemas/AccessPointList"
-        }
-      },
-      "examples": [
-        {
-          "name": "Successful Wifi List",
-          "params": [
-            {
-              "name": "timeout",
-              "value": 30
-            }
-          ],
-          "result": {
-            "name": "successfulWifiResultExample",
-            "value": {
-              "list": [
-                {
-                  "ssid": "DND",
-                  "security": "wpa2Psk",
-                  "signalStrength": -70,
-                  "frequency": 2.4
-                },
-                {
-                  "ssid": "Fortnite",
-                  "security": "WPA2_ENTERPRISE_AES",
-                  "signalStrength": -70,
-                  "frequency": 5
-                },
-                {
-                  "ssid": "Guardian",
-                  "security": "none",
-                  "signalStrength": -70,
-                  "frequency": 2.4
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "connect",
-      "summary": "Connect the device to the specified SSID.",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:protocol:wifi"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "ssid",
-          "schema": {
-            "type": "string"
-          },
-          "description": "Name of Wifi SSID to connect for the device."
-        },
-        {
-          "name": "passphrase",
-          "schema": {
-            "type": "string"
-          },
-          "description": "Password or Passphrase for the wifi."
-        },
-        {
-          "name": "security",
-          "schema": {
-            "$ref": "#/components/schemas/WifiSecurityMode"
-          }
-        }
-      ],
-      "result": {
-        "name": "connectedWifi",
-        "summary": "Successful Response after connecting to the Wifi.",
-        "schema": {
-          "$ref": "#/components/schemas/AccessPoint"
-        }
-      },
-      "examples": [
-        {
-          "name": "Connect to a wpa2Psk Wifi with password",
-          "params": [
-            {
-              "name": "ssid",
-              "value": "DND"
-            },
-            {
-              "name": "passphrase",
-              "value": "gargoyle"
-            },
-            {
-              "name": "security",
-              "value": "wpa2Psk"
-            }
-          ],
-          "result": {
-            "name": "successfulWifiConnection",
-            "value": {
-              "ssid": "DND",
-              "security": "wpa2Psk",
-              "signalStrength": -70,
-              "frequency": 2.4
-            }
-          }
-        },
-        {
-          "name": "Connect to a WPA2 PSK Wifi with password",
-          "params": [
-            {
-              "name": "ssid",
-              "value": "Guardian WIFI"
-            },
-            {
-              "name": "passphrase",
-              "value": ""
-            },
-            {
-              "name": "security",
-              "value": "none"
-            }
-          ],
-          "result": {
-            "name": "successfulWifiConnection",
-            "value": {
-              "ssid": "Guardian WIFI",
-              "security": "none",
-              "signalStrength": -70,
-              "frequency": 2.4
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "disconnect",
-      "summary": "Disconnect the device if connected via WIFI.",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:protocol:wifi"
-          ]
-        }
-      ],
-      "params": [],
-      "result": {
-        "name": "result",
-        "schema": {
-          "const": null
-        }
-      },
-      "examples": [
-        {
-          "name": "Disconnect",
-          "params": [],
-          "result": {
-            "name": "defaultResult",
-            "value": null
-          }
-        }
-      ]
-    },
-    {
-      "name": "wps",
-      "summary": "Connect to WPS",
-      "tags": [
-        {
-          "name": "capabilities",
-          "x-uses": [
-            "xrn:firebolt:capability:protocol:wifi"
-          ]
-        }
-      ],
-      "params": [
-        {
-          "name": "security",
-          "schema": {
-            "$ref": "#/components/schemas/WPSSecurityPin"
-          }
-        }
-      ],
-      "result": {
-        "name": "connectedWifi",
-        "summary": "Successful Response after connecting to the Wifi.",
-        "schema": {
-          "$ref": "#/components/schemas/AccessPoint"
-        }
-      },
-      "examples": [
-        {
-          "name": "Connect to a WPS Wifi router",
-          "params": [
-            {
-              "name": "security",
-              "value": "pushButton"
-            }
-          ],
-          "result": {
-            "name": "successfulWifiConnection",
-            "value": {
-              "ssid": "DND",
-              "security": "wpa2Psk",
-              "signalStrength": -70,
-              "frequency": 2.4
-            }
-          }
-        }
-      ]
-    }
-  ]
+	"openrpc": "1.2.4",
+	"info": {
+		"title": "Wifi",
+		"description": "A module for providing support for Wifi.",
+		"version": "0.0.0"
+	},
+	"components": {
+		"schemas": {
+			"AccessPointList": {
+				"title": "AccessPointList",
+				"type": "object",
+				"description": "List of scanned Wifi networks available near the device.",
+				"properties": {
+					"list": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/AccessPoint"
+						}
+					}
+				}
+			},
+			"WifiSecurityMode": {
+				"title": "WifiSecurityMode",
+				"description": "Security Mode supported for Wifi",
+				"type": "string",
+				"enum": [
+					"none",
+					"wep64",
+					"wep128",
+					"wpaPskTkip",
+					"wpaPskAes",
+					"wpa2PskTkip",
+					"wpa2PskAes",
+					"wpaEnterpriseTkip",
+					"wpaEnterpriseAes",
+					"wpa2EnterpriseTkip",
+					"wpa2EnterpriseAes",
+					"wpa2Psk",
+					"wpa2Enterprise",
+					"wpa3PskAes",
+					"wpa3Sae"
+				]
+			},
+			"WifiSignalStrength": {
+				"title": "WifiSignalStrength",
+				"description": "Strength of Wifi signal, value is negative based on RSSI specification.",
+				"type": "integer",
+				"default": -255,
+				"minimum": -255,
+				"maximum": 0
+			},
+			"WifiFrequency": {
+				"title": "WifiFrequency",
+				"description": "Wifi Frequency in Ghz, example 2.4Ghz and 5Ghz.",
+				"type": "number",
+				"default": 0,
+				"minimum": 0
+			},
+			"AccessPoint": {
+				"title": "AccessPoint",
+				"description": "Properties of a scanned wifi list item.",
+				"type": "object",
+				"properties": {
+					"ssid": {
+						"type": "string",
+						"description": "Name of the wifi."
+					},
+					"securityMode": {
+						"$ref": "#/components/schemas/WifiSecurityMode"
+					},
+					"signalStrength": {
+						"$ref": "#/components/schemas/WifiSignalStrength"
+					},
+					"frequency": {
+						"$ref": "#/components/schemas/WifiFrequency"
+					}
+				}
+			},
+			"WPSSecurityPin": {
+				"title": "WPSSecurityPin",
+				"description": "Security pin type for WPS(Wifi Protected Setup).",
+				"type": "string",
+				"enum": [
+					"pushButton",
+					"pin",
+					"manufacturerPin"
+				]
+			},
+			"WifiConnectRequest": {
+				"title": "WifiConnectRequest",
+				"description": "Request object for the wifi connection.",
+				"type": "object",
+				"properties": {
+					"ssid": {
+						"schema": {
+							"type": "string"
+						}
+					},
+					"passphrase": {
+						"schema": {
+							"type": "string"
+						}
+					},
+					"securityMode": {
+						"schema": {
+							"$ref": "#/components/schemas/WifiSecurityMode"
+						}
+					},
+					"timeout": {
+						"schema": {
+							"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/Timeout"
+						}
+					}
+				}
+			}
+		}
+	},
+	"methods": [
+		{
+			"name": "scan",
+			"summary": "Scan available wifi networks in the location.",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:protocol:wifi"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "timeout",
+					"schema": {
+						"$ref": "https://meta.rdkcentral.com/firebolt/schemas/types#/definitions/Timeout"
+					}
+				}
+			],
+			"result": {
+				"name": "list",
+				"summary": "Contains a list of wifi networks available near the device.",
+				"schema": {
+					"$ref": "#/components/schemas/AccessPointList"
+				}
+			},
+			"examples": [
+				{
+					"name": "Successful Wifi List",
+					"params": [
+						{
+							"name": "timeout",
+							"value": 30
+						}
+					],
+					"result": {
+						"name": "successfulWifiResultExample",
+						"value": {
+							"list": [
+								{
+									"ssid": "DND",
+									"security": "wpa2Psk",
+									"signalStrength": -70,
+									"frequency": 2.4
+								},
+								{
+									"ssid": "Fortnite",
+									"security": "WPA2_ENTERPRISE_AES",
+									"signalStrength": -70,
+									"frequency": 5
+								},
+								{
+									"ssid": "Guardian",
+									"security": "none",
+									"signalStrength": -70,
+									"frequency": 2.4
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "connect",
+			"summary": "Connect the device to the specified SSID.",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:protocol:wifi"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "ssid",
+					"schema": {
+						"type": "string"
+					},
+					"description": "Name of Wifi SSID to connect for the device."
+				},
+				{
+					"name": "passphrase",
+					"schema": {
+						"type": "string"
+					},
+					"description": "Password or Passphrase for the wifi."
+				},
+				{
+					"name": "security",
+					"schema": {
+						"$ref": "#/components/schemas/WifiSecurityMode"
+					}
+				}
+			],
+			"result": {
+				"name": "connectedWifi",
+				"summary": "Successful Response after connecting to the Wifi.",
+				"schema": {
+					"$ref": "#/components/schemas/AccessPoint"
+				}
+			},
+			"examples": [
+				{
+					"name": "Connect to a wpa2Psk Wifi with password",
+					"params": [
+						{
+							"name": "ssid",
+							"value": "DND"
+						},
+						{
+							"name": "passphrase",
+							"value": "gargoyle"
+						},
+						{
+							"name": "security",
+							"value": "wpa2Psk"
+						}
+					],
+					"result": {
+						"name": "successfulWifiConnection",
+						"value": {
+							"ssid": "DND",
+							"security": "wpa2Psk",
+							"signalStrength": -70,
+							"frequency": 2.4
+						}
+					}
+				},
+				{
+					"name": "Connect to a WPA2 PSK Wifi with password",
+					"params": [
+						{
+							"name": "ssid",
+							"value": "Guardian WIFI"
+						},
+						{
+							"name": "passphrase",
+							"value": ""
+						},
+						{
+							"name": "security",
+							"value": "none"
+						}
+					],
+					"result": {
+						"name": "successfulWifiConnection",
+						"value": {
+							"ssid": "Guardian WIFI",
+							"security": "none",
+							"signalStrength": -70,
+							"frequency": 2.4
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "disconnect",
+			"summary": "Disconnect the device if connected via WIFI.",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:protocol:wifi"
+					]
+				}
+			],
+			"params": [],
+			"result": {
+				"name": "result",
+				"schema": {
+					"const": null
+				}
+			},
+			"examples": [
+				{
+					"name": "Disconnect",
+					"params": [],
+					"result": {
+						"name": "defaultResult",
+						"value": null
+					}
+				}
+			]
+		},
+		{
+			"name": "wps",
+			"summary": "Connect to WPS",
+			"tags": [
+				{
+					"name": "capabilities",
+					"x-uses": [
+						"xrn:firebolt:capability:protocol:wifi"
+					]
+				}
+			],
+			"params": [
+				{
+					"name": "security",
+					"schema": {
+						"$ref": "#/components/schemas/WPSSecurityPin"
+					}
+				}
+			],
+			"result": {
+				"name": "connectedWifi",
+				"summary": "Successful Response after connecting to the Wifi.",
+				"schema": {
+					"$ref": "#/components/schemas/AccessPoint"
+				}
+			},
+			"examples": [
+				{
+					"name": "Connect to a WPS Wifi router",
+					"params": [
+						{
+							"name": "security",
+							"value": "pushButton"
+						}
+					],
+					"result": {
+						"name": "successfulWifiConnection",
+						"value": {
+							"ssid": "DND",
+							"security": "wpa2Psk",
+							"signalStrength": -70,
+							"frequency": 2.4
+						}
+					}
+				}
+			]
+		}
+	]
 }

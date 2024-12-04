@@ -1,6 +1,6 @@
 {
 	"name": "@firebolt-js/sdk",
-	"version": "0.16.0-next.3",
+	"version": "2.0.0-next.4",
 	"description": "The Firebolt JS SDK",
 	"main": "./dist/lib/firebolt.mjs",
 	"types": "./dist/lib/firebolt.d.ts",
@@ -9,23 +9,29 @@
 	},
 	"type": "module",
 	"scripts": {
-		"validate": "npx firebolt-openrpc validate --input ./dist/firebolt-core-open-rpc.json",
-		"sdk": "npx firebolt-openrpc sdk --input ./dist/firebolt-core-open-rpc.json --template ./src/js --output ./build/javascript/src --static-module Platform",
-		"native": "npx firebolt-openrpc sdk --input ./dist/firebolt-core-open-rpc.json --template ./src/cpp --output ./build/c/src --static-module Platform --language ../../../node_modules/@firebolt-js/openrpc/languages/c",
+		"validate": "npx firebolt-openrpc validate --input ./dist/firebolt-open-rpc.json",
+		"sdk": "npx firebolt-openrpc sdk --server ./dist/firebolt-open-rpc.json --client ./dist/firebolt-app-open-rpc.json --template ./src/js --output ./build/javascript/src",
+		"native": "npx firebolt-openrpc sdk --server ./dist/firebolt-open-rpc.json --client ./dist/firebolt-app-open-rpc.json --template ./src/cpp --output ./build/c/src --static-module Platform --language ../../../node_modules/@firebolt-js/openrpc/languages/cpp",
 		"compile": "cd ../../.. && npm run compile",
-		"slice": "npx firebolt-openrpc slice -i ../../../dist/firebolt-open-rpc.json --sdk ./sdk.config.json -o ./dist/firebolt-core-open-rpc.json",
-		"docs": "npx firebolt-openrpc docs --input ./dist/firebolt-core-open-rpc.json --output build/docs/markdown --as-path",
-		"wiki": "npx firebolt-openrpc docs --input ./dist/firebolt-core-open-rpc.json --output build/docs/markdown",
-		"dist:notest": "npm run clean && npm run slice && npm run validate && npm run sdk && npm run docs && npm run dist:copy && echo 'Firebolt Core SDK /dist/ is ready.\n'",
+		"cpp": "npm run cpp:compile && npm run cpp:install",
+		"cpp:compile": "npx firebolt-openrpc sdk --input ./dist/firebolt-core-open-rpc.json --template ./src/cpp --output ./build/cpp/src --static-module Platform --language ../../../node_modules/@firebolt-js/openrpc/languages/cpp",
+		"cpp:install": "./build/cpp/src/scripts/install.sh -i ./build/cpp/src -s ./build/cpp/src/ -m core",
+		"slice": "npm run slice:server&& npm run slice:client",
+		"slice:server": "npx firebolt-openrpc slice -i ../../../dist/firebolt-open-rpc.json --sdk ./sdk.config.json -o ./dist/firebolt-open-rpc.json",
+		"slice:client": "npx firebolt-openrpc slice -i ../../../dist/firebolt-app-open-rpc.json --sdk ./sdk.config.json -o ./dist/firebolt-app-open-rpc.json",
+		"docs": "npx firebolt-openrpc docs --server ./dist/firebolt-open-rpc.json --client ./dist/firebolt-app-open-rpc.json --output build/docs/markdown --as-path",
+		"wiki": "npx firebolt-openrpc docs --server ./dist/firebolt-open-rpc.json --client ./dist/firebolt-app-open-rpc.json --output build/docs/markdown",
+		"dist:notest": "npm run clean && npm run slice && npm run validate && npm run sdk && npm run docs && npm run prettier && npm run dist:copy && echo 'Firebolt Core SDK /dist/ is ready.\n'",
 		"dist:copy": "npm run dist:copy:sdk && npm run dist:copy:docs",
-		"dist:copy:sdk": "mkdirp ./dist && cp -R build/javascript/src dist/lib && cp ./dist/firebolt-core-open-rpc.json ../../../dist/firebolt-core-open-rpc.json",
+		"dist:copy:sdk": "mkdirp ./dist && cp -R build/javascript/src dist/lib && cp ./dist/firebolt-open-rpc.json ../../../dist/firebolt-core-open-rpc.json && cp ./dist/firebolt-app-open-rpc.json ../../../dist/firebolt-core-app-open-rpc.json",
 		"dist:copy:docs": "mkdirp ./dist && cp -R build/docs/markdown dist/docs",
 		"dist": "npm run dist:notest && npm run test",
 		"clean": "rm -rf ./build && rm -rf ./dist",
 		"test:setup": "rm -rf test/transpiled-suite && npx tsc --target es6 --moduleResolution node --outDir test/transpiled-suite",
 		"test": "npm run test:setup && NODE_OPTIONS=--experimental-vm-modules npx --config=jest.config.json --detectOpenHandles jest",
 		"prepack": "node ../../js/version.mjs validate && npm run broilerplate",
-		"broilerplate": "rm ./CONTRIBUTING.md && cp ../../../CONTRIBUTING.md ./CONTRIBUTING.md && rm ./LICENSE && cp ../../../LICENSE ./LICENSE && rm ./NOTICE && cp ../../../NOTICE ./NOTICE"
+		"broilerplate": "rm ./CONTRIBUTING.md && cp ../../../CONTRIBUTING.md ./CONTRIBUTING.md && rm ./LICENSE && cp ../../../LICENSE ./LICENSE && rm ./NOTICE && cp ../../../NOTICE ./NOTICE",
+		"prettier": "prettier build/**/*.mjs --write --parser babel && prettier build/**/*.md --write --parser markdown"
 	},
 	"repository": {
 		"type": "git",
@@ -40,6 +46,7 @@
 	"devDependencies": {
 		"jest": "^28.1.0",
 		"jest-environment-jsdom": "^28.1.3",
+		"prettier": "^3.1.0",
 		"typescript": "^4.6.4"
 	},
 	"keywords": [

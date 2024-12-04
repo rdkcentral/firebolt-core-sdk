@@ -1,6 +1,6 @@
 {
-    "$id": "https://meta.comcast.com/firebolt/accessibility",
     "title": "Accessibility",
+    "$id": "https://meta.rdkcentral.com/firebolt/schemas/accessibility",
     "anyOf": [
         {
             "$ref": "#/definitions/ClosedCaptionsStyles"
@@ -11,14 +11,33 @@
     ],
     "definitions": {
         "FontFamily": {
-            "type": ["string", "null"]
+            "type": ["string", "null"],
+            "enum": [
+                "monospace_serif",
+                "proportional_serif",
+                "monospaced_sanserif",
+                "proportional_sanserif",
+                "smallcaps",
+                "cursive",
+                "casual",
+                null
+            ]
         },
         "FontSize": {
             "type": ["number", "null"],
             "minimum": 0
         },
         "FontEdge": {
-            "type": ["string", "null"]
+            "type": ["string", "null"],
+            "enum": [
+                "none",
+                "raised",
+                "depressed",
+                "uniform",
+                "drop_shadow_left",
+                "drop_shadow_right",
+                null
+            ]
         },
         "Color": {
             "type": ["string", "null"]
@@ -91,13 +110,19 @@
                 },
                 "styles": {
                     "$ref": "#/definitions/ClosedCaptionsStyles"
+                },
+                "preferredLanguages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "https://meta.rdkcentral.com/firebolt/schemas/localization#/definitions/ISO639_2Language"
+                    }
                 }
             },
             "examples": [
                 {
                     "enabled": true,
                     "styles": {
-                        "fontFamily": "Monospace sans-serif",
+                        "fontFamily": "monospace_serif",
                         "fontSize": 1,
                         "fontColor": "#ffffff",
                         "fontEdge": "none",
@@ -109,7 +134,11 @@
                         "textAlignVertical": "middle",
                         "windowColor": "white",
                         "windowOpacity": 50
-                    }
+                    },
+                    "preferredLanguages": [
+                        "eng",
+                        "spa"
+                      ]        
                 }
             ]
         },
@@ -132,7 +161,7 @@
                     "description": "Whether or not voice guidance should be enabled by default"
                 },
                 "speed": {
-                    "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/VoiceSpeed",
+                    "$ref": "https://meta.rdkcentral.com/firebolt/schemas/accessibility#/definitions/VoiceSpeed",
                     "description": "The speed at which voice guidance speech will be read back to the user"
                 }
             },
