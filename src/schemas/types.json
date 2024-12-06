@@ -36,7 +36,9 @@
             "enum": [
                 "stereo",
                 "dolbyDigital5.1",
+                "dolbyDigital7.1",
                 "dolbyDigital5.1+",
+                "dolbyDigital7.1+",
                 "dolbyAtmos"
             ]
         },
@@ -117,7 +119,10 @@
                 },
                 "parameters": {
                     "description": "The result of the provider response.",
-                    "type": ["object", "null"]
+                    "type": [
+                        "object",
+                        "null"
+                    ]
                 }
             }
         },
@@ -150,15 +155,16 @@
             "type": "object",
             "properties": {
                 "width": {
-                    "type": "integer",
-                    "minimum": 1
+                    "type": "number"
                 },
                 "height": {
-                    "type": "integer",
-                    "minimum": 1
+                    "type": "number"
                 }
             },
-            "required": [ "width", "height" ]
+            "required": [
+                "width",
+                "height"
+            ]
         },
         "Image": {
             "type": "object",
@@ -180,12 +186,18 @@
                     "description": "The type of the image.",
                     "type": "string",
                     "enum": [
-                        "icon", "poster", "banner", "splash", "hero"
+                        "icon",
+                        "poster",
+                        "banner",
+                        "splash",
+                        "hero"
                     ]
                 }
             },
             "required": [
-                "uri", "aspectRatio", "type"
+                "uri",
+                "aspectRatio",
+                "type"
             ]
         }
     }

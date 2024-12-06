@@ -1,0 +1,262 @@
+{
+    "openrpc": "1.2.4",
+    "info": {
+        "title": "MediaCapabilities",
+        "description": "A module for querying the capabilities of the device all of its connected perirpherals (such as displays and soundbars).",
+        "version": "0.0.0"
+    },
+    "methods": [
+        {
+            "name": "audioCodecs",
+            "summary": "The audio codecs supported by the audio decoding device.  The response is based on the current audio output mode.  For example, if the output mode is passthrough, the codecs of the audio sink (such as the soundbar or AV receiver) are returned.",
+            "tags": [
+                {
+                    "name": "property:readonly"
+                },
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-capabilities:info"
+                    ]
+                }
+            ],
+            "params": [],
+            "result": {
+                "name": "audioCodecs",
+                "summary": "The supported audio codecs",
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "https://meta.comcast.com/firebolt/schemas/media#/definitions/AudioCodec"
+                    }
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": [
+                            "aac",
+                            "ac3",
+                            "ac4",
+                            "eac3",
+                            "mpeg3",
+                            "pcm"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "videoCodecs",
+            "summary": "The video codecs supported by the device.",
+            "tags": [
+                {
+                    "name": "property:readonly"
+                },
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-capabilities:info"
+                    ]
+                }
+            ],
+            "params": [],
+            "result": {
+                "name": "videoCodecs",
+                "summary": "The supported video codecs",
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "https://meta.comcast.com/firebolt/schemas/media#/definitions/VideoCodec"
+                    }
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": [
+                            "av1",
+                            "avc",
+                            "hevc",
+                            "mpeg1",
+                            "mpeg2",
+                            "vp8",
+                            "vp9"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "atmosSupported",
+            "summary": "Whether or not Dolby Atmos immersive audio is commonly supported by the device and its connected audio peripherals.",
+            "tags": [
+                {
+                    "name": "property:readonly"
+                },
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-capabilities:info"
+                    ]
+                }
+            ],
+            "params": [],
+            "result": {
+                "name": "atmosSupported",
+                "summary": "Whether Dolby Atmos is supported",
+                "schema": {
+                    "type": "boolean"
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "colorDepth",
+            "summary": "The maximum color depth commonly supported by the device and its connected video peripherals.",
+            "params": [],
+            "tags": [
+                {
+                    "name": "property:readonly"
+                },
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-capabilities:info"
+                    ]
+                }
+            ],
+            "result": {
+                "name": "colorDepth",
+                "summary": "The maximum supported color depth",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "errors": [
+                {
+                    "code": -40400,
+                    "message": "No display connected"
+                }
+            ],
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": 10
+                    }
+                }
+            ]
+        },
+        {
+            "name": "hdrFormats",
+            "summary": "The HDR formats commonly supported by the device and its connected video peripherals.",
+            "tags": [
+                {
+                    "name": "property:readonly"
+                },
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-capabilities:info"
+                    ]
+                }
+            ],
+            "params": [],
+            "result": {
+                "name": "hdrFormats",
+                "summary": "The supported HDR formats",
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "https://meta.comcast.com/firebolt/schemas/media#/definitions/HDRFormat"
+                    }
+                }
+            },
+            "errors": [
+                {
+                    "code": -40400,
+                    "message": "No display connected"
+                }
+            ],
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": [
+                            "hdr10",
+                            "hdr10plus",
+                            "hlg"
+                        ]
+                    }
+                },
+                {
+                    "name": "Device connected to an SDR (non-HDR) display",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": []
+                    }
+                }
+            ]
+        },
+        {
+            "name": "preferredVideoMode",
+            "summary": "The best-possible video mode commonly supported by the device and its connected video peripherals.",
+            "tags": [
+                {
+                    "name": "property:readonly"
+                },
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-capabilities:info"
+                    ]
+                }
+            ],
+            "params": [],
+            "result": {
+                "name": "videoModes",
+                "summary": "The preferred video output mode",
+                "schema": {
+                    "$ref": "https://meta.comcast.com/firebolt/schemas/media#/definitions/VideoMode"
+                }
+            },
+            "errors": [
+                {
+                    "code": -40400,
+                    "message": "No display connected"
+                }
+            ],
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": "2160p60"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,178 @@
+{
+    "openrpc": "1.2.4",
+    "info": {
+        "title": "Display",
+        "description": "A module for querying various aspects of the currently connected (or built-in) display.",
+        "version": "0.0.0"
+    },
+    "methods": [
+        {
+            "name": "colorimetry",
+            "summary": "The colorimetry values supported by the display.",
+            "params": [],
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:display:info"
+                    ]
+                }
+            ],
+            "result": {
+                "name": "colorimetry",
+                "summary": "The colorimetry values supported by the display.",
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "https://meta.comcast.com/firebolt/schemas/media#/definitions/Colorimetry"
+                    }
+                }
+            },
+            "errors": [
+                {
+                    "code": -40400,
+                    "message": "No display connected"
+                }
+            ],
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": [
+                            "BT2020RGB",
+                            "BT2020YCC"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "nativeResolution",
+            "summary": "The native resolution of the display device in pixels.",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:display:info"
+                    ]
+                }
+            ],
+            "params": [],
+            "result": {
+                "name": "nativeResolution",
+                "summary": "The native resolution of the display device.",
+                "schema": {
+                    "$ref": "https://meta.comcast.com/firebolt/types#/definitions/Dimensions"
+                }
+            },
+            "errors": [
+                {
+                    "code": -40400,
+                    "message": "No display connected"
+                }
+            ],
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": {
+                            "width": 1920,
+                            "height": 1080
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "size",
+            "summary": "The physical width and height of the display panel (in centimeters).",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:display:info"
+                    ]
+                }
+            ],
+            "params": [],
+            "result": {
+                "name": "size",
+                "summary": "The width and height of the display.",
+                "schema": {
+                    "$ref": "https://meta.comcast.com/firebolt/types#/definitions/Dimensions"
+                }
+            },
+            "errors": [
+                {
+                    "code": -40400,
+                    "message": "No display connected"
+                }
+            ],
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": {
+                            "width": 157,
+                            "height": 91
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "videoModes",
+            "summary": "The video modes supported by the display device.",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:display:info"
+                    ]
+                }
+            ],
+            "params": [],
+            "result": {
+                "name": "videoModes",
+                "summary": "The video modes",
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "https://meta.comcast.com/firebolt/schemas/media#/definitions/VideoMode"
+                    }
+                }
+            },
+            "errors": [
+                {
+                    "code": -40400,
+                    "message": "No display connected"
+                }
+            ],
+            "examples": [
+                {
+                    "name": "Default Example",
+                    "params": [],
+                    "result": {
+                        "name": "Default Result",
+                        "value": [
+                            "720p50",
+                            "720p60",
+                            "1080i50",
+                            "1080i60",
+                            "1080p24",
+                            "1080p30",
+                            "1080p50",
+                            "1080p60"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

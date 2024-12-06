@@ -6,9 +6,9 @@ See [Firebolt Requirements Governance](./governance.md) for more info.
 
 **NOTE**: Update this link based on your directory depth ^^
 
-| Contributor    | Organization   |
-| -------------- | -------------- |
-| TBD            | TBD            |
+| Contributor | Organization |
+| ----------- | ------------ |
+| TBD         | TBD          |
 
 ## 1. Overview
 This document is both a style guide *and* a template for Firebolt Requirements Specifications.
@@ -36,7 +36,7 @@ The key words "**MUST**", "**MUST NOT**", "**REQUIRED**", "**SHALL**", "**SHALL 
 **NOTE**: This is a simple table of contents. It should include links to all headers in the document, except for the top-level header (i.e. `# Title`). It is recommended to use a Markdown plugin to generate this based on headers ranging from level two to level six. Delete this note from your actual spec :)
 
 ## 3. Specification Style Requirements
-Firebolt uses method templates in order to code-generate consistent APIs. For example, methods with the `"property"` tag only need to have the `getter` editorially defined. The Firebolt OpenRPC tools will auto-generate the `setter` and `subscriber` as OpenRPC methods with matching types. Additionally, the Firebolt OpenRPC tools wil then code-generate the getter, setter, and subscriber as APIs in various languages using templates.
+Firebolt uses method templates in order to code-generate consistent APIs. For example, methods with the `"property"` tag only need to have the `getter` editorially defined. The Firebolt OpenRPC tools will auto-generate the `setter` and `subscriber` as OpenRPC methods with matching types. Additionally, the Firebolt OpenRPC tools will then code-generate the getter, setter, and subscriber as APIs in various languages using templates.
 
 This enables both consistent APIs (all properties have a recongnizable pattern) and consistent SDK implementation, which reduces the code that needs to be tested.
 

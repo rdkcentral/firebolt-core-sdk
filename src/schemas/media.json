@@ -1,0 +1,129 @@
+{
+    "$id": "https://meta.comcast.com/firebolt/schemas/media",
+    "title": "Media",
+    "definitions": {
+        "AudioCodec": {
+            "description": "Audio codec",
+            "type": "string",
+            "enum": [
+                "aac",
+                "ac3",
+                "ac4",
+                "eac3",
+                "mpeg3",
+                "opus",
+                "pcm",
+                "truehd",
+                "vorbis"
+            ]
+        },
+        "AudioMode": {
+            "description": "Audio output mode",
+            "type": "string",
+            "enum": [
+                "auto",
+                "mono",
+                "passthrough",
+                "stereo",
+                "surround",
+                "unknown"
+            ]
+        },
+        "Colorimetry": {
+            "description": "Colorimetry",
+            "type": "string",
+            "enum": [
+                "BT2020cYCC",
+                "BT2020RGB",
+                "BT2020YCC",
+                "defaultRGB",
+                "ICtCp",
+                "opRGB",
+                "opYCC601",
+                "sRGB",
+                "ST2113RGB",
+                "sYCC601",
+                "xvYCC601",
+                "xvYCC709",
+                "unknown"
+            ]
+        },
+        "ColorSpace": {
+            "description": "Color space",
+            "type": "string",
+            "enum": [
+                "RGB444",
+                "YCbCr420",
+                "YCbCr422",
+                "YCbCr444",
+                "other",
+                "unknown"
+            ]
+        },
+        "HDRFormat": {
+            "description": "HDR format",
+            "type": "string",
+            "enum": [
+                "advancedHdr",
+                "dolbyVision",
+                "hdr10",
+                "hdr10plus",
+                "hlg",
+                "none",
+                "unknown"
+            ]
+        },
+        "QuantizationRange": {
+            "description": "The quantization range of video output",
+            "type": "string",
+            "enum": [
+                "full",
+                "limited",
+                "unknown"
+            ]
+        },
+        "VideoCodec": {
+            "description": "Video codec",
+            "type": "string",
+            "enum": [
+                "av1",
+                "avc",
+                "hevc",
+                "mpeg1",
+                "mpeg2",
+                "vp8",
+                "vp9"
+            ]
+        },
+        "VideoMode": {
+            "description": "Video output mode; the shorthand resolution and frame rate",
+            "type": "string",
+            "enumKeyPrefix": "mode",
+            "enum": [
+                "480i",
+                "480p",
+                "576i25",
+                "576p50",
+                "576p60",
+                "720p50",
+                "720p60",
+                "1080i50",
+                "1080i60",
+                "1080p24",
+                "1080p25",
+                "1080p30",
+                "1080p50",
+                "1080p60",
+                "2160p24",
+                "2160p25",
+                "2160p30",
+                "2160p50",
+                "2160p60",
+                "4320p50",
+                "4320p60",
+                "other",
+                "unknown"
+            ]
+        }
+    }
+}
