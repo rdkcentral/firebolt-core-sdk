@@ -17,7 +17,7 @@
  */
 
 #include "${info.title.lowercase}_impl.h"
-
+#include "Gateway/Gateway.h"
 
 ${if.implementations}
 namespace Firebolt {
@@ -25,26 +25,20 @@ namespace ${info.Title} {
 ${if.providers}
 /* ${PROVIDERS} */${end.if.providers}
 
-/* ready - Inform the platform that your app is minimally usable. This method is called automatically by `Lifecycle.ready()` */
-    bool ${info.Title}Impl::ready( Firebolt::Error *err )  
+    /* ready - Inform the platform that your app is minimally usable. This method is called automatically by `Lifecycle.ready()` */
+    bool ${info.Title}Impl::ready( Firebolt::Error *err )
     {
         Firebolt::Error status = Firebolt::Error::NotConnected;
         bool success = false;
-        FireboltSDK::Transport<WPEFramework::Core::JSON::IElement>* transport = FireboltSDK::Accessor::Instance().GetTransport();
-        if (transport != nullptr) {
-        
-            JsonObject jsonParameters;
-    
-            WPEFramework::Core::JSON::Boolean jsonResult;
-            status = transport->Invoke("${info.title.lowercase}.ready", jsonParameters, jsonResult);
-            if (status == Firebolt::Error::None) {
-                FIREBOLT_LOG_INFO(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Metrics.ready is successfully invoked");
-                success = jsonResult.Value();
-            }
 
-        } else {
-            FIREBOLT_LOG_ERROR(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Error in getting Transport err = %d", status);
+        JsonObject jsonParameters;
+        WPEFramework::Core::JSON::Boolean jsonResult;
+        status = FireboltSDK::Gateway::Instance().Request("${info.title.lowercase}.ready", jsonParameters, jsonResult);
+        if (status == Firebolt::Error::None) {
+            FIREBOLT_LOG_INFO(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Metrics.ready is successfully invoked");
+            success = jsonResult.Value();
         }
+
         if (err != nullptr) {
             *err = status;
         }
@@ -52,53 +46,41 @@ ${if.providers}
         return success;
     }
 
-
-  /* signIn - Log a sign In event, called by Discovery.signIn(). */
-    bool ${info.Title}Impl::signIn( Firebolt::Error *err )  
+    /* signIn - Log a sign In event, called by Discovery.signIn(). */
+    bool ${info.Title}Impl::signIn( Firebolt::Error *err )
     {
         Firebolt::Error status = Firebolt::Error::NotConnected;
         bool success = false;
-        FireboltSDK::Transport<WPEFramework::Core::JSON::IElement>* transport = FireboltSDK::Accessor::Instance().GetTransport();
-        if (transport != nullptr) {
-        
-            JsonObject jsonParameters;
-    
-            WPEFramework::Core::JSON::Boolean jsonResult;
-            status = transport->Invoke("${info.title.lowercase}.signIn", jsonParameters, jsonResult);
-            if (status == Firebolt::Error::None) {
-                FIREBOLT_LOG_INFO(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Metrics.signOut is successfully invoked");
-                success = jsonResult.Value();
-            }
 
-        } else {
-            FIREBOLT_LOG_ERROR(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Error in getting Transport err = %d", status);
+        JsonObject jsonParameters;
+        WPEFramework::Core::JSON::Boolean jsonResult;
+        status = FireboltSDK::Gateway::Instance().Request("${info.title.lowercase}.signIn", jsonParameters, jsonResult);
+        if (status == Firebolt::Error::None) {
+            FIREBOLT_LOG_INFO(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Metrics.signOut is successfully invoked");
+            success = jsonResult.Value();
         }
+
         if (err != nullptr) {
             *err = status;
         }
         return success;
 
-    }  
+    }
+
     /* signOut - Log a sign out event, called by Discovery.signOut(). */
-    bool ${info.Title}Impl::signOut( Firebolt::Error *err )  
+    bool ${info.Title}Impl::signOut( Firebolt::Error *err )
     {
         Firebolt::Error status = Firebolt::Error::NotConnected;
         bool success = false;
-        FireboltSDK::Transport<WPEFramework::Core::JSON::IElement>* transport = FireboltSDK::Accessor::Instance().GetTransport();
-        if (transport != nullptr) {
-        
-            JsonObject jsonParameters;
-    
-            WPEFramework::Core::JSON::Boolean jsonResult;
-            status = transport->Invoke("${info.title.lowercase}.signOut", jsonParameters, jsonResult);
-            if (status == Firebolt::Error::None) {
-                FIREBOLT_LOG_INFO(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Metrics.signOut is successfully invoked");
-                success = jsonResult.Value();
-            }
 
-        } else {
-            FIREBOLT_LOG_ERROR(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Error in getting Transport err = %d", status);
+        JsonObject jsonParameters;
+        WPEFramework::Core::JSON::Boolean jsonResult;
+        status = FireboltSDK::Gateway::Instance().Request("${info.title.lowercase}.signOut", jsonParameters, jsonResult);
+        if (status == Firebolt::Error::None) {
+            FIREBOLT_LOG_INFO(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Metrics.signOut is successfully invoked");
+            success = jsonResult.Value();
         }
+
         if (err != nullptr) {
             *err = status;
         }

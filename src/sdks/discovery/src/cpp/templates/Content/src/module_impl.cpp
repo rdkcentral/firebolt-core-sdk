@@ -17,6 +17,7 @@
  */
 
 #include "${info.title.lowercase}_impl.h"
+#include "Gateway/Gateway.h"
 
 ${if.implementations}
 namespace Firebolt {
@@ -30,162 +31,157 @@ ${if.providers}
     {
         Firebolt::Error status = Firebolt::Error::NotConnected;
         InterestResult interest;
-        FireboltSDK::Transport<WPEFramework::Core::JSON::IElement>* transport = FireboltSDK::Accessor::Instance().GetTransport();
-        if (transport != nullptr) {
         
-            JsonObject jsonParameters;
-            Firebolt::Discovery::JsonData_InterestType jsonType = type;
-            WPEFramework::Core::JSON::Variant typeVariant(jsonType.Data());
-            jsonParameters.Set(_T("type"), typeVariant);
-            Firebolt::Discovery::JsonData_InterestReason jsonReason = reason;
-            WPEFramework::Core::JSON::Variant reasonVariant(jsonReason.Data());
-            jsonParameters.Set(_T("reason"), reasonVariant);
-            JsonData_InterestResult jsonResult;
-            status = transport->Invoke("content.requestUserInterest", jsonParameters, jsonResult);
-            if (status == Firebolt::Error::None) {
-                FIREBOLT_LOG_INFO(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Content.requestUserInterest is successfully invoked");
-                InterestResult interestResult;
-                interestResult.appId = jsonResult.AppId.Value();
-                {
-                    string identifiersStr;
-                    jsonResult.Entity.Identifiers.ToString(identifiersStr);
-                    interestResult.entity.identifiers = identifiersStr;
-                    if (jsonResult.Entity.Info.IsSet()) {
-                        interestResult.entity.info = std::make_optional<Entity::Metadata>();
-                        if (jsonResult.Entity.Info.Title.IsSet()) {
-                            interestResult.entity.info.value().title = jsonResult.Entity.Info.Title;
-                        }
-                        if (jsonResult.Entity.Info.Synopsis.IsSet()) {
-                            interestResult.entity.info.value().synopsis = jsonResult.Entity.Info.Synopsis;
-                        }
-                        if (jsonResult.Entity.Info.SeasonNumber.IsSet()) {
-                            interestResult.entity.info.value().seasonNumber = jsonResult.Entity.Info.SeasonNumber;
-                        }
-                        if (jsonResult.Entity.Info.SeasonCount.IsSet()) {
-                            interestResult.entity.info.value().seasonCount = jsonResult.Entity.Info.SeasonCount;
-                        }
-                        if (jsonResult.Entity.Info.EpisodeNumber.IsSet()) {
-                            interestResult.entity.info.value().episodeNumber = jsonResult.Entity.Info.EpisodeNumber;
-                        }
-                        if (jsonResult.Entity.Info.EpisodeCount.IsSet()) {
-                            interestResult.entity.info.value().episodeCount = jsonResult.Entity.Info.EpisodeCount;
-                        }
-                        if (jsonResult.Entity.Info.ReleaseDate.IsSet()) {
-                            interestResult.entity.info.value().releaseDate = jsonResult.Entity.Info.ReleaseDate;
-                        }
-                        if (jsonResult.Entity.Info.ContentRatings.IsSet()) {
-                            interestResult.entity.info.value().contentRatings = std::make_optional<std::vector<Entertainment::ContentRating>>();
-                            auto index(jsonResult.Entity.Info.ContentRatings.Elements());
-                            while (index.Next() == true) {
-                                Entertainment::ContentRating contentRatingsResult1;
-                                Firebolt::Entertainment::JsonData_ContentRating jsonResult = index.Current();
-                                {
-                                    contentRatingsResult1.scheme = jsonResult.Scheme;
-                                    contentRatingsResult1.rating = jsonResult.Rating;
-                                    if (jsonResult.Advisories.IsSet()) {
-                                        contentRatingsResult1.advisories = std::make_optional<std::vector<std::string>>();
-                                        auto index(jsonResult.Advisories.Elements());
-                                        while (index.Next() == true) {
-                                            contentRatingsResult1.advisories.value().push_back(index.Current().Value());
-                                        }
-                                    }
-                                }
-                                interestResult.entity.info.value().contentRatings->push_back(contentRatingsResult1);
-                            }
-                        }
+        JsonObject jsonParameters;
+        Firebolt::Discovery::JsonData_InterestType jsonType = type;
+        WPEFramework::Core::JSON::Variant typeVariant(jsonType.Data());
+        jsonParameters.Set(_T("type"), typeVariant);
+        Firebolt::Discovery::JsonData_InterestReason jsonReason = reason;
+        WPEFramework::Core::JSON::Variant reasonVariant(jsonReason.Data());
+        jsonParameters.Set(_T("reason"), reasonVariant);
+        JsonData_InterestResult jsonResult;
+        status = FireboltSDK::Gateway::Instance().Request("content.requestUserInterest", jsonParameters, jsonResult);
+        if (status == Firebolt::Error::None) {
+            FIREBOLT_LOG_INFO(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Content.requestUserInterest is successfully invoked");
+            InterestResult interestResult;
+            interestResult.appId = jsonResult.AppId.Value();
+            {
+                string identifiersStr;
+                jsonResult.Entity.Identifiers.ToString(identifiersStr);
+                interestResult.entity.identifiers = identifiersStr;
+                if (jsonResult.Entity.Info.IsSet()) {
+                    interestResult.entity.info = std::make_optional<Entity::Metadata>();
+                    if (jsonResult.Entity.Info.Title.IsSet()) {
+                        interestResult.entity.info.value().title = jsonResult.Entity.Info.Title;
                     }
-                    if (jsonResult.Entity.WaysToWatch.IsSet()) {
-                        interestResult.entity.waysToWatch = std::make_optional<std::vector<Entertainment::WayToWatch>>();
-                        auto index(jsonResult.Entity.WaysToWatch.Elements());
+                    if (jsonResult.Entity.Info.Synopsis.IsSet()) {
+                        interestResult.entity.info.value().synopsis = jsonResult.Entity.Info.Synopsis;
+                    }
+                    if (jsonResult.Entity.Info.SeasonNumber.IsSet()) {
+                        interestResult.entity.info.value().seasonNumber = jsonResult.Entity.Info.SeasonNumber;
+                    }
+                    if (jsonResult.Entity.Info.SeasonCount.IsSet()) {
+                        interestResult.entity.info.value().seasonCount = jsonResult.Entity.Info.SeasonCount;
+                    }
+                    if (jsonResult.Entity.Info.EpisodeNumber.IsSet()) {
+                        interestResult.entity.info.value().episodeNumber = jsonResult.Entity.Info.EpisodeNumber;
+                    }
+                    if (jsonResult.Entity.Info.EpisodeCount.IsSet()) {
+                        interestResult.entity.info.value().episodeCount = jsonResult.Entity.Info.EpisodeCount;
+                    }
+                    if (jsonResult.Entity.Info.ReleaseDate.IsSet()) {
+                        interestResult.entity.info.value().releaseDate = jsonResult.Entity.Info.ReleaseDate;
+                    }
+                    if (jsonResult.Entity.Info.ContentRatings.IsSet()) {
+                        interestResult.entity.info.value().contentRatings = std::make_optional<std::vector<Entertainment::ContentRating>>();
+                        auto index(jsonResult.Entity.Info.ContentRatings.Elements());
                         while (index.Next() == true) {
-                            Entertainment::WayToWatch waysToWatchResult1;
-                            Firebolt::Entertainment::JsonData_WayToWatch jsonResult = index.Current();
+                            Entertainment::ContentRating contentRatingsResult1;
+                            Firebolt::Entertainment::JsonData_ContentRating jsonResult = index.Current();
                             {
-                                {
-                                    if (jsonResult.Identifiers.AssetId.IsSet()) {
-                                        waysToWatchResult1.identifiers.assetId = jsonResult.Identifiers.AssetId;
-                                    }
-                                    if (jsonResult.Identifiers.EntityId.IsSet()) {
-                                        waysToWatchResult1.identifiers.entityId = jsonResult.Identifiers.EntityId;
-                                    }
-                                    if (jsonResult.Identifiers.SeasonId.IsSet()) {
-                                        waysToWatchResult1.identifiers.seasonId = jsonResult.Identifiers.SeasonId;
-                                    }
-                                    if (jsonResult.Identifiers.SeriesId.IsSet()) {
-                                        waysToWatchResult1.identifiers.seriesId = jsonResult.Identifiers.SeriesId;
-                                    }
-                                    if (jsonResult.Identifiers.AppContentData.IsSet()) {
-                                        waysToWatchResult1.identifiers.appContentData = jsonResult.Identifiers.AppContentData;
-                                    }
-                                }
-                                if (jsonResult.Expires.IsSet()) {
-                                    waysToWatchResult1.expires = jsonResult.Expires;
-                                }
-                                if (jsonResult.Entitled.IsSet()) {
-                                    waysToWatchResult1.entitled = jsonResult.Entitled;
-                                }
-                                if (jsonResult.EntitledExpires.IsSet()) {
-                                    waysToWatchResult1.entitledExpires = jsonResult.EntitledExpires;
-                                }
-                                if (jsonResult.OfferingType.IsSet()) {
-                                    waysToWatchResult1.offeringType = jsonResult.OfferingType;
-                                }
-                                if (jsonResult.HasAds.IsSet()) {
-                                    waysToWatchResult1.hasAds = jsonResult.HasAds;
-                                }
-                                if (jsonResult.Price.IsSet()) {
-                                    waysToWatchResult1.price = jsonResult.Price;
-                                }
-                                if (jsonResult.VideoQuality.IsSet()) {
-                                    waysToWatchResult1.videoQuality = std::make_optional<std::vector<Entertainment::WayToWatchVideoQuality>>();
-                                    auto index(jsonResult.VideoQuality.Elements());
+                                contentRatingsResult1.scheme = jsonResult.Scheme;
+                                contentRatingsResult1.rating = jsonResult.Rating;
+                                if (jsonResult.Advisories.IsSet()) {
+                                    contentRatingsResult1.advisories = std::make_optional<std::vector<std::string>>();
+                                    auto index(jsonResult.Advisories.Elements());
                                     while (index.Next() == true) {
-                                        waysToWatchResult1.videoQuality.value().push_back(index.Current().Value());
-                                    }
-                                }
-                                auto index(jsonResult.AudioProfile.Elements());
-                                while (index.Next() == true) {
-                                            waysToWatchResult1.audioProfile.push_back(index.Current().Value());
-                               }
-                                if (jsonResult.AudioLanguages.IsSet()) {
-                                    waysToWatchResult1.audioLanguages = std::make_optional<std::vector<std::string>>();
-                                    auto index(jsonResult.AudioLanguages.Elements());
-                                    while (index.Next() == true) {
-                                        waysToWatchResult1.audioLanguages.value().push_back(index.Current().Value());
-                                    }
-                                }
-                                if (jsonResult.ClosedCaptions.IsSet()) {
-                                    waysToWatchResult1.closedCaptions = std::make_optional<std::vector<std::string>>();
-                                    auto index(jsonResult.ClosedCaptions.Elements());
-                                    while (index.Next() == true) {
-                                        waysToWatchResult1.closedCaptions.value().push_back(index.Current().Value());
-                                    }
-                                }
-                                if (jsonResult.Subtitles.IsSet()) {
-                                    waysToWatchResult1.subtitles = std::make_optional<std::vector<std::string>>();
-                                    auto index(jsonResult.Subtitles.Elements());
-                                    while (index.Next() == true) {
-                                        waysToWatchResult1.subtitles.value().push_back(index.Current().Value());
-                                    }
-                                }
-                                if (jsonResult.AudioDescriptions.IsSet()) {
-                                    waysToWatchResult1.audioDescriptions = std::make_optional<std::vector<std::string>>();
-                                    auto index(jsonResult.AudioDescriptions.Elements());
-                                    while (index.Next() == true) {
-                                        waysToWatchResult1.audioDescriptions.value().push_back(index.Current().Value());
+                                        contentRatingsResult1.advisories.value().push_back(index.Current().Value());
                                     }
                                 }
                             }
-                            interestResult.entity.waysToWatch->push_back(waysToWatchResult1);
+                            interestResult.entity.info.value().contentRatings->push_back(contentRatingsResult1);
                         }
                     }
                 }
-                interest = interestResult;
+                if (jsonResult.Entity.WaysToWatch.IsSet()) {
+                    interestResult.entity.waysToWatch = std::make_optional<std::vector<Entertainment::WayToWatch>>();
+                    auto index(jsonResult.Entity.WaysToWatch.Elements());
+                    while (index.Next() == true) {
+                        Entertainment::WayToWatch waysToWatchResult1;
+                        Firebolt::Entertainment::JsonData_WayToWatch jsonResult = index.Current();
+                        {
+                            {
+                                if (jsonResult.Identifiers.AssetId.IsSet()) {
+                                    waysToWatchResult1.identifiers.assetId = jsonResult.Identifiers.AssetId;
+                                }
+                                if (jsonResult.Identifiers.EntityId.IsSet()) {
+                                    waysToWatchResult1.identifiers.entityId = jsonResult.Identifiers.EntityId;
+                                }
+                                if (jsonResult.Identifiers.SeasonId.IsSet()) {
+                                    waysToWatchResult1.identifiers.seasonId = jsonResult.Identifiers.SeasonId;
+                                }
+                                if (jsonResult.Identifiers.SeriesId.IsSet()) {
+                                    waysToWatchResult1.identifiers.seriesId = jsonResult.Identifiers.SeriesId;
+                                }
+                                if (jsonResult.Identifiers.AppContentData.IsSet()) {
+                                    waysToWatchResult1.identifiers.appContentData = jsonResult.Identifiers.AppContentData;
+                                }
+                            }
+                            if (jsonResult.Expires.IsSet()) {
+                                waysToWatchResult1.expires = jsonResult.Expires;
+                            }
+                            if (jsonResult.Entitled.IsSet()) {
+                                waysToWatchResult1.entitled = jsonResult.Entitled;
+                            }
+                            if (jsonResult.EntitledExpires.IsSet()) {
+                                waysToWatchResult1.entitledExpires = jsonResult.EntitledExpires;
+                            }
+                            if (jsonResult.OfferingType.IsSet()) {
+                                waysToWatchResult1.offeringType = jsonResult.OfferingType;
+                            }
+                            if (jsonResult.HasAds.IsSet()) {
+                                waysToWatchResult1.hasAds = jsonResult.HasAds;
+                            }
+                            if (jsonResult.Price.IsSet()) {
+                                waysToWatchResult1.price = jsonResult.Price;
+                            }
+                            if (jsonResult.VideoQuality.IsSet()) {
+                                waysToWatchResult1.videoQuality = std::make_optional<std::vector<Entertainment::WayToWatchVideoQuality>>();
+                                auto index(jsonResult.VideoQuality.Elements());
+                                while (index.Next() == true) {
+                                    waysToWatchResult1.videoQuality.value().push_back(index.Current().Value());
+                                }
+                            }
+                            auto index(jsonResult.AudioProfile.Elements());
+                            while (index.Next() == true) {
+                                        waysToWatchResult1.audioProfile.push_back(index.Current().Value());
+                            }
+                            if (jsonResult.AudioLanguages.IsSet()) {
+                                waysToWatchResult1.audioLanguages = std::make_optional<std::vector<std::string>>();
+                                auto index(jsonResult.AudioLanguages.Elements());
+                                while (index.Next() == true) {
+                                    waysToWatchResult1.audioLanguages.value().push_back(index.Current().Value());
+                                }
+                            }
+                            if (jsonResult.ClosedCaptions.IsSet()) {
+                                waysToWatchResult1.closedCaptions = std::make_optional<std::vector<std::string>>();
+                                auto index(jsonResult.ClosedCaptions.Elements());
+                                while (index.Next() == true) {
+                                    waysToWatchResult1.closedCaptions.value().push_back(index.Current().Value());
+                                }
+                            }
+                            if (jsonResult.Subtitles.IsSet()) {
+                                waysToWatchResult1.subtitles = std::make_optional<std::vector<std::string>>();
+                                auto index(jsonResult.Subtitles.Elements());
+                                while (index.Next() == true) {
+                                    waysToWatchResult1.subtitles.value().push_back(index.Current().Value());
+                                }
+                            }
+                            if (jsonResult.AudioDescriptions.IsSet()) {
+                                waysToWatchResult1.audioDescriptions = std::make_optional<std::vector<std::string>>();
+                                auto index(jsonResult.AudioDescriptions.Elements());
+                                while (index.Next() == true) {
+                                    waysToWatchResult1.audioDescriptions.value().push_back(index.Current().Value());
+                                }
+                            }
+                        }
+                        interestResult.entity.waysToWatch->push_back(waysToWatchResult1);
+                    }
+                }
             }
-
-        } else {
-            FIREBOLT_LOG_ERROR(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Error in getting Transport err = %d", status);
+            interest = interestResult;
         }
+
         if (err != nullptr) {
             *err = status;
         }

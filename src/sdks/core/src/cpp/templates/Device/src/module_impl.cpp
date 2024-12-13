@@ -17,6 +17,7 @@
  */
 
 #include "${info.title.lowercase}_impl.h"
+#include "Gateway/Gateway.h"
 
 ${if.implementations}
 namespace Firebolt {
@@ -30,23 +31,21 @@ ${if.providers}
         std::string version;
 
         Firebolt::Error status = Firebolt::Error::NotConnected;
-        FireboltSDK::Transport<WPEFramework::Core::JSON::IElement>* transport = FireboltSDK::Accessor::Instance().GetTransport();
-        if (transport != nullptr) {
-            
-            status = transport->Invoke("${info.title.lowercase}.version", jsonParameters, jsonResult);
-            if (status == Firebolt::Error::None) {
-                !jsonResult.IsSet() ? jsonResult.Clear() : (void)0;
-                !jsonResult.Sdk.IsSet() ? jsonResult.Sdk.Clear() : (void)0;
-                jsonResult.Sdk.Major = static_cast<int32_t>(${major});
-                jsonResult.Sdk.Minor = static_cast<int32_t>(${minor});
-                jsonResult.Sdk.Patch = static_cast<int32_t>(${patch});
-                jsonResult.Sdk.Readable = "${readable}";
-                jsonResult.ToString(version);
-            }
-
-        } else {
-            FIREBOLT_LOG_ERROR(FireboltSDK::Logger::Category::OpenRPC, FireboltSDK::Logger::Module<FireboltSDK::Accessor>(), "Error in getting Transport err = %d", status);
+        status = FireboltSDK::Gateway::Instance().Request("${info.title.lowercase}.version", jsonParameters, jsonResult);
+        if (status == Firebolt::Error::None) {
+            !jsonResult.IsSet() ? jsonResult.Clear() : (void)0;
+            !jsonResult.Sdk.IsSet() ? jsonResult.Sdk.Clear() : (void)0;
+            jsonResult.Sdk.Major = static_cast<int32_t>(${major});
+            jsonResult.Sdk.Minor = static_cast<int32_t>(${minor});
+            jsonResult.Sdk.Patch = static_cast<int32_t>(${patch});
+            jsonResult.Sdk.Readable = "${readable}";
+            jsonResult.ToString(version);
         }
+
+        if (err != nullptr) {
+            *err = status;
+        }
+
         return version;
     }
     // Methods
