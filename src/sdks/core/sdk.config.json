@@ -105,6 +105,17 @@
             ]
         },
         {
+            "module": "MediaAccess",
+            "use": [
+                "xrn:firebolt:capability:media-access:volumes",
+                "xrn:firebolt:capability:media-access:audio",
+                "xrn:firebolt:capability:media-access:video",
+                "xrn:firebolt:capability:media-access:images",
+                "xrn:firebolt:capability:media-access:*",
+                "xrn:firebolt:capability:media-access:files"
+            ]
+        },
+        {
             "module": "Metrics",
             "use": [
                 "xrn:firebolt:capability:metrics:general",

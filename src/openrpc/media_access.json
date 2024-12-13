@@ -1,0 +1,573 @@
+{
+    "openrpc": "1.2.4",
+    "info": {
+        "title": "MediaAccess",
+        "description": "A module for access user-cultivated media files, e.g. photos on a USB drive.",
+        "version": "0.0.0"
+    },
+    "methods": [
+        {
+            "name": "volumes",
+            "tags": [
+                {
+                    "name": "temporal-set"
+                },
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-access:volumes"
+                    ]
+                }
+            ],
+            "summary": "Access available Volumes with MediaFiles.",
+            "params": [
+                {
+                    "name": "query",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/Volume"
+                    }
+                }
+            ],
+            "result": {
+                "name": "volumes",
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "title": "Volume",
+                        "$ref": "#/components/schemas/Volume"
+                    }
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default example #1",
+                    "params": [
+                        {
+                            "name": "query",
+                            "value": {
+                            }
+                        }
+                    ],
+                    "result": {
+                        "name": "volumes",
+                        "value": [
+                            {
+                                "uri": "/usb/my-usb-drive",
+                                "name": "My USB Drive",
+                                "type": "usb"
+                            },
+                            {
+                                "uri": "/local/photos",
+                                "name": "photos",
+                                "type": "local"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "audio",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-access:audio"
+                    ]
+                }
+            ],
+            "summary": "Access available audio MediaFiles.",
+            "params": [
+                {
+                    "name": "volumes",
+                    "summary": "A set of queries used to match which volumes will be matched.",
+                    "required": false,
+                    "schema": {
+                        "$ref": "#/components/schemas/Volume"
+                    }
+                },
+                {
+                    "name": "files",
+                    "summary": "A set of queries used to match which files will be matched.",
+                    "required": false,
+                    "schema": {
+                        "$ref": "#/components/schemas/MediaFile"
+                    }
+                }
+            ],
+            "result": {
+                "name": "files",
+                "summary": "A set of MediaFiles that matched the query.",
+                "required": true,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/components/schemas/MediaFile"
+                    }
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default example #1",
+                    "params": [
+                        {
+                            "name": "volumes",
+                            "value": {
+                            }
+                        }
+                    ],
+                    "result": {
+                        "name": "files",
+                        "value": [
+                            {
+                                "uri": "/usb/my-usb-drive/song1.mp3",
+                                "volume": {
+                                    "uri": "/usb/my-usb-drive",
+                                    "name": "My USB Drive",
+                                    "type": "usb"
+                                },
+                                "type": "audio/mpeg"
+                            },
+                            {
+                                "uri": "/local/music/song2.mp3",
+                                "volume": {
+                                    "uri": "/local/music",
+                                    "name": "music",
+                                    "type": "local"
+                                    },
+                                "type": "audio/mpeg"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "video",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-access:video"
+                    ]
+                }
+            ],
+            "summary": "Access available video MediaFiles.",
+            "params": [
+                {
+                    "name": "volumes",
+                    "summary": "A set of queries used to match which volumes will be matched.",
+                    "required": false,
+                    "schema": {
+                        "$ref": "#/components/schemas/Volume"
+                    }
+                },
+                {
+                    "name": "files",
+                    "summary": "A set of queries used to match which files will be matched.",
+                    "required": false,
+                    "schema": {
+                        "$ref": "#/components/schemas/MediaFile"
+                    }
+                }
+            ],
+            "result": {
+                "name": "files",
+                "summary": "A set of MediaFiles that matched the query.",
+                "required": true,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/components/schemas/MediaFile"
+                    }
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default example #1",
+                    "params": [
+                        {
+                            "name": "volumes",
+                            "value": {
+                            }
+                        }
+                    ],
+                    "result": {
+                        "name": "files",
+                        "value": [
+                            {
+                                "uri": "/usb/my-usb-drive/video1.mpg",
+                                "volume": {
+                                    "uri": "/usb/my-usb-drive",
+                                    "name": "My USB Drive",
+                                    "type": "usb"
+                                },
+                                "type": "video/mp4"
+                            },
+                            {
+                                "uri": "/local/videos/video2.mpg",
+                                "volume": {
+                                    "uri": "/local/videos",
+                                    "name": "videos",
+                                    "type": "local"
+                                    },
+                                "type": "video/mp4"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "images",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-access:images"
+                    ]
+                }
+            ],
+            "summary": "Access available image MediaFiles.",
+            "params": [
+                {
+                    "name": "volumes",
+                    "summary": "A set of queries used to match which volumes will be matched.",
+                    "required": false,
+                    "schema": {
+                        "$ref": "#/components/schemas/Volume"
+                    }
+                },
+                {
+                    "name": "files",
+                    "summary": "A set of queries used to match which files will be matched.",
+                    "required": false,
+                    "schema": {
+                        "$ref": "#/components/schemas/MediaFile"
+                    }
+                }
+            ],
+            "result": {
+                "name": "files",
+                "summary": "A set of MediaFiles that matched the query.",
+                "required": true,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/components/schemas/MediaFile"
+                    }
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default example #1",
+                    "params": [
+                        {
+                            "name": "volumes",
+                            "value": {
+                            }
+                        }
+                    ],
+                    "result": {
+                        "name": "files",
+                        "value": [
+                            {
+                                "uri": "/usb/my-usb-drive/photo1.jpg",
+                                "volume": {
+                                    "uri": "/usb/my-usb-drive",
+                                    "name": "My USB Drive",
+                                    "type": "usb"
+                                },
+                                "type": "image/jpg"
+                            },
+                            {
+                                "uri": "/local/photos/photo1.jpg",
+                                "volume": {
+                                    "uri": "/local/photos",
+                                    "name": "photos",
+                                    "type": "local"
+                                    },
+                                "type": "image/jpg"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "media",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-access:*"
+                    ]
+                }
+            ],
+            "summary": "Access all available MediaFiles of either audio, video, or image types.",
+            "params": [
+                {
+                    "name": "volumes",
+                    "summary": "A set of queries used to match which volumes will be matched.",
+                    "required": false,
+                    "schema": {
+                        "$ref": "#/components/schemas/Volume"
+                    }
+                },
+                {
+                    "name": "files",
+                    "summary": "A set of queries used to match which files will be matched.",
+                    "required": false,
+                    "schema": {
+                        "$ref": "#/components/schemas/MediaFile"
+                    }
+                }
+            ],
+            "result": {
+                "name": "files",
+                "summary": "A set of MediaFiles that matched the query.",
+                "required": true,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/components/schemas/MediaFile"
+                    }
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default example #1",
+                    "params": [
+                        {
+                            "name": "volumes",
+                            "value": {
+                            }
+                        }
+                    ],
+                    "result": {
+                        "name": "files",
+                        "value": [
+                            {
+                                "uri": "/usb/my-usb-drive/song1.mp3",
+                                "volume": {
+                                    "uri": "/usb/my-usb-drive",
+                                    "name": "My USB Drive",
+                                    "type": "usb"
+                                },
+                                "type": "audio/mpeg"
+                            },
+                            {
+                                "uri": "/local/music/song2.mp3",
+                                "volume": {
+                                    "uri": "/local/music",
+                                    "name": "music",
+                                    "type": "local"
+                                    },
+                                "type": "audio/mpeg"
+                            },                            
+                            {
+                                "uri": "/usb/my-usb-drive/photo1.jpg",
+                                "volume": {
+                                    "uri": "/usb/my-usb-drive",
+                                    "name": "My USB Drive",
+                                    "type": "usb"
+                                },
+                                "type": "image/jpg"
+                            },
+                            {
+                                "uri": "/local/photos/photo1.jpg",
+                                "volume": {
+                                    "uri": "/local/photos",
+                                    "name": "photos",
+                                    "type": "local"
+                                    },
+                                "type": "image/jpg"
+                            },
+                            {
+                                "uri": "/usb/my-usb-drive/video1.mpg",
+                                "volume": {
+                                    "uri": "/usb/my-usb-drive",
+                                    "name": "My USB Drive",
+                                    "type": "usb"
+                                },
+                                "type": "video/mp4"
+                            },
+                            {
+                                "uri": "/local/videos/video2.mpg",
+                                "volume": {
+                                    "uri": "/local/videos",
+                                    "name": "videos",
+                                    "type": "local"
+                                    },
+                                "type": "video/mp4"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "files",
+            "tags": [
+                {
+                    "name": "capabilities",
+                    "x-uses": [
+                        "xrn:firebolt:capability:media-access:files"
+                    ]
+                }
+            ],
+            "summary": "Access all available MediaFiles.",
+            "params": [
+                {
+                    "name": "volumes",
+                    "summary": "A set of queries used to match which volumes will be matched.",
+                    "required": false,
+                    "schema": {
+                        "$ref": "#/components/schemas/Volume"
+                    }
+                },
+                {
+                    "name": "files",
+                    "summary": "A set of queries used to match which files will be matched.",
+                    "required": false,
+                    "schema": {
+                        "$ref": "#/components/schemas/MediaFile"
+                    }
+                }
+            ],
+            "result": {
+                "name": "files",
+                "summary": "A set of MediaFiles that matched the query.",
+                "required": true,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/components/schemas/MediaFile"
+                    }
+                }
+            },
+            "examples": [
+                {
+                    "name": "Default example #1",
+                    "params": [
+                        {
+                            "name": "volumes",
+                            "value": {
+                            }
+                        }
+                    ],
+                    "result": {
+                        "name": "files",
+                        "value": [
+                            {
+                                "uri": "/usb/my-usb-drive/notes.txt",
+                                "volume": {
+                                    "uri": "/usb/my-usb-drive",
+                                    "name": "My USB Drive",
+                                    "type": "usb"
+                                },
+                                "type": "text/plain"
+
+                            },
+                            {
+                                "uri": "/usb/my-usb-drive/song1.mp3",
+                                "volume": {
+                                    "uri": "/usb/my-usb-drive",
+                                    "name": "My USB Drive",
+                                    "type": "usb"
+                                },
+                                "type": "audio/mpeg"
+                            },
+                            {
+                                "uri": "/local/music/song2.mp3",
+                                "volume": {
+                                    "uri": "/local/music",
+                                    "name": "music",
+                                    "type": "local"
+                                    },
+                                "type": "audio/mpeg"
+                            },                            
+                            {
+                                "uri": "/usb/my-usb-drive/photo1.jpg",
+                                "volume": {
+                                    "uri": "/usb/my-usb-drive",
+                                    "name": "My USB Drive",
+                                    "type": "usb"
+                                },
+                                "type": "image/jpg"
+                            },
+                            {
+                                "uri": "/local/photos/photo1.jpg",
+                                "volume": {
+                                    "uri": "/local/photos",
+                                    "name": "photos",
+                                    "type": "local"
+                                    },
+                                "type": "image/jpg"
+                            },
+                            {
+                                "uri": "/usb/my-usb-drive/video1.mpg",
+                                "volume": {
+                                    "uri": "/usb/my-usb-drive",
+                                    "name": "My USB Drive",
+                                    "type": "usb"
+                                },
+                                "type": "video/mp4"
+                            },
+                            {
+                                "uri": "/local/videos/video2.mpg",
+                                "volume": {
+                                    "uri": "/local/videos",
+                                    "name": "videos",
+                                    "type": "local"
+                                    },
+                                "type": "video/mp4"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }        
+    ],
+    "components": {
+        "schemas": {
+            "Volume": {
+                "title": "Volume",
+                "type": "object",
+                "properties": {
+                    "name": { "type": "string" },
+                    "uri": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/VolumeType"
+                    }
+                }
+            },
+            "VolumeType": {
+                "title": "VolumeType",
+                "type": "string",
+                "enum": [
+                    "usb",
+                    "local"
+                ]
+            },
+            "MediaFile": {
+                "title": "MediaFile",
+                "type": "object",
+                "properties": {
+                    "volume": {
+                        "$ref": "#/components/schemas/Volume"
+                    },
+                    "uri": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
