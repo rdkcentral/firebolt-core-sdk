@@ -6,9 +6,10 @@
         {
             "module": "Accessibility",
             "use": [
+                "xrn:firebolt:capability:accessibility:audiodescriptions",
                 "xrn:firebolt:capability:accessibility:closedcaptions",
-                "xrn:firebolt:capability:accessibility:voiceguidance",
-                "xrn:firebolt:capability:accessibility:audiodescriptions"
+                "xrn:firebolt:capability:accessibility:highcontrastui",
+                "xrn:firebolt:capability:accessibility:voiceguidance"
             ]
         },
         {
@@ -76,7 +77,7 @@
         {
             "module": "Internal",
             "use": [
-                "xrn:firebolt:capability:lifecycle:initialize"        
+                "xrn:firebolt:capability:lifecycle:initialize"
             ]
         },
         {

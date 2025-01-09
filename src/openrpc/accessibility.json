@@ -55,7 +55,7 @@
               "preferredLanguages": [
                 "eng",
                 "spa"
-              ]              
+              ]
             }
           }
         }
@@ -110,6 +110,39 @@
                 "spa"
               ]
             }
+          }
+        }
+      ]
+    },
+    {
+      "name": "highContrastUI",
+      "summary": "The user's preference for a high-contrast UI",
+      "params": [],
+      "tags": [
+        {
+          "name": "property:readonly"
+        },
+        {
+          "name": "capabilities",
+          "x-uses": [
+            "xrn:firebolt:capability:accessibility:highcontrastui"
+          ]
+        }
+      ],
+      "result": {
+        "name": "highContrastUI",
+        "summary": "Whether high-contrast UI mode is enabled",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "examples": [
+        {
+          "name": "High-contrast UI mode is enabled",
+          "params": [],
+          "result": {
+            "name": "Default Result",
+            "value": true
           }
         }
       ]
@@ -182,6 +215,7 @@
             "name": "Default Result",
             "value": {
               "enabled": true,
+              "navigationHints": true,
               "speed": 2
             }
           }
@@ -222,21 +256,23 @@
           }
         }
       ]
-    }    
+    }
   ],
   "components": {
     "schemas": {
       "AudioDescriptionSettings": {
         "title": "AudioDescriptionSettings",
         "type": "object",
-        "required": ["enabled"],
+        "required": [
+          "enabled"
+        ],
         "properties": {
           "enabled": {
             "type": "boolean",
             "description": "Whether or not audio descriptions should be enabled by default"
           }
         }
-      }      
+      }
     }
   }
 }

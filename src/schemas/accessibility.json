@@ -11,7 +11,10 @@
     ],
     "definitions": {
         "FontFamily": {
-            "type": ["string", "null"],
+            "type": [
+                "string",
+                "null"
+            ],
             "enum": [
                 "monospaced_serif",
                 "proportional_serif",
@@ -24,11 +27,17 @@
             ]
         },
         "FontSize": {
-            "type": ["number", "null"],
+            "type": [
+                "number",
+                "null"
+            ],
             "minimum": 0
         },
         "FontEdge": {
-            "type": ["string", "null"],
+            "type": [
+                "string",
+                "null"
+            ],
             "enum": [
                 "none",
                 "raised",
@@ -40,18 +49,30 @@
             ]
         },
         "Color": {
-            "type": ["string", "null"]
+            "type": [
+                "string",
+                "null"
+            ]
         },
         "Opacity": {
-            "type": ["number", "null"],
+            "type": [
+                "number",
+                "null"
+            ],
             "minimum": 0,
             "maximum": 100
         },
         "HorizontalAlignment": {
-            "type": ["string", "null"]
+            "type": [
+                "string",
+                "null"
+            ]
         },
         "VerticalAlignment": {
-            "type": ["string", "null"]
+            "type": [
+                "string",
+                "null"
+            ]
         },
         "ClosedCaptionsStyles": {
             "title": "ClosedCaptionsStyles",
@@ -137,15 +158,15 @@
                     "preferredLanguages": [
                         "eng",
                         "spa"
-                      ]        
+                    ]
                 }
             ]
         },
         "VoiceSpeed": {
             "title": "VoiceSpeed",
             "type": "number",
-            "minimum": 0.5,
-            "maximum": 2
+            "minimum": 0.1,
+            "maximum": 10
         },
         "VoiceGuidanceSettings": {
             "title": "VoiceGuidanceSettings",
@@ -158,6 +179,10 @@
                     "type": "boolean",
                     "description": "Whether or not voice guidance should be enabled by default"
                 },
+                "navigationHints": {
+                    "type": "boolean",
+                    "description": "Whether or not voice guidance should include additional navigation hints"
+                },
                 "speed": {
                     "$ref": "https://meta.comcast.com/firebolt/accessibility#/definitions/VoiceSpeed",
                     "description": "The speed at which voice guidance speech will be read back to the user"
@@ -166,6 +191,7 @@
             "examples": [
                 {
                     "enabled": true,
+                    "navigationHints": true,
                     "speed": 2
                 }
             ]
