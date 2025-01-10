@@ -46,8 +46,15 @@ CoreSDKTest::KeyboardStandardAsyncResponse CoreSDKTest::_keyboardStandardAsyncRe
 
 void CoreSDKTest::ConnectionChanged(const bool connected, const Firebolt::Error error)
 {
+#ifndef INTERACTIVE_APP
     cout << "Change in connection: connected: " << connected << " error: " << static_cast<int>(error) << endl;
     _connected = connected;
+#else
+    if (connected) {
+        cout << "Change in connection: connected: " << connected << " error: " << static_cast<int>(error) << endl;
+        _connected = connected;
+    }
+#endif
 }
 
 void CoreSDKTest::CreateFireboltInstance(const std::string& url)

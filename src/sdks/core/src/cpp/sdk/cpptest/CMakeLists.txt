@@ -44,7 +44,12 @@ set(TESTAPP TestFireboltCore)
 
 message("Setup ${TESTAPP}")
 
-add_executable(${TESTAPP} CoreSDKTest.cpp Main.cpp)
+if (NOT ENABLE_INTERACTIVE_APP)
+  add_executable(${TESTAPP} CoreSDKTest.cpp Main.cpp)
+else ()
+  add_executable(${TESTAPP} CoreSDKTest.cpp InteractiveApp.cpp)
+  add_compile_definitions(INTERACTIVE_APP)
+endif ()
 
 target_link_libraries(${TESTAPP}
     PRIVATE
