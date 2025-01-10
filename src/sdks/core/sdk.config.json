@@ -76,7 +76,7 @@
         {
             "module": "Internal",
             "use": [
-                "xrn:firebolt:capability:lifecycle:initialize"        
+                "xrn:firebolt:capability:lifecycle:initialize"
             ]
         },
         {
@@ -109,6 +109,15 @@
             "use": [
                 "xrn:firebolt:capability:metrics:general",
                 "xrn:firebolt:capability:metrics:media"
+            ]
+        },
+        {
+            "module": "Network",
+            "use": [
+                "xrn:firebolt:capability:network:interfaces",
+                "xrn:firebolt:capability:network:ipproperties",
+                "xrn:firebolt:capability:network:status",
+                "xrn:firebolt:capability:network:wifistatus"
             ]
         },
         {

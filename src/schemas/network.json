@@ -1,0 +1,14 @@
+{
+    "$id": "https://meta.comcast.com/firebolt/schemas/network",
+    "title": "Network",
+    "definitions": {
+        "SignalStrength": {
+            "title": "SignalStrength",
+            "description": "Relative signal strength indicator (RSSI), in dBm",
+            "type": "integer",
+            "default": -255,
+            "minimum": -255,
+            "maximum": 0
+        }
+    }
+}
